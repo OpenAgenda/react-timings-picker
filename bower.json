@@ -1,5 +1,8 @@
 {
-	"name": "react-timings-picker",
-	"dependencies": {},
-	"devDependencies": {}
+  "name": "react-timings-picker",
+  "dependencies": {
+    "react": "~0.13.3",
+    "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {}
 }

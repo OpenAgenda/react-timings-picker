@@ -1,0 +1,181 @@
+@import '_mixins';
+@import '_variables.scss';
+
+
+.rc-calendar {
+	display: flex;
+	@include flex-direction(column);
+	width: 100%;
+	height: 100%;
+	font-size: $normalFont;
+
+	.rc-icon {
+		&.rc-icon-close:after {
+			content: "\2716";
+		}
+
+		&.rc-icon-left-arrow:before {
+			content: "\2190";
+		}
+
+		&.rc-icon-right-arrow:before {
+			content: "\2192";
+		}
+	}
+
+	.rc-header {
+		display: flex;
+		align-items: center;
+		padding: 0 5px;
+
+		div {
+			display: inline-block;
+		}
+
+		& > div {
+			margin-right: 15px;
+		}
+
+		.rc-arrows {
+			font-size: $largeFonts;
+
+			& > div {
+				cursor: pointer;
+			}
+		}
+	}
+
+	.rc-scheduler {
+		border: 2px solid $calendarBorderColor;
+		display: flex;
+
+		.rc-day-header {
+			height: $dayHeaderHeight;
+			line-height: $dayHeaderHeight;
+			text-align: center;
+			background-color: $calendarHeaderBackColor;
+
+			&.small {
+				display: none;
+			}
+			@include respond-to(medium){
+				&.small {
+					display: block;
+				}
+
+				&.big {
+					display: none;
+				}
+			}
+		}
+
+		.rc-day-time {
+			& > div {
+				height: $dayCellHeight;
+
+				&:nth-child(2n-1) {
+					background-color: $oddRowBackColor;
+				}
+				&:nth-child(2n) {
+					background-color: $evenRowBackColor;
+				}
+			}
+		}
+
+		.rc-timetable {
+			& > div {
+				text-align: center;
+				line-height: $dayCellHeight;
+			}
+
+			width: $timetableWidth;
+			min-width: $timetableMinWidth;
+
+			@include respond-to(large){
+				width: $timetableSmallWidth;
+				min-width: $timetableMinSmallWidth;
+			}
+		}
+
+		.rc-days {
+			flex-grow: 1;
+			display: flex;
+			@include flex-direction(row);
+
+			.rc-day {
+				border-left: 1px solid $calendarBorderColor;
+				width: part-of(7);
+				@include word-break("break-word");
+
+				.rc-event {
+					background-color: $eventBackColor;
+					border-radius: 5px;
+					position: relative;
+					padding: 4px 0 12px 4px;
+					overflow: hidden;
+
+					&.small {
+						height: $dayCellHeight - 16px;
+					}
+
+					&.medium {
+						height: $dayCellHeight * 2.5 - 16px;
+					}
+
+					&.big {
+						height: $dayCellHeight * 4 - 16px;
+					}
+
+					.rc-time {
+						padding-right: 16px;
+						height: 1.1em;
+						overflow: hidden;
+						text-decoration: underline;
+						@include text-overflow(ellipsis);
+						white-space: nowrap;
+
+						@include respond-to(medium) {
+							font-size: $smallFont;
+						}
+						@include respond-to(small) {
+							padding-top: $smallFont;
+							padding-right: 0;
+						}
+					}
+
+					.rc-event-resizer {
+						position: absolute;
+						right: 0;
+						left: 0;
+						bottom: 0;
+						height: $smallFont;
+						line-height: $smallFont;
+						text-align: center;
+						cursor: s-resize;
+						background-color: $eventBackColor;
+						font-size: $normalFont;
+
+						&:before {
+							content: "\3d";
+						}
+					}
+
+					.rc-event-icon {
+						width: 12px;
+						height: 12px;
+						font-size: 12px;
+						position: absolute;
+						right: 2px;
+						top: 2px;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+		@include respond-to(large) {
+			.rc-time, .rc-day-time{
+				font-size: $mediumFont;
+			}
+		}
+	}
+}

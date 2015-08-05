@@ -1,36 +1,15 @@
 // bower:scss
 // endbower
 
-body
-{
+@import '_mixins';
+
+@include font-face(Roboto-Bold, "../fonts/Roboto-Bold", 800, bold, eot woff2 woff);
+@include font-face(Roboto-Light, "../fonts/Roboto-Light", 300, normal, eot woff2 woff);
+@include font-face(Roboto-Regular, "../fonts/Roboto-Regular", 400, bolder, eot woff2 woff);
+@include font-face(Roboto-Thin, "../fonts/Roboto-Thin", 100, lighter, eot woff2 woff);
+
+body {
 	background: #fafafa;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-family: 'Roboto-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color: #333;
-}
-
-.hero-unit
-{
-	margin: 50px auto 0 auto;
-	width: 300px;
-	font-size: 18px;
-	font-weight: 200;
-	line-height: 30px;
-	background-color: #eee;
-	border-radius: 6px;
-	padding: 60px;
-
-	h1
-	{
-		font-size: 60px;
-		line-height: 1;
-		letter-spacing: -1px;
-	}
-}
-
-.browserupgrade
-{
-	margin: 0.2em 0;
-	background: #ccc;
-	color: #000;
-	padding: 0.2em 0;
 }

@@ -1,0 +1,101 @@
+@import '_variables.scss';
+
+/* #region styles */
+
+@mixin rotate($deg) {
+	-moz-transform: rotate($deg);
+	-ms-transform: rotate($deg);
+	-o-transform: rotate($deg);
+	-webkit-transform: rotate($deg);
+	transform: rotate($deg);
+}
+
+@mixin flex-direction($direction) {
+	-ms-flex-direction: $direction;
+	-webkit-flex-direction: $direction;
+	flex-direction: $direction;
+}
+
+@mixin word-break($value) {
+	-ms-word-break: #{$value};
+	 word-break: #{$value};
+}
+
+@mixin text-overflow($value) {
+	-ms-text-overflow: $value;
+	-o-text-overflow: $value;
+	text-overflow: $value;
+}
+
+/* #endregion styles*/
+
+/* #region media queries*/
+
+@mixin respond-to($media) {
+	@if $media == xxsmall {
+		@media only screen and (max-width: $xxsmall ) { @content; }
+	}
+	@else if $media == xsmall {
+		@media only screen and (max-width: $xsmall ) { @content; }
+	}
+	@else if $media == small {
+		@media only screen and (max-width: $small ) { @content; }
+	}
+	@else if $media == medium {
+		@media only screen and (max-width: $medium ) { @content; }
+	}
+	@else if $media == large {
+		@media only screen and (max-width: $large) { @content; }
+	}
+}
+
+/* #endregion media queries*/
+
+/* #region utils */
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+@function part-of($number){
+	@return 100% / $number;
+}
+
+/* #endregion utils */
+
+/* #region font face */
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+/* #endregion font face*/
