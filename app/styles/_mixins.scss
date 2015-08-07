@@ -10,10 +10,10 @@
 	transform: rotate($deg);
 }
 
-@mixin flex-direction($direction) {
-	-ms-flex-direction: $direction;
-	-webkit-flex-direction: $direction;
-	flex-direction: $direction;
+@mixin box-sizing($value) {
+	-moz-box-sizing: $value;
+	-webkit-box-sizing: $value;
+	box-sizing: $value;
 }
 
 @mixin word-break($value) {

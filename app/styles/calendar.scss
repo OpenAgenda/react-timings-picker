@@ -3,8 +3,7 @@
 
 
 .rc-calendar {
-	display: flex;
-	@include flex-direction(column);
+	display: block;
 	width: 100%;
 	height: 100%;
 	font-size: $normalFont;
@@ -24,8 +23,7 @@
 	}
 
 	.rc-header {
-		display: flex;
-		align-items: center;
+		display: block;
 		padding: 0 5px;
 
 		div {
@@ -47,18 +45,20 @@
 
 	.rc-scheduler {
 		border: 2px solid $calendarBorderColor;
-		display: flex;
+		display: block;
 
 		.rc-day-header {
 			height: $dayHeaderHeight;
 			line-height: $dayHeaderHeight;
 			text-align: center;
 			background-color: $calendarHeaderBackColor;
+			@include text-overflow(ellipsis);
+			white-space: nowrap;
 
 			&.small {
 				display: none;
 			}
-			@include respond-to(medium){
+			@include respond-to(medium) {
 				&.small {
 					display: block;
 				}
@@ -70,6 +70,8 @@
 		}
 
 		.rc-day-time {
+			position: relative;
+
 			& > div {
 				height: $dayCellHeight;
 
@@ -83,6 +85,7 @@
 		}
 
 		.rc-timetable {
+			float: left;
 			& > div {
 				text-align: center;
 				line-height: $dayCellHeight;
@@ -91,28 +94,37 @@
 			width: $timetableWidth;
 			min-width: $timetableMinWidth;
 
-			@include respond-to(large){
+			@include respond-to(large) {
 				width: $timetableSmallWidth;
 				min-width: $timetableMinSmallWidth;
 			}
 		}
 
 		.rc-days {
-			flex-grow: 1;
-			display: flex;
-			@include flex-direction(row);
+			margin-left: $timetableWidth;
+			position: relative;
+			font-size: 0;
+
+			@include respond-to(large) {
+				margin-left: $timetableSmallWidth;
+			}
 
 			.rc-day {
 				border-left: 1px solid $calendarBorderColor;
-				width: part-of(7);
+				width: part-of($dayInWeek);
+				display: inline-block;
 				@include word-break("break-word");
+				@include box-sizing(border-box);
+				font-size: $normalFont;
 
 				.rc-event {
 					background-color: $eventBackColor;
 					border-radius: 5px;
-					position: relative;
-					padding: 4px 0 12px 4px;
+					padding: 4px 0 12px 0;
 					overflow: hidden;
+					position: absolute;
+					right: 0;
+					left: 0;
 
 					&.small {
 						height: $dayCellHeight - 16px;
@@ -128,6 +140,7 @@
 
 					.rc-time {
 						padding-right: 16px;
+						padding-left: 4px;
 						height: 1.1em;
 						overflow: hidden;
 						text-decoration: underline;
@@ -173,7 +186,7 @@
 			}
 		}
 		@include respond-to(large) {
-			.rc-time, .rc-day-time{
+			.rc-time, .rc-day-time {
 				font-size: $mediumFont;
 			}
 		}
