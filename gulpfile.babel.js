@@ -56,7 +56,8 @@ const testLintOptions =
 	globals: {
 		assert: false,
 		expect: false,
-		should: false
+		should: false,
+		React: false
 	}
 };
 
@@ -111,8 +112,8 @@ gulp.task('react', () =>
 {
 	return gulp.src('app/scripts/components/**/*.jsx')
 			.pipe(react())
-			.pipe(gulp.dest('dist/scripts'))
-			.pipe(gulp.dest('.tmp/scripts'));
+			.pipe(gulp.dest('dist/scripts/calendar'))
+			.pipe(gulp.dest('.tmp/scripts/calendar'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));

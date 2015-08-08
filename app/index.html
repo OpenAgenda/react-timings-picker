@@ -24,177 +24,7 @@
 			href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
-	<div class="rc-calendar">
-		<div class="rc-header">
-			<div class="rc-arrows">
-				<div class="rc-icon rc-icon-left-arrow"></div>
-				<div class="rc-icon rc-icon-right-arrow"></div>
-			</div>
-			<div class="rc-date">15-21</div>
-			<div class="rc-options">
-				<div class="rc-month">
-					<select>
-						<option>June</option>
-						<option>July</option>
-						<option>August</option>
-						<option>September</option>
-					</select>
-				</div>
-				<div class="rc-years">
-					<select>
-						<option>2015</option>
-						<option>2016</option>
-						<option>2017</option>
-						<option>2018</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<div class="rc-scheduler">
-			<div class="rc-timetable">
-				<div class="rc-day-header"></div>
-				<div class="rc-day-time">
-					<div>8.00</div>
-					<div>10.00</div>
-					<div>12.00</div>
-					<div>14.00</div>
-					<div>16.00</div>
-					<div>18.00</div>
-					<div>20.00</div>
-					<div>22.00</div>
-				</div>
-			</div>
-			<div class="rc-days">
-				<div class="rc-day ">
-					<div class="rc-day-header big">Monday</div>
-					<div class="rc-day-header small">Mon</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div class="rc-event medium" style="top: 20px">
-							<div class="rc-time">
-								<span>12:40</span>
-								<span> - </span>
-								<span>22:30</span>
-							</div>
-							<div class="rc-event-resizer"></div>
-							<div class="rc-event-icon rc-icon rc-icon-close"></div>
-						</div>
-					</div>
-				</div>
-				<div class="rc-day ">
-					<div class="rc-day-header big">Tuesday</div>
-					<div class="rc-day-header small">Tue</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-				<div class="rc-day ">
-					<div class="rc-day-header big">Wednesday</div>
-					<div class="rc-day-header small">Wed</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-				<div class="rc-day">
-					<div class="rc-day-header big">Thursday</div>
-					<div class="rc-day-header small">Thu</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div>
-							<div class="rc-event big" style="top: 60px">
-								<div class="rc-time">
-									<span>13:10</span>
-									<span> - </span>
-									<span>15:30</span>
-								</div>
-								<div class="rc-event-resizer"></div>
-								<div class="rc-event-icon rc-icon rc-icon-close"></div>
-							</div>
-						</div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-				<div class="rc-day ">
-					<div class="rc-day-header big">Friday</div>
-					<div class="rc-day-header small">Fri</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div>
-							<div class="rc-event big" style="top: 40px">
-								<div class="rc-time">
-									<span>16:10</span>
-									<span> - </span>
-									<span>20:30</span>
-								</div>
-								<div class="rc-event-resizer"></div>
-								<div class="rc-event-icon rc-icon rc-icon-close"></div>
-							</div>
-						</div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-				<div class="rc-day ">
-					<div class="rc-day-header big">Saturday</div>
-					<div class="rc-day-header small">Sat</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-				<div class="rc-day ">
-					<div class="rc-day-header big">Sunday</div>
-					<div class="rc-day-header small">Sun</div>
-					<div class="rc-day-time">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div id="calendar"></div>
 
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
@@ -202,6 +32,15 @@
 	<!-- endbower -->
 	<!-- endbuild -->
 	<!-- build:js scripts/main.js -->
+	<script src="scripts/utils.js"></script>
+
+	<script src="scripts/calendar/header/header.js"></script>
+	<script src="scripts/calendar/timings/timingGrid.js"></script>
+	<script src="scripts/calendar/timings/timingColumn.js"></script>
+	<script src="scripts/calendar/timings/timing.js"></script>
+	<script src="scripts/calendar/scheduler/day.js"></script>
+	<script src="scripts/calendar/scheduler/scheduler.js"></script>
+	<script src="scripts/calendar/calendar.js"></script>
 	<script src="scripts/main.js"></script>
 	<!-- endbuild -->
 </body>
