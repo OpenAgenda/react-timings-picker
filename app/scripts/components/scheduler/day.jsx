@@ -32,7 +32,7 @@
 		var timeCells = [];
 		var date = this.props.dayStartTime;
 		for (var i = 0; i < this.props.timeCells; i++) {
-			timeCells.push(<div className="day-cell" onClick={this.clickTime.bind(this,date)}></div>);
+			timeCells.push(<div className="day-cell" onClick={this.clickTime.bind(null,date)}></div>);
 			date = utils.addMinutes(date, this.props.timeStep);
 		}
 
@@ -43,15 +43,15 @@
 		var timings = this.props.timings;
 		var timingStep = this.props.timingStep;
 		for (var i = 0; i < timings.length; i++) {
-			var timingStart = timings[i].start;
-			var timingsEnd = timings[i].end;
+			var timing = timings[i];
+			var timingStart = timing.start, timingsEnd = timing.end;
 
 			var startMinutesDifference = utils.round(utils.minutesDifference(startDate, timingStart), timingStep);
 			timingStart.setMinutes(utils.addMinutes(startDate, startMinutesDifference).getMinutes());
 			var endMinutesDifference = utils.round(utils.minutesDifference(startDate, timingsEnd), timingStep);
 			timingsEnd.setMinutes(utils.addMinutes(startDate, endMinutesDifference).getMinutes());
 			timingsComponents.push(<Timing startTime={utils.formatTime(timingStart)} endTime={utils.formatTime(timingsEnd)} 
-										allMinutes={this.props.allMinutes} 
+										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
 										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}/>);
 	}
 

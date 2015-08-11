@@ -14,16 +14,36 @@ var Scheduler = React.createClass({
 			}
 		}
 
+		targetTiming[this.state.timingsIdProperty] = this.state.lastTimingId;
+
 		timings.push(targetTiming);
-		this.setState({ timings: timings });
+		this.setState({ timings: timings, lastTimingId: this.state.lastTimingId + 1});
 
 		this.props.timingsChangeCallback.call(this, timings, targetTiming, "Add timing");
 	},
-	getInitialState: function(){
+	removeTiming: function(targetTiming){
+		var timings = this.state.timings;
+
+		for (var i = 0; i < timings.length; i++) {
+			if (timings[i][this.state.timingsIdProperty] == targetTiming[this.state.timingsIdProperty]) {
+				timings.splice(i, 1/*on element to remove*/);
+				break;
+			}
+		}
+		this.setState({ timings: timings });
+
+		this.props.timingsChangeCallback.call(this, timings, targetTiming, "Remove timing");
+	},
+	getInitialState: function () {
+		var timingsIdProperty = "_rc_id";
+
+		var _rc_id = 0;
 		var timings = this.props.timings.map(function (t) {
-			return { start: new Date(t.start), end: new Date(t.end) };
+			var result = { start: new Date(t.start), end: new Date(t.end), originalTiming: t };
+			result[timingsIdProperty] = _rc_id++;
+			return result;
 		});
-		return { timings: timings };
+		return { timings: timings, timingsIdProperty: timingsIdProperty, lastTimingId: _rc_id };
 	},
 	render: function () {
 		var utils = new Utils();
@@ -49,7 +69,7 @@ var Scheduler = React.createClass({
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						addTiming={this.addTiming}/>);
+						addTiming={this.addTiming} removeTiming={this.removeTiming}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

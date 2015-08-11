@@ -22,7 +22,7 @@
 					{this.props.startTime} - {this.props.endTime}
 				</div>
 				<div className="rc-event-resizer"></div>
-				<div className="rc-event-icon rc-icon rc-icon-close"></div>
+				<div className="rc-event-icon rc-icon rc-icon-close" onClick={this.props.remove.bind(null,this.props.timing)}></div>
 			</div>
 			);
 	}
