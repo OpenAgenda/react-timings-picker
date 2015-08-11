@@ -6,7 +6,7 @@
 			return t1.start > t2.start ? 1 :
 					t1.start < t2.start ? -1 : 0;
 		});
-		var today = utils.setTime(new Date, 0, 0, 0, 0);
+		var today = utils.setTime(new Date(), 0, 0, 0, 0);
 
 		for (var i = 0; i < sortedTimings.length; i++) {
 			var d = new Date(sortedTimings[i].start);
@@ -29,20 +29,13 @@
 		var startTime = utils.parseTime(this.props.startTime);
 		var endTime = utils.parseTime(this.props.endTime);
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
-		return { endTime: endTime, startTime: startTime, startDate: startDate, timeStep: timeStep, timingStep: timingStep };
-	},
-	componentDidMount: function () {
-		this.renderTimings();
-	},
-	componentDidUpdate: function () {
-		this.renderTimings();
-	},
-	renderTimings: function () {
-		var utils = new Utils();
-		var timingsElement = document.getElementById('rc-timings');
-		var allMinutes = utils.minutesDifference(this.state.startTime, this.state.endTime);
 
-		React.render(<TimingGrid height={timingsElement.clientHeight} timings={this.props.timings} timingStep={this.state.timingStep} startDate={this.state.startDate} allMinutes={allMinutes}/>, timingsElement);
+		var allMinutes = utils.minutesDifference(startTime, endTime);
+
+		return {
+			endTime: endTime, startTime: startTime, startDate: startDate,
+			timeStep: timeStep, timingStep: timingStep, allMinutes: allMinutes,
+		};
 	},
 	goAnotherWeek: function(next){
 		var utils = new Utils();
@@ -55,7 +48,9 @@
 		return (
 			<div className="rc-calendar">
 				<Header startDate={this.state.startDate} goAnotherWeek={this.goAnotherWeek}/>
-				<Scheduler startDate={this.state.startDate} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.state.timeStep} />
+				<Scheduler startDate={this.state.startDate} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.state.timeStep} 
+						timings={this.props.timings} timingStep={this.state.timingStep} allMinutes={this.state.allMinutes}
+						defaultTimigDuration={60} timingsChangeCallback={this.props.onTimingsChange}/>
 			</div>
 			);
 	}

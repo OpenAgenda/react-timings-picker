@@ -17,4 +17,8 @@ var timings = [
 	},
 ];
 
-React.render(React.createElement(Calendar, { startTime: "7:00", endTime: "3:00", timings: timings, weekStartDay: 1 }), document.getElementById('calendar'));
+function onTimingsChange(timings, targetTiming, operation) {
+	console.log(arguments);
+};
+
+React.render(React.createElement(Calendar, { startTime: "7:00", endTime: "3:00", timings: timings, weekStartDay: 1, onTimingsChange: onTimingsChange }), document.getElementById('calendar'));

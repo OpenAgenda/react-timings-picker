@@ -33,12 +33,20 @@ Utils.prototype.parseTime = function(time){
 
 Utils.prototype.formatTime = function (date) {
 	var minutes = date.getMinutes();
-	return date.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes)
+	return date.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
 }
 
 Utils.prototype.round = function(source, roundTo) {
 	var remnant = source % roundTo;
 	return remnant >= roundTo / 2 ? source + roundTo - remnant : source - remnant;
+}
+
+Utils.prototype.floor = function (source, roundTo) {
+	return source - source % roundTo;
+}
+
+Utils.prototype.ceil = function (source, roundTo) {
+	return source + roundTo - source % roundTo;
 }
 
 Utils.prototype.minutesDifference = function (lowerDate, greaterDate) {

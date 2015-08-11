@@ -72,7 +72,7 @@
 		.rc-day-time {
 			position: relative;
 
-			& > div {
+			& > div.day-cell {
 				height: $dayCellHeight;
 
 				&:nth-child(2n-1) {
@@ -80,6 +80,66 @@
 				}
 				&:nth-child(2n) {
 					background-color: $evenRowBackColor;
+				}
+			}
+
+			.rc-event {
+				background-color: $eventBackColor;
+				border-radius: 5px;
+				padding: 0;
+				overflow: hidden;
+				position: absolute;
+				right: 0;
+				left: 1px;
+
+				.rc-time {
+					padding-right: 16px;
+					padding-left: 4px;
+					margin-top: 4px;
+					height: 1.1em;
+					overflow: hidden;
+					text-decoration: underline;
+					@include text-overflow(ellipsis);
+					white-space: nowrap;
+					font-size: $normalFont;
+
+					@include respond-to(large) {
+						font-size: $mediumFont;
+					}
+					@include respond-to(medium) {
+						font-size: $smallFont;
+					}
+					@include respond-to(small) {
+						padding-top: $smallFont;
+						padding-right: 0;
+					}
+				}
+
+				.rc-event-resizer {
+					position: absolute;
+					right: 0;
+					left: 0;
+					bottom: 0;
+					height: $smallFont;
+					line-height: $smallFont;
+					text-align: center;
+					cursor: s-resize;
+					background-color: $eventBackColor;
+					font-size: $normalFont;
+
+					&:before {
+						content: "\3d";
+					}
+				}
+
+				.rc-event-icon {
+					width: 12px;
+					height: 12px;
+					font-size: 12px;
+					position: absolute;
+					right: 2px;
+					top: 2px;
+					cursor: pointer;
 				}
 			}
 		}
@@ -116,86 +176,6 @@
 				@include word-break("break-word");
 				@include box-sizing(border-box);
 				font-size: $normalFont;
-			}
-
-			.rc-timings {
-				position: absolute;
-				top: $dayHeaderHeight;
-				left: 0;
-				right: 0;
-				bottom: 0;
-
-				.rc-timing-grid {
-					width: 100%;
-					height: 100%;
-				 
-					.rc-timing-column{
-						height: 100%;
-						width: part-of($dayInWeek);
-						display: inline-block;
-						position: relative;
-
-						.rc-event {
-							background-color: $eventBackColor;
-							border-radius: 5px;
-							padding: 0;
-							overflow: hidden;
-							position: absolute;
-							right: 0;
-							left: 1px;
-
-							.rc-time {
-								padding-right: 16px;
-								padding-left: 4px;
-								margin-top: 4px;
-								height: 1.1em;
-								overflow: hidden;
-								text-decoration: underline;
-								@include text-overflow(ellipsis);
-								white-space: nowrap;
-								font-size: $normalFont;
-
-								@include respond-to(large) {
-									font-size: $mediumFont;
-								}
-								@include respond-to(medium) {
-									font-size: $smallFont;
-								}
-								@include respond-to(small) {
-									padding-top: $smallFont;
-									padding-right: 0;
-								}
-							}
-
-							.rc-event-resizer {
-								position: absolute;
-								right: 0;
-								left: 0;
-								bottom: 0;
-								height: $smallFont;
-								line-height: $smallFont;
-								text-align: center;
-								cursor: s-resize;
-								background-color: $eventBackColor;
-								font-size: $normalFont;
-
-								&:before {
-									content: "\3d";
-								}
-							}
-
-							.rc-event-icon {
-								width: 12px;
-								height: 12px;
-								font-size: 12px;
-								position: absolute;
-								right: 2px;
-								top: 2px;
-								cursor: pointer;
-							}
-						}
-					}
-				}
 			}
 		}
 		@include respond-to(large) {
