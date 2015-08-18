@@ -16,10 +16,10 @@ Utils.prototype.addDays = function (date, days) {
 }
 
 Utils.prototype.setTime = function (date, hours, minutes, seconds, milliseconds) {
-	date.setHours(hours);
-	date.setMinutes(minutes);
-	date.setSeconds(seconds);
-	date.setMilliseconds(milliseconds);
+	date.setHours(hours || 0);
+	date.setMinutes(minutes || 0);
+	date.setSeconds(seconds || 0);
+	date.setMilliseconds(milliseconds || 0);
 	return date;
 }
 
@@ -52,4 +52,8 @@ Utils.prototype.ceil = function (source, roundTo) {
 Utils.prototype.minutesDifference = function (lowerDate, greaterDate) {
 	var diffMs = (greaterDate - lowerDate);
 	return Math.round(diffMs / 60000);
+}
+
+Utils.prototype.hasClass = function(element, cls) {
+	return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }

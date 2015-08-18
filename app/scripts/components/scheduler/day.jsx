@@ -16,6 +16,9 @@
 			this.props.addTiming({ start: newTimingStart, end: newTimingEnd });
 		}
 	},
+	onEventMouseDown: function (timing, e) {
+		this.props.onEventMouseDown(timing, e);
+	},
 	render: function () {
 		var utils = new Utils();
 
@@ -44,22 +47,23 @@
 		var timingStep = this.props.timingStep;
 		for (var i = 0; i < timings.length; i++) {
 			var timing = timings[i];
-			var timingStart = timing.start, timingsEnd = timing.end;
+			var timingStart = timing.start, timingEnd = timing.end;
 
 			var startMinutesDifference = utils.round(utils.minutesDifference(startDate, timingStart), timingStep);
 			timingStart.setMinutes(utils.addMinutes(startDate, startMinutesDifference).getMinutes());
-			var endMinutesDifference = utils.round(utils.minutesDifference(startDate, timingsEnd), timingStep);
-			timingsEnd.setMinutes(utils.addMinutes(startDate, endMinutesDifference).getMinutes());
-			timingsComponents.push(<Timing startTime={utils.formatTime(timingStart)} endTime={utils.formatTime(timingsEnd)} 
+			var endMinutesDifference = utils.round(utils.minutesDifference(startDate, timingEnd), timingStep);
+			timingEnd.setMinutes(utils.addMinutes(startDate, endMinutesDifference).getMinutes());
+			timingsComponents.push(<Timing startTime={timingStart} endTime={timingEnd} 
 										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
-										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}/>);
+										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}
+										onEventMouseDown={this.onEventMouseDown.bind(null,timing)}/>);
 	}
 
 		return (
 			<div className="rc-day ">
 				<div className="rc-day-header big">{names.full}</div>
 				<div className="rc-day-header small">{names.short}</div>
-				<div className="rc-day-time">
+				<div className="rc-day-time" data-date={this.props.dayStartTime.toDateString()}>
 					{timeCells}
 					{timingsComponents}
 				</div>

@@ -1,6 +1,10 @@
 @import '_mixins';
 @import '_variables.scss';
 
+.rc-noselect {
+    -webkit-touch-callout: none;
+    @include user-select(none);
+}
 
 .rc-calendar {
 	display: block;
@@ -110,7 +114,7 @@
 						font-size: $smallFont;
 					}
 					@include respond-to(small) {
-						padding-top: $smallFont;
+						margin-top: $smallFont + 4px;
 						padding-right: 0;
 					}
 				}
