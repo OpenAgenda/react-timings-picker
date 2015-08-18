@@ -40,9 +40,12 @@
 		return false;
 	},
 	getNewTimingsTime: function (dateString, prevStart, prevEnd) {
-		var day = new Date(dateString);
+		var day = new Date(dateString), startTime = this.props.startTime;
 		start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevStart.getHours(), prevStart.getMinutes(), 0, 0);
 		end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevEnd.getHours(), prevEnd.getMinutes(), 0, 0);
+		start = start.getHours() == startTime.getHours()
+			? start.getMinutes() < startTime.getMinutes() ? this.state.utils.addDays(start, 1) : start
+			: start.getHours() < startTime.getHours() ? this.state.utils.addDays(start, 1) : start;
 		end = end <= start ? this.state.utils.addDays(end, 1 /*one day*/) : end;
 		return { start: start, end: end };
 	},
