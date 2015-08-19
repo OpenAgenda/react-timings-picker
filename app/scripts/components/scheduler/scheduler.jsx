@@ -7,23 +7,24 @@
 			return;
 		}
 		var actionTiming = this.state.actionTiming, utils = this.state.utils, parent = target.parentNode;
+		var day = new Date(parent.getAttribute('data-date')), startTime = utils.parseTime(target.querySelector('span.start').innerText),
+			endTime = utils.parseTime(target.querySelector('span.end').innerText);
 		
-		var t = this.getNewTimingsTime(parent.getAttribute('data-date'), utils.parseTime(target.querySelector('span.start').innerText), 
-			utils.parseTime(target.querySelector('span.end').innerText));
+		if (this.state.userActionValues.isDrag == true) {
+			var t = this.getNewTimingsTime(day, startTime, endTime);
 
-		var timings = this.props.timings;
-		for (var i = 0; i < timings.length; i++) {
-			if (timings[i][this.state.timingsIdProperty] == actionTiming[this.state.timingsIdProperty]) {
-				timings[i].start = actionTiming.start = t.start;
-				timings[i].end = actionTiming.end = t.end;
-				break;
-			}
+			actionTiming.start = t.start;
+			actionTiming.end = t.end;
+
+			parent.removeChild(target);
+		}
+		if (this.state.userActionValues.isResize == true) {
+			actionTiming.end = this.getEndTimingTime(day, actionTiming.start, endTime);
 		}
 
-		parent.removeChild(target);
-
-		this.setState({ userActionValues: this.getDefaultUserActionValues(), actionTiming: undefined, forceUpdate: true, timings: timings });
+		this.setState({ userActionValues: this.getDefaultUserActionValues(), actionTiming: undefined, forceUpdate: true });
 		calendar.removeEventListener('mousemove', this.eventDragMouseMove);
+		calendar.removeEventListener('mousemove', this.eventResizeMouseMove);
 
 		this.props.changeTiming(actionTiming);
 	},
@@ -39,15 +40,20 @@
 		}
 		return false;
 	},
-	getNewTimingsTime: function (dateString, prevStart, prevEnd) {
-		var day = new Date(dateString), startTime = this.props.startTime;
-		start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevStart.getHours(), prevStart.getMinutes(), 0, 0);
-		end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevEnd.getHours(), prevEnd.getMinutes(), 0, 0);
-		start = start.getHours() == startTime.getHours()
+	getNewTimingsTime: function (day, prevStart, prevEnd) {
+		var start = this.getStartTimingTime(day, prevStart), end = this.getEndTimingTime(day, start, prevEnd);
+		return { start: start, end: end };
+	},
+	getStartTimingTime: function (day, prevStart) {
+		var startTime = this.props.startTime;
+		var start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevStart.getHours(), prevStart.getMinutes(), 0, 0);
+		return start.getHours() == startTime.getHours()
 			? start.getMinutes() < startTime.getMinutes() ? this.state.utils.addDays(start, 1) : start
 			: start.getHours() < startTime.getHours() ? this.state.utils.addDays(start, 1) : start;
-		end = end <= start ? this.state.utils.addDays(end, 1 /*one day*/) : end;
-		return { start: start, end: end };
+	},
+	getEndTimingTime: function (day, start, prevEnd) {
+		var end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevEnd.getHours(), prevEnd.getMinutes(), 0, 0);
+		return end <= start ? this.state.utils.addDays(end, 1 /*one day*/) : end;
 	},
 	eventDragMouseMove: function (e) {
 		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
@@ -80,13 +86,13 @@
 			end = utils.addMinutes(actionTiming.end, minDiff);
 		}
 
-		var t = this.getNewTimingsTime(parent.getAttribute('data-date'), start, end);
+		var t = this.getNewTimingsTime(new Date(parent.getAttribute('data-date')), start, end);
 
 		if (this.isOverlap(t.start, t.end) == true) {
 			return;
 		}
 		else {
-			this.setTimingValues(top, t.start, t.end);
+			this.setTimingValues(top, undefined, t.start, t.end);
 
 			if (utils.hasClass(parent, 'rc-day-time')) {
 				parent.appendChild(userActionValues.target);
@@ -112,7 +118,8 @@
 		this.setState({
 			userActionValues: {
 				target: target, initialY: initialY, minDragY: minDragY,
-				maxDragY: maxDragY, initialTop: initialTop, dragStep: dragStep
+				maxDragY: maxDragY, initialTop: initialTop, dragStep: dragStep,
+				isDrag: true, isResize: false,
 			},
 			actionTiming: timing,
 		});
@@ -121,15 +128,72 @@
 
 		calendar.addEventListener('mousemove', this.eventDragMouseMove);
 	},
-	setTimingValues: function (top, startTime, endTime) {
+	eventResizeMouseMove: function (e) {
+		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
+		var y = utils.round(e.clientY - userActionValues.initialY, userActionValues.dragStep);
+		var newValue = userActionValues.initialY + y;
+
+		var minDiff = (y / userActionValues.dragStep) * this.props.timingStep;
+
+		var height, start, end;
+
+		if (newValue >= userActionValues.maxDragY) {
+			height = userActionValues.nearestOffsetTop - userActionValues.target.offsetTop;
+			end = userActionValues.maxTime;
+		}
+		else if (newValue < userActionValues.minDragY) {
+			height = userActionValues.dragStep;
+			end = utils.addMinutes(this.props.startTime, this.props.timingStep);
+		}
+		else {
+			height = userActionValues.initialHeight + y;
+			end = utils.addMinutes(actionTiming.end, minDiff);
+		}
+		if (this.isOverlap(actionTiming.start, end) == true) {
+			return;
+		}
+		else {
+			userActionValues.target.style.height = height + 'px';
+			this.setTimingValues(undefined, height, actionTiming.start, end);
+		}
+	},
+	onResizerMouseDown: function (timing, maxTime, nearestOffsetTop, e) {
+		if (!this.state.utils.hasClass(e.target, 'rc-event-resizer')) {
+			return;
+		}
+
+		var target = e.target.parentNode, parent = target.parentNode, initialY = e.clientY,
+			dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
+			minDragY = initialY - (target.clientHeight - e.target.clientHeight),
+			maxDragY = initialY + nearestOffsetTop - target.offsetTop - target.clientHeight,
+			initialHeight = target.clientHeight;
+
+		this.setState({
+			userActionValues: {
+				target: target, parent: parent, initialY: initialY, minDragY: minDragY,
+				maxDragY: maxDragY, initialHeight: initialHeight, dragStep: dragStep,
+				nearestOffsetTop: nearestOffsetTop, maxTime: maxTime,
+				isResize: true, isDrag: false,
+			},
+			actionTiming: timing,
+		});
+
+		calendar.addEventListener('mousemove', this.eventResizeMouseMove);
+	},
+	setTimingValues: function (top, height, startTime, endTime) {
 		var userActionValues = this.state.userActionValues, utils = this.state.utils;
 		
-		userActionValues.target.style.top = top + 'px';
+		userActionValues.target.style.top = top ? top + 'px' : userActionValues.target.style.top;
+		userActionValues.target.style.height = height ? height + 'px' : userActionValues.target.style.height;
 		userActionValues.target.querySelector('span.start').innerHTML = utils.formatTime(startTime);
 		userActionValues.target.querySelector('span.end').innerHTML = utils.formatTime(endTime);
 	},
 	getDefaultUserActionValues: function(){
-		return { target: undefined, initialY: 0, minDragY: 0, maxDragY: 0, initialTop: 0 };
+		return {
+			target: undefined, initialY: 0, minDragY: 0, maxDragY: 0, initialTop: 0, initialHeight: 0,
+			nearestOffsetTop: 0, maxTime: undefined,
+			isDrag: false, isResize: false,
+		};
 	},
 	getInitialState: function () {
 		var timingsIdProperty = "_rc_id";
@@ -176,7 +240,7 @@
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						addTiming={this.props.addTiming} removeTiming={this.props.removeTiming} onEventMouseDown={this.onEventMouseDown}/>);
+						addTiming={this.props.addTiming} removeTiming={this.props.removeTiming} onEventMouseDown={this.onEventMouseDown} onResizerMouseDown={this.onResizerMouseDown}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

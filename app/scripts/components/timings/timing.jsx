@@ -22,7 +22,7 @@
 				<div className="rc-time">
 					<span className="start">{utils.formatTime(this.props.startTime)}</span> - <span className="end">{utils.formatTime(this.props.endTime)}</span>
 				</div>
-				<div className="rc-event-resizer"></div>
+				<div className="rc-event-resizer" onMouseDown={this.props.onResizerMouseDown}></div>
 				<div className="rc-event-icon rc-icon rc-icon-close" onClick={this.props.remove.bind(null,this.props.timing)}></div>
 			</div>
 			);

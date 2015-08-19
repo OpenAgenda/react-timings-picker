@@ -19,8 +19,44 @@
 	onEventMouseDown: function (timing, e) {
 		this.props.onEventMouseDown(timing, e);
 	},
+	onResizerMouseDown: function (timing, e) {
+		if (!this.state.utils.hasClass(e.target, 'rc-event-resizer')) {
+			return;
+		}
+		var nearestOffsetTop = this.getNearestOffsetTop(e.target.parentNode);
+		var nearestTiming = this.getNearestTiming(timing);
+		var maxTime = nearestTiming == undefined ? this.state.utils.addMinutes(this.props.dayStartTime, this.props.timeStep * this.props.timeCells) : nearestTiming.start;
+		this.props.onResizerMouseDown(timing, maxTime, nearestOffsetTop, e);
+	},
+	getNearestTiming: function (timing) {
+		return this.props.timings.filter(function (t) {
+			return t.start > timing.start;
+		}).sort(function (t1, t2) {
+			return t1.start > t2.start ? 1 :
+					t1.start < t2.start ? -1 : 0;
+		})[0];
+
+	},
+	getNearestOffsetTop: function (target) {
+		var parent = target.parentNode;
+		var children = parent.querySelectorAll('.rc-event');
+
+		var nearestOffsetTop = parent.clientHeight, nearestEvent;
+		for (var i = 0; i < children.length; i++) {
+			var offTop = children[i].offsetTop;
+			if (offTop > target.offsetTop && offTop < nearestOffsetTop) {
+				nearestOffsetTop = offTop;
+				nearestEvent = children[i];
+			}
+		}
+
+		return nearestOffsetTop;
+	},
+	getInitialState: function () {
+		return { utils: new Utils() };
+	},
 	render: function () {
-		var utils = new Utils();
+		var utils = this.state.utils;
 
 		var weekday = new Array(7);
 		weekday[0] = { full: "Sunday", short: "Sun" };
@@ -56,7 +92,7 @@
 			timingsComponents.push(<Timing startTime={timingStart} endTime={timingEnd} 
 										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
 										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}
-										onEventMouseDown={this.onEventMouseDown.bind(null,timing)}/>);
+										onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)}/>);
 	}
 
 		return (
