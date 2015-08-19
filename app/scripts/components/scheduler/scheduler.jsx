@@ -183,8 +183,8 @@
 	setTimingValues: function (top, height, startTime, endTime) {
 		var userActionValues = this.state.userActionValues, utils = this.state.utils;
 		
-		userActionValues.target.style.top = top ? top + 'px' : userActionValues.target.style.top;
-		userActionValues.target.style.height = height ? height + 'px' : userActionValues.target.style.height;
+		userActionValues.target.style.top = top != undefined ? top + 'px' : userActionValues.target.style.top;
+		userActionValues.target.style.height = height != undefined ? height + 'px' : userActionValues.target.style.height;
 		userActionValues.target.querySelector('span.start').innerHTML = utils.formatTime(startTime);
 		userActionValues.target.querySelector('span.end').innerHTML = utils.formatTime(endTime);
 	},
