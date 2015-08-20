@@ -7,8 +7,8 @@
 			return;
 		}
 		var actionTiming = this.state.actionTiming, utils = this.state.utils, parent = target.parentNode;
-		var day = new Date(parent.getAttribute('data-date')), startTime = utils.parseTime(target.querySelector('span.start').innerText),
-			endTime = utils.parseTime(target.querySelector('span.end').innerText);
+		var day = new Date(parent.getAttribute('data-date')), startTime = utils.parseTime(target.querySelector('span.start').textContent),
+			endTime = utils.parseTime(target.querySelector('span.end').textContent);
 		
 		if (this.state.userActionValues.isDrag == true) {
 			var t = this.getNewTimingsTime(day, startTime, endTime);
