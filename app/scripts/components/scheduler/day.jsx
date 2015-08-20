@@ -1,10 +1,18 @@
 ﻿var Day = React.createClass({
 	clickTime: function (date, event) {
-		var utils = new Utils();
+		var dayNode = this.getDOMNode().querySelector('.rc-day-time');
+		if (dayNode.hasAttribute('creating')) {
+			dayNode.removeAttribute('creating');
+			return;
+		}
+
+		var doc = document.documentElement;
+		var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+		var utils = this.state.utils;
 		var timingStep = this.props.timingStep;
 
-		var nativeEvent = event.nativeEvent;
-		var y = nativeEvent.offsetY;
+		var y = top + event.clientY - utils.pageOffset(event.target).top;
 		var timeStep = this.props.timeStep;
 		var minutes = (timeStep * y) / event.currentTarget.clientHeight;
 		var startMinutes = utils.floor(minutes, timingStep);
@@ -23,12 +31,57 @@
 		if (!this.state.utils.hasClass(e.target, 'rc-event-resizer')) {
 			return;
 		}
-		var nearestOffsetTop = this.getNearestOffsetTop(e.target.parentNode);
-		var nearestTiming = this.getNearestTiming(timing);
+		var nearestOffsetTop = this.getMaxDragY(e.target.parentNode.offsetTop);
+		var nearestTiming = this.getNearestNextTiming(timing);
 		var maxTime = nearestTiming == undefined ? this.state.utils.addMinutes(this.props.dayStartTime, this.props.timeStep * this.props.timeCells) : nearestTiming.start;
 		this.props.onResizerMouseDown(timing, maxTime, nearestOffsetTop, e);
 	},
-	getNearestTiming: function (timing) {
+	onDayMouseDown: function (e) {
+		if (!this.state.utils.hasClass(e.target.parentNode, 'rc-day-time')) {
+			return;
+		}
+		var doc = document.documentElement;
+		var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+		var utils = this.state.utils, dayNode = e.target.parentNode, userActionValues = {};
+		userActionValues.parent = dayNode;
+
+		userActionValues.dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
+
+		userActionValues.initialY = utils.floor(top + e.clientY, userActionValues.dragStep);
+
+		var y = userActionValues.initialTop = utils.floor(userActionValues.initialY - utils.pageOffset(dayNode).top, userActionValues.dragStep);
+		startMinutes = utils.addMinutes(this.props.dayStartTime,
+			this.props.allMinutes * y / dayNode.clientHeight);
+
+
+		var nearestTiming = this.getNearestNextTiming({ start: startMinutes });
+		userActionValues.maxTime = nearestTiming == undefined ? this.state.utils.addMinutes(this.props.dayStartTime, this.props.timeStep * this.props.timeCells) : nearestTiming.start;
+		nearestTiming = this.getNearestPrevTiming({ start: startMinutes });
+		userActionValues.minTime = nearestTiming == undefined ? this.props.dayStartTime : nearestTiming.end;
+
+		userActionValues.minDragY = this.getMinDragY(y);
+		userActionValues.maxDragY = this.getMaxDragY(y);
+
+		var event = document.createElement('DIV');
+		event.className = 'rc-event';
+		event.style.height = 0 + 'px';
+		event.style.top = y + 'px';
+
+		event.innerHTML = React.renderToStaticMarkup(
+				<div className="rc-time">
+					<span className="start">{utils.formatTime(startMinutes)}</span> - <span className="end">{utils.formatTime(startMinutes)}</span>
+				</div>
+			)
+
+		dayNode.appendChild(event);
+		userActionValues.target = event;
+		userActionValues.initialHeight = 0;
+		userActionValues.startMinutes = startMinutes;
+
+		this.props.onDayMouseDown(userActionValues, e);
+	},
+	getNearestNextTiming: function (timing) {
 		return this.props.timings.filter(function (t) {
 			return t.start > timing.start;
 		}).sort(function (t1, t2) {
@@ -37,20 +90,46 @@
 		})[0];
 
 	},
-	getNearestOffsetTop: function (target) {
-		var parent = target.parentNode;
-		var children = parent.querySelectorAll('.rc-event');
+	getNearestPrevTiming: function (timing) {
+		return this.props.timings.filter(function (t) {
+			return t.start < timing.start;
+		}).sort(function (t1, t2) {
+			return t1.start > t2.start ? -1 :
+					t1.start < t2.start ? 1 : 0;
+		})[0];
 
-		var nearestOffsetTop = parent.clientHeight, nearestEvent;
+	},
+	getMaxDragY: function (currentTop) {
+		var el = this.getDOMNode().querySelector('.rc-day-time');
+		var children = el.querySelectorAll('.rc-event');
+
+		var nearestOffsetTop = el.clientHeight, nearestEvent = el;
 		for (var i = 0; i < children.length; i++) {
 			var offTop = children[i].offsetTop;
-			if (offTop > target.offsetTop && offTop < nearestOffsetTop) {
+			if (offTop > currentTop && offTop < nearestOffsetTop) {
 				nearestOffsetTop = offTop;
 				nearestEvent = children[i];
 			}
 		}
 
-		return nearestOffsetTop;
+		return nearestEvent == el ? this.state.utils.pageOffset(el).top + el.clientHeight
+			: this.state.utils.pageOffset(nearestEvent).top;
+	},
+	getMinDragY: function (currentTop) {
+		var el = this.getDOMNode().querySelector('.rc-day-time');
+		var children = el.querySelectorAll('.rc-event');
+
+		var nearestOffsetTop = 0, nearestEvent = el;
+		for (var i = 0; i < children.length; i++) {
+			var offTop = children[i].offsetTop;
+			if (offTop < currentTop && offTop > nearestOffsetTop) {
+				nearestOffsetTop = offTop;
+				nearestEvent = children[i];
+			}
+		}
+
+		return nearestEvent == el ? this.state.utils.pageOffset(el).top
+			: this.state.utils.pageOffset(nearestEvent).top + nearestEvent.clientHeight;
 	},
 	getInitialState: function () {
 		return { utils: new Utils() };
@@ -96,7 +175,7 @@
 	}
 
 		return (
-			<div className="rc-day ">
+			<div className="rc-day" onMouseDown={this.onDayMouseDown}>
 				<div className="rc-day-header big">{names.full}</div>
 				<div className="rc-day-header small">{names.short}</div>
 				<div className="rc-day-time" data-date={this.props.dayStartTime.toDateString()}>
