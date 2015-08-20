@@ -24,12 +24,14 @@
 			this.props.changeTiming(actionTiming);
 		}
 		if (this.state.userActionValues.isCreating == true) {
-			var t = this.getNewTimingsTime(day, startTime, endTime);
-
-			actionTiming.start = t.start;
-			actionTiming.end = t.end;
 			this.state.userActionValues.parent.removeChild(target);
-			this.props.addTiming({ start: actionTiming.start, end: actionTiming.end });
+			if (this.state.userActionValues.parent.hasAttribute('creating')) {
+				var t = this.getNewTimingsTime(day, startTime, endTime);
+
+				actionTiming.start = t.start;
+				actionTiming.end = t.end;
+				this.props.addTiming({ start: actionTiming.start, end: actionTiming.end });
+			}
 		}
 
 		this.setState({ userActionValues: this.getDefaultUserActionValues(), actionTiming: undefined, forceUpdate: true });
@@ -198,11 +200,13 @@
 		var newValue = userActionValues.initialY + y;
 		var parentOffsetTop = this.state.utils.pageOffset(userActionValues.parent).top;
 
-		userActionValues.parent.setAttribute('creating', 'true');
-
 		var minDiff = (y / userActionValues.dragStep) * this.props.timingStep;
 
 		var height, top, start, end;
+
+		if (Math.abs(y) > userActionValues.dragStep * 1.5) {
+			userActionValues.parent.setAttribute('creating', 'true');
+		}
 
 		if (y < 0) {
 			if (newValue < userActionValues.minDragY) {
