@@ -20,7 +20,7 @@
 		return (
 			<div className="rc-event" onMouseDown={this.props.onEventMouseDown}>
 				<div className="rc-time">
-					<span className="start">{utils.formatTime(this.props.startTime)}</span> - <span className="end">{utils.formatTime(this.props.endTime)}</span>
+					<span className="start">{utils.formatTime(this.props.timing.start)}</span> - <span className="end">{utils.formatTime(this.props.timing.end)}</span>
 				</div>
 				<div className="rc-event-resizer" onMouseDown={this.props.onResizerMouseDown}></div>
 				<div className="rc-event-icon rc-icon rc-icon-close" onClick={this.props.remove.bind(null,this.props.timing)}></div>

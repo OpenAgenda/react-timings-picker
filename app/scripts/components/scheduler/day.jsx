@@ -162,12 +162,11 @@
 		var timingStep = this.props.timingStep;
 		for (var i = 0; i < timings.length; i++) {
 			var timing = timings[i];
-			var timingStart = timing.start, timingEnd = timing.end;
 
-			timingsComponents.push(<Timing key={timing[this.props.timingsIdProperty]} startTime={timingStart} endTime={timingEnd} 
+			timingsComponents.push(<Timing key={timing[this.props.timingsIdProperty]}
 										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
-										startMinutesDifference={utils.round(utils.minutesDifference(startDate,timingStart),timingStep)} 
-										endMinutesDifference={utils.round(utils.minutesDifference(startDate,timingEnd),timingStep)}
+										startMinutesDifference={utils.round(utils.minutesDifference(startDate,timing.start),timingStep)} 
+										endMinutesDifference={utils.round(utils.minutesDifference(startDate,timing.end),timingStep)}
 										onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)}/>);
 	}
 
