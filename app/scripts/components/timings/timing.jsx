@@ -18,7 +18,7 @@
 	render: function () {
 		var utils = new Utils();
 		return (
-			<div className="rc-event big" onMouseDown={this.props.onEventMouseDown}>
+			<div className="rc-event" onMouseDown={this.props.onEventMouseDown}>
 				<div className="rc-time">
 					<span className="start">{utils.formatTime(this.props.startTime)}</span> - <span className="end">{utils.formatTime(this.props.endTime)}</span>
 				</div>
