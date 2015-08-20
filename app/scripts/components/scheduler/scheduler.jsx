@@ -140,8 +140,11 @@
 		calendar.addEventListener('mousemove', this.eventDragMouseMove);
 	},
 	eventResizeMouseMove: function (e) {
+		var doc = document.documentElement;
+		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
 		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
-		var y = utils.round(e.clientY - userActionValues.initialY, userActionValues.dragStep);
+		var y = utils.round(scrollTop + e.clientY - userActionValues.initialY, userActionValues.dragStep);
 		var newValue = userActionValues.initialY + y;
 
 		var minDiff = (y / userActionValues.dragStep) * this.props.timingStep;
@@ -172,18 +175,20 @@
 		if (!this.state.utils.hasClass(e.target, 'rc-event-resizer')) {
 			return;
 		}
+		var doc = document.documentElement;
+		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-		var target = e.target.parentNode, parent = target.parentNode, initialY = e.clientY,
+		var target = e.target.parentNode, parent = target.parentNode, initialY = scrollTop + e.clientY,
 			dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
 			minDragY = initialY - (target.clientHeight - e.target.clientHeight),
-			maxDragY = nearestOffsetTop,
-			initialHeight = target.clientHeight, initialTop = this.state.utils.pageOffset(target);
+			maxDragY = nearestOffsetTop - dragStep,
+			initialHeight = target.clientHeight, initialTop = this.state.utils.pageOffset(target).top;
 
 		this.setState({
 			userActionValues: {
 				target: target, parent: parent, initialY: initialY, minDragY: minDragY,
 				maxDragY: maxDragY, initialHeight: initialHeight, dragStep: dragStep,
-				nearestOffsetTop: nearestOffsetTop, maxTime: maxTime,
+				nearestOffsetTop: nearestOffsetTop, maxTime: maxTime, initialTop: initialTop,
 				isResize: true, isDrag: false,
 			},
 			actionTiming: timing,
