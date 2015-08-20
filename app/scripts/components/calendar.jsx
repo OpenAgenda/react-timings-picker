@@ -71,17 +71,21 @@
 
 		var timeStep = 60, timingStep = 10;
 
-		var startTime = utils.parseTime(this.props.startTime);
-		var endTime = utils.parseTime(this.props.endTime);
+		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
 
 		var allMinutes = utils.minutesDifference(startTime, endTime);
 
-		var timingsIdProperty = "_rc_id";
+		var timingsIdProperty = "_rc_id", _rc_id = 0;
 
-		var _rc_id = 0;
+		var setSecondsToZero = function(date) { date.setSeconds(0); date.setMilliseconds(0); return date }
+
 		var timings = this.props.timings.map(function (t) {
-			var result = { start: new Date(t.start), end: new Date(t.end), originalTiming: t };
+			var result = {
+				start: setSecondsToZero(utils.roundMinutes(new Date(t.start), timingStep)),
+				end: setSecondsToZero(utils.roundMinutes(new Date(t.end), timingStep)),
+				originalTiming: t,
+			};
 			result[timingsIdProperty] = _rc_id++;
 			return result;
 		});

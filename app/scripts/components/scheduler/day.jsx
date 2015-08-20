@@ -164,13 +164,10 @@
 			var timing = timings[i];
 			var timingStart = timing.start, timingEnd = timing.end;
 
-			var startMinutesDifference = utils.round(utils.minutesDifference(startDate, timingStart), timingStep);
-			timingStart.setMinutes(utils.addMinutes(startDate, startMinutesDifference).getMinutes());
-			var endMinutesDifference = utils.round(utils.minutesDifference(startDate, timingEnd), timingStep);
-			timingEnd.setMinutes(utils.addMinutes(startDate, endMinutesDifference).getMinutes());
 			timingsComponents.push(<Timing key={timing[this.props.timingsIdProperty]} startTime={timingStart} endTime={timingEnd} 
 										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
-										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}
+										startMinutesDifference={utils.round(utils.minutesDifference(startDate,timingStart),timingStep)} 
+										endMinutesDifference={utils.round(utils.minutesDifference(startDate,timingEnd),timingStep)}
 										onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)}/>);
 	}
 

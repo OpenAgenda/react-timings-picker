@@ -41,6 +41,23 @@ Utils.prototype.round = function(source, roundTo) {
 	return remnant >= roundTo / 2 ? source + roundTo - remnant : source - remnant;
 }
 
+Utils.prototype.roundMinutes = function(date, roundTo, initialDate) {
+	if (60 % roundTo !== 0) {
+		if (initialDate === undefined) throw new Error('Undefined initial date for rounding date');
+		return this.addMinutes(initialDate, this.round(this.minutesDifference(initialDate, date), roundTo));
+	}
+	else {
+		var result = date, roundedMinutes = this.round(date.getMinutes(), roundTo);
+		if (roundedMinutes === 60) {
+			result = this.addHours(result, 1);
+			result.setMinutes(0);
+		} else {
+			result.setMinutes(roundedMinutes);
+		}
+		return result;
+	}
+}
+
 Utils.prototype.floor = function (source, roundTo) {
 	return source - source % roundTo;
 }
