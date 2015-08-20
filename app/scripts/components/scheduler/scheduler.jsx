@@ -298,7 +298,8 @@
 		
 		var step = this.props.timeStep;
 		for (startTime; startTime < endTime; startTime = utils.addMinutes(startTime, step)) {
-			times.push(<div>{utils.formatTime(startTime)}</div>)
+			var formattedTime = utils.formatTime(startTime);
+			times.push(<div key={formattedTime}>{formattedTime}</div>)
 		}
 
 		var timings = this.props.timings;
@@ -315,8 +316,8 @@
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						addTiming={this.props.addTiming} removeTiming={this.props.removeTiming} onEventMouseDown={this.onEventMouseDown} 
-						onResizerMouseDown={this.onResizerMouseDown} onDayMouseDown={this.onDayMouseDown}/>);
+						addTiming={this.props.addTiming} removeTiming={this.props.removeTiming} timingsIdProperty={this.state.timingsIdProperty} 
+						onEventMouseDown={this.onEventMouseDown} onResizerMouseDown={this.onResizerMouseDown} onDayMouseDown={this.onDayMouseDown}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

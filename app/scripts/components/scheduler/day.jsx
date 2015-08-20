@@ -150,7 +150,7 @@
 		var timeCells = [];
 		var date = this.props.dayStartTime;
 		for (var i = 0; i < this.props.timeCells; i++) {
-			timeCells.push(<div className="day-cell" onClick={this.clickTime.bind(null,date)}></div>);
+			timeCells.push(<div key={utils.formatTime(date)} className="day-cell" onClick={this.clickTime.bind(null,date)}></div>);
 			date = utils.addMinutes(date, this.props.timeStep);
 		}
 
@@ -168,7 +168,7 @@
 			timingStart.setMinutes(utils.addMinutes(startDate, startMinutesDifference).getMinutes());
 			var endMinutesDifference = utils.round(utils.minutesDifference(startDate, timingEnd), timingStep);
 			timingEnd.setMinutes(utils.addMinutes(startDate, endMinutesDifference).getMinutes());
-			timingsComponents.push(<Timing startTime={timingStart} endTime={timingEnd} 
+			timingsComponents.push(<Timing key={timing[this.props.timingsIdProperty]} startTime={timingStart} endTime={timingEnd} 
 										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
 										startMinutesDifference={startMinutesDifference} endMinutesDifference={endMinutesDifference}
 										onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)}/>);
