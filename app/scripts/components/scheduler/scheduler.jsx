@@ -288,6 +288,9 @@
 		}
 		return true;
 	},
+	componentDidMount: function () {
+		document.addEventListener('mouseup', this.onSchedulerMouseUp);
+	},
 	render: function () {
 		var utils = this.state.utils;
 
@@ -318,7 +321,7 @@
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}
 		return (
-			<div className="rc-scheduler rc-noselect" onMouseUp={this.onSchedulerMouseUp}>
+			<div className="rc-scheduler rc-noselect">
 				<div className="rc-timetable">
 					<div className="rc-day-header"></div>
 					<div className="rc-day-time">
