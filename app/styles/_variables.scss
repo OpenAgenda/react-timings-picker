@@ -1,3 +1,15 @@
+/* #region absolute colors*/
+
+$white: #fff;
+$xlightGray: #eee;
+$lightGray: #ccc;
+$black: #000;
+
+$lightBlue: #2AABE8;
+$darkblue: #3367C0;
+
+/* #endregion absolute colors*/
+
 /* #region screen widths*/
 
 $large: 960px;
@@ -37,12 +49,14 @@ $dayCellHeight: 40px;
 
 /* #region colors */
 
-$calendarBorderColor: #000;
-$calendarHeaderBackColor: #ccc;
-$oddRowBackColor: #eee;
-$evenRowBackColor: #fff;
+$calendarBorderColor: $black;
+$calendarHeaderBackColor: $lightGray;
+$oddRowBackColor: $xlightGray;
+$evenRowBackColor: $white;
 
-$eventBackColor: #2AABE8;
+$eventBackColor: $lightBlue;
+
+$linkDefaultColor: #165979;
 
 /* #endregion colors*/
 

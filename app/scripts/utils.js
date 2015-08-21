@@ -16,11 +16,12 @@ Utils.prototype.addDays = function (date, days) {
 }
 
 Utils.prototype.setTime = function (date, hours, minutes, seconds, milliseconds) {
-	date.setHours(hours || 0);
-	date.setMinutes(minutes || 0);
-	date.setSeconds(seconds || 0);
-	date.setMilliseconds(milliseconds || 0);
-	return date;
+	var result = new Date(date);
+	result.setHours(hours || 0);
+	result.setMinutes(minutes || 0);
+	result.setSeconds(seconds || 0);
+	result.setMilliseconds(milliseconds || 0);
+	return result;
 }
 
 Utils.prototype.parseTime = function(time){
@@ -88,3 +89,11 @@ Utils.prototype.pageOffset = function (element) {
 		left: left
 	};
 };
+
+Utils.prototype.createTwoDimensionalArray = function(size) {
+	var result = new Array(size);
+	for (var i = 0; i < size; i++) {
+		result[i] = [];
+	}
+	return result;
+}
