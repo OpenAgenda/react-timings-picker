@@ -4,7 +4,10 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
-import react from 'gulp-react';
+import browserify from 'browserify';
+import debowerify from "debowerify";
+import reactify from 'reactify';
+import source from 'vinyl-source-stream';
 
 const webServerPort = 9000;
 
@@ -108,12 +111,15 @@ gulp.task('extras', () =>
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('react', () => 
-{
-	return gulp.src('app/scripts/components/**/*.jsx')
-			.pipe(react())
-			.pipe(gulp.dest('dist/scripts/calendar'))
-			.pipe(gulp.dest('.tmp/scripts/calendar'));
+gulp.task('react', () => {
+	return browserify("app/scripts/main.jsx")
+		.transform(reactify)
+		.transform(debowerify)
+		.bundle()
+		.on('error', console.error.bind(console))
+		.pipe(source('bundle.js'))
+		.pipe(gulp.dest('dist/scripts'))
+		.pipe(gulp.dest('.tmp/scripts'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));

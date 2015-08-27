@@ -1,12 +1,19 @@
-﻿var Scheduler = React.createClass({
+﻿'use strict';
+
+var utils = require('../../utils');
+
+var React = require('react');
+var Day = require('./day.jsx');
+
+var Scheduler = React.createClass({
 	onSchedulerMouseUp: function(e){
 		e.stopPropagation();
 
 		var target = this.state.userActionValues.target;
-		if (!target || this.state.utils.hasClass(target, 'rc-icon-close')) {
+		if (!target || utils.hasClass(target, 'rc-icon-close')) {
 			return;
 		}
-		var actionTiming = this.state.actionTiming, utils = this.state.utils, parent = target.parentNode;
+		var actionTiming = this.state.actionTiming, parent = target.parentNode;
 		var day = new Date(parent.getAttribute('data-date')), startTime = utils.parseTime(target.querySelector('span.start').textContent),
 			endTime = utils.parseTime(target.querySelector('span.end').textContent);
 		
@@ -59,15 +66,15 @@
 		var startTime = this.props.startTime;
 		var start = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevStart.getHours(), prevStart.getMinutes(), 0, 0);
 		return start.getHours() == startTime.getHours()
-			? start.getMinutes() < startTime.getMinutes() ? this.state.utils.addDays(start, 1) : start
-			: start.getHours() < startTime.getHours() ? this.state.utils.addDays(start, 1) : start;
+			? start.getMinutes() < startTime.getMinutes() ? utils.addDays(start, 1) : start
+			: start.getHours() < startTime.getHours() ? utils.addDays(start, 1) : start;
 	},
 	getEndTimingTime: function (day, start, prevEnd) {
 		var end = new Date(day.getFullYear(), day.getMonth(), day.getDate(), prevEnd.getHours(), prevEnd.getMinutes(), 0, 0);
-		return end <= start ? this.state.utils.addDays(end, 1 /*one day*/) : end;
+		return end <= start ? utils.addDays(end, 1 /*one day*/) : end;
 	},
 	eventDragMouseMove: function (e) {
-		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
+		var userActionValues = this.state.userActionValues, actionTiming = this.state.actionTiming;
 		var parent = e.target.parentNode;
 		var y = utils.round(e.clientY - userActionValues.initialY, userActionValues.dragStep);
 		var newValue = userActionValues.initialY + y;
@@ -111,7 +118,7 @@
 		}
 	},
 	onEventMouseDown: function (timing, e) {
-		if (!this.state.utils.hasClass(e.target, 'rc-event')) {
+		if (!utils.hasClass(e.target, 'rc-event')) {
 			return;
 		}
 		var target = e.target.cloneNode(true);
@@ -143,7 +150,7 @@
 		var doc = document.documentElement;
 		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
+		var userActionValues = this.state.userActionValues, actionTiming = this.state.actionTiming;
 		var y = utils.round(scrollTop + e.clientY - userActionValues.initialY, userActionValues.dragStep);
 		var newValue = userActionValues.initialY + y;
 
@@ -172,7 +179,7 @@
 		}
 	},
 	onResizerMouseDown: function (timing, maxTime, nearestOffsetTop, e) {
-		if (!this.state.utils.hasClass(e.target, 'rc-event-resizer')) {
+		if (!utils.hasClass(e.target, 'rc-event-resizer')) {
 			return;
 		}
 		var doc = document.documentElement;
@@ -182,7 +189,7 @@
 			dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
 			minDragY = initialY - (target.clientHeight - e.target.clientHeight),
 			maxDragY = nearestOffsetTop - dragStep,
-			initialHeight = target.clientHeight, initialTop = this.state.utils.pageOffset(target).top;
+			initialHeight = target.clientHeight, initialTop = utils.pageOffset(target).top;
 
 		this.setState({
 			userActionValues: {
@@ -200,10 +207,10 @@
 		var doc = document.documentElement;
 		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-		var userActionValues = this.state.userActionValues, utils = this.state.utils, actionTiming = this.state.actionTiming;
+		var userActionValues = this.state.userActionValues, actionTiming = this.state.actionTiming;
 		var y = utils.round(scrollTop + e.clientY - userActionValues.initialY, userActionValues.dragStep);
 		var newValue = userActionValues.initialY + y;
-		var parentOffsetTop = this.state.utils.pageOffset(userActionValues.parent).top;
+		var parentOffsetTop = utils.pageOffset(userActionValues.parent).top;
 
 		var minDiff = (y / userActionValues.dragStep) * this.props.timingStep;
 
@@ -258,7 +265,7 @@
 		calendar.addEventListener('mousemove', this.dayMouseMove);
 	},
 	setTimingValues: function (top, height, startTime, endTime) {
-		var userActionValues = this.state.userActionValues, utils = this.state.utils;
+		var userActionValues = this.state.userActionValues;
 		
 		userActionValues.target.style.top = top != undefined ? top + 'px' : userActionValues.target.style.top;
 		userActionValues.target.style.height = height != undefined ? height + 'px' : userActionValues.target.style.height;
@@ -277,7 +284,7 @@
 
 		return {
 			userActionValues: this.getDefaultUserActionValues(),
-			utils: new Utils(), forceUpdate: null, timingsIdProperty: timingsIdProperty,
+			forceUpdate: null, timingsIdProperty: timingsIdProperty,
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -297,8 +304,6 @@
 		document.addEventListener('mouseup', this.onSchedulerMouseUp);
 	},
 	render: function () {
-		var utils = this.state.utils;
-
 		var times = [], startTime = this.props.startTime, endTime = this.props.endTime;
 		
 		var step = this.props.timeStep;
@@ -341,3 +346,5 @@
 			);
 	}
 });
+
+module.exports = Scheduler;

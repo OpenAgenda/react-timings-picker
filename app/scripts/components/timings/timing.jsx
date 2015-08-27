@@ -1,4 +1,10 @@
-﻿var Timing = React.createClass({
+﻿'use strict';
+
+var utils = require('../../utils');
+
+var React = require('react');
+
+var Timing = React.createClass({
 	calculateStyles: function(){
 		var thisNode = this.getDOMNode();
 		var height = thisNode.parentNode.clientHeight;
@@ -16,7 +22,6 @@
 		this.calculateStyles.call(this);
 	},
 	render: function () {
-		var utils = new Utils();
 		return (
 			<div className="rc-event" onMouseDown={this.props.onEventMouseDown}>
 				<div className="rc-time">
@@ -28,3 +33,5 @@
 			);
 	}
 });
+
+module.exports = Timing;

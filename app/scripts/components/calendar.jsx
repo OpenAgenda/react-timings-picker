@@ -1,4 +1,14 @@
-﻿var Calendar = React.createClass({
+﻿'use strict';
+
+var React = require('react');
+
+var utils = require('../utils');
+
+var Header = require('./header/header.jsx');
+var Scheduler = require('./scheduler/scheduler.jsx');
+var Reccurencer = require('./scheduler/reccurencer.jsx');
+
+var Calendar = React.createClass({
 	isOverlap: function (t1, t2) {
 		return t1.start < t2.end && t1.end > t2.start
 	},
@@ -65,8 +75,6 @@
 		this.props.onTimingsChange.call(this, timings, targetTiming, "Change timing");
 	},
 	getDateFromTimings: function (timings) {
-		var utils = new Utils();
-
 		var sortedTimings = timings.sort(function (t1, t2) {
 			return t1.start > t2.start ? 1 :
 					t1.start < t2.start ? -1 : 0;
@@ -82,8 +90,6 @@
 		return new Date(sortedTimings[sortedTimings.length - 1].start);
 	},
 	getInitialState: function () {
-		var utils = new Utils();
-
 		var timeStep = 60, timingStep = 10;
 
 		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
@@ -115,7 +121,7 @@
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
 			timeStep: timeStep, timingStep: timingStep, allMinutes: allMinutes,
-			utils: utils, timings: timings, timingsIdProperty: timingsIdProperty, lastTimingId: _rc_id,
+			timings: timings, timingsIdProperty: timingsIdProperty, lastTimingId: _rc_id,
 			isMultipleAdding: false,
 		};
 	},
@@ -126,14 +132,13 @@
 		return true;
 	},
 	goAnotherWeek: function (next) {
-		var newWeekStart = this.state.utils.addDays(this.state.weekStart, next == true ? 7 : -7),
-			newWeekEnd = this.state.utils.addDays(newWeekStart, 7);
+		var newWeekStart = utils.addDays(this.state.weekStart, next == true ? 7 : -7),
+			newWeekEnd = utils.addDays(newWeekStart, 7);
 		this.setState({
 			weekStart: newWeekStart, weekEnd: newWeekEnd,
 		});
 	},
 	createReccurence: function (startDate, endDate) {
-		var utils = this.state.utils;
 		var weekStart = this.state.weekStart, weekEnd = this.state.weekEnd;
 		var reccurenceStart = utils.setTime(startDate, this.state.startTime.getHours(), this.state.startTime.getMinutes());
 		var reccurenceEnd = utils.setTime(endDate, this.state.endTime.getHours(), this.state.endTime.getMinutes());
@@ -196,3 +201,5 @@
 			);
 	}
 });
+
+module.exports = Calendar;

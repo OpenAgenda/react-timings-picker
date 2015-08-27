@@ -1,7 +1,9 @@
-﻿var Header = React.createClass({
-	render: function () {
-		var utils = new Utils();
+﻿var utils = require('../../utils');
 
+var React = require('react');
+
+var Header = React.createClass({
+	render: function () {
 		var startDay = this.props.startDate.getDate();
 		var endDay = utils.addDays(this.props.startDate, 7 /*days in a week*/).getDate();
 
@@ -35,3 +37,5 @@
 			);
 	}
 });
+
+module.exports = Header;

@@ -1,4 +1,10 @@
-﻿var Reccurencer = React.createClass({
+﻿'use strict';
+
+var moment = require('moment');
+var React = require('react');
+var DatePicker = require('react-date-picker');
+
+var Reccurencer = React.createClass({
 	createReccurences: function () {
 		this.props.createReccurence(this.state.startDate, this.state.endDate);
 	},
@@ -40,3 +46,5 @@
 			);
 	}
 });
+
+module.exports = Reccurencer;

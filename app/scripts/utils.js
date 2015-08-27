@@ -1,4 +1,6 @@
-﻿var Utils = function () {
+﻿'use strict';
+
+var Utils = function () {
 	this.milliseconds = 1000;
 	this.seconds = 60 * this.milliseconds;
 	this.minutes = 60 * this.seconds;
@@ -97,3 +99,7 @@ Utils.prototype.createTwoDimensionalArray = function(size) {
 	}
 	return result;
 }
+
+var utils = new Utils();
+
+module.exports = utils;

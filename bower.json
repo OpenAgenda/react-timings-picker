@@ -1,9 +1,8 @@
 {
   "name": "react-timings-picker",
   "dependencies": {
-    "react": "~0.13.3",
-    "react-date-picker": "~0.11.5",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "react-date-picker": "~0.11.5"
   },
   "devDependencies": {}
 }
