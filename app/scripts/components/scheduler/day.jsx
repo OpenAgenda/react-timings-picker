@@ -154,8 +154,8 @@ var Day = React.createClass({
 		var timeCells = [];
 		var date = this.props.dayStartTime;
 		for (var i = 0; i < this.props.timeCells; i++) {
-			var newCellMarkup = this.props.readOnly === true ? <div key={utils.formatTime(date)} className="day-cell"></div> :
-						<div key={utils.formatTime(date)} className="day-cell" onClick={this.clickTime.bind(null,date)}></div>;
+			var newCellMarkup = this.props.readOnly === true ? <div key={utils.formatTime(date)} className="rc-day-cell"></div> :
+						<div key={utils.formatTime(date)} className="rc-day-cell" onClick={this.clickTime.bind(null,date)}></div>;
 			timeCells.push(newCellMarkup);
 			date = utils.addMinutes(date, this.props.timeStep);
 		}

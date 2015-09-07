@@ -26,5 +26,5 @@ var Calendar = require('./components/calendar.jsx');
 		console.log(arguments);
 	};
 
-	React.render(<Calendar startTime="7:00" endTime="3:00" timings={timings} weekStartDay={1} onTimingsChange={onTimingsChange} readOnly={true} />, document.getElementById('calendar'));
+	React.render(<Calendar startTime="7:00" endTime="3:00" timings={timings} weekStartDay={1} onTimingsChange={onTimingsChange} readOnly={false} />, document.getElementById('calendar'));
 })()

@@ -78,19 +78,19 @@
 			}
 		}
 
+		.rc-day-cell {
+			height: $dayCellHeight;
+
+			&:nth-child(2n-1) {
+				background-color: $oddRowBackColor;
+			}
+			&:nth-child(2n) {
+				background-color: $evenRowBackColor;
+			}
+		}
+
 		.rc-day-time {
 			position: relative;
-
-			& > div.day-cell {
-				height: $dayCellHeight;
-
-				&:nth-child(2n-1) {
-					background-color: $oddRowBackColor;
-				}
-				&:nth-child(2n) {
-					background-color: $evenRowBackColor;
-				}
-			}
 
 			.rc-event {
 				background-color: $eventBackColor;
@@ -193,7 +193,7 @@
 			}
 		}
 		@include respond-to(large) {
-			.rc-day-time {
+			.rc-side-day-time {
 				font-size: $mediumFont;
 			}
 		}

@@ -309,7 +309,7 @@ var Scheduler = React.createClass({
 		var step = this.props.timeStep;
 		for (startTime; startTime < endTime; startTime = utils.addMinutes(startTime, step)) {
 			var formattedTime = utils.formatTime(startTime);
-			times.push(<div key={formattedTime}>{formattedTime}</div>)
+			times.push(<div key={formattedTime} className="rc-day-cell">{formattedTime}</div>)
 		}
 
 		var timings = this.props.timings;
@@ -341,7 +341,7 @@ var Scheduler = React.createClass({
 			<div className="rc-scheduler rc-noselect">
 				<div className="rc-timetable">
 					<div className="rc-day-header"></div>
-					<div className="rc-day-time">
+					<div className="rc-side-day-time">
 						{times}
 					</div>
 				</div>
