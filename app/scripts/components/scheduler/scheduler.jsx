@@ -20,11 +20,15 @@ var Scheduler = React.createClass({
 		if (this.state.userActionValues.isDrag == true) {
 			var t = this.getNewTimingsTime(day, startTime, endTime);
 
-			actionTiming.start = t.start;
-			actionTiming.end = t.end;
-
 			parent.removeChild(target);
-			this.props.timingsModifications.changeTiming(actionTiming);
+			if (actionTiming.start * 1 == t.start * 1) {
+				this.props.onTimingClick(actionTiming.start, actionTiming.end, actionTiming.originalTiming);
+			}
+			else {
+				actionTiming.start = t.start;
+				actionTiming.end = t.end;
+				this.props.timingsModifications.changeTiming(actionTiming);
+			}
 		}
 		if (this.state.userActionValues.isResize == true) {
 			actionTiming.end = this.getEndTimingTime(day, actionTiming.start, endTime);

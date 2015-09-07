@@ -200,7 +200,7 @@ var Calendar = React.createClass({
 				<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek}/>
 				<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.state.timeStep} 
 						timings={timings} timingStep={this.state.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={60} 
-						timingsModifications={timingsModifications} readOnly={this.state.readOnly}/>
+						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick}/>
 				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} />)}
 			</div>
 			);
