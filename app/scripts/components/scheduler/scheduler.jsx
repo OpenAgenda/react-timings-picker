@@ -24,11 +24,11 @@ var Scheduler = React.createClass({
 			actionTiming.end = t.end;
 
 			parent.removeChild(target);
-			this.props.changeTiming(actionTiming);
+			this.props.timingsModifications.changeTiming(actionTiming);
 		}
 		if (this.state.userActionValues.isResize == true) {
 			actionTiming.end = this.getEndTimingTime(day, actionTiming.start, endTime);
-			this.props.changeTiming(actionTiming);
+			this.props.timingsModifications.changeTiming(actionTiming);
 		}
 		if (this.state.userActionValues.isCreating == true) {
 			this.state.userActionValues.parent.removeChild(target);
@@ -37,7 +37,7 @@ var Scheduler = React.createClass({
 
 				actionTiming.start = t.start;
 				actionTiming.end = t.end;
-				this.props.addTiming({ start: actionTiming.start, end: actionTiming.end });
+				this.props.timingsModifications.addTiming({ start: actionTiming.start, end: actionTiming.end });
 			}
 		}
 
@@ -318,6 +318,12 @@ var Scheduler = React.createClass({
 		startTime = this.props.startTime;
 		var dayStartTime = utils.setTime(this.props.startDate, startTime.getHours(), startTime.getMinutes(), 0, 0);
 		var dayEndTime = utils.addMinutes(dayStartTime, this.props.allMinutes);
+		var timingsModifications = this.props.readOnly === true ? null : {
+			addTiming: this.props.timingsModifications.addTiming, removeTiming: this.props.timingsModifications.removeTiming,
+		}
+		var timingsInteractions = this.props.readOnly === true ? null : {
+			onEventMouseDown: this.onEventMouseDown, onResizerMouseDown: this.onResizerMouseDown, onDayMouseDown: this.onDayMouseDown,
+		}
 		for (var i = 0; i < 7/*7 days in a week*/; i++) {
 
 			var currentDayTimings = timings.filter(function (t) {
@@ -326,8 +332,8 @@ var Scheduler = React.createClass({
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						addTiming={this.props.addTiming} removeTiming={this.props.removeTiming} timingsIdProperty={this.state.timingsIdProperty} 
-						onEventMouseDown={this.onEventMouseDown} onResizerMouseDown={this.onResizerMouseDown} onDayMouseDown={this.onDayMouseDown}/>);
+						timingsModifications={timingsModifications} timingsIdProperty={this.state.timingsIdProperty} timingsInteractions={timingsInteractions}
+						readOnly={this.props.readOnly} />);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

@@ -27,22 +27,25 @@ var Day = React.createClass({
 		var newTimingEnd = utils.addMinutes(newTimingStart, this.props.defaultTimigDuration);
 
 		if (this.props.dayStartTime <= newTimingStart && this.props.dayEndTime >= newTimingEnd) {
-			this.props.addTiming({ start: newTimingStart, end: newTimingEnd });
+			this.props.timingsModifications.addTiming({ start: newTimingStart, end: newTimingEnd });
 		}
 	},
 	onEventMouseDown: function (timing, e) {
-		this.props.onEventMouseDown(timing, e);
+		if (this.props.readOnly) return;
+		this.props.timingsInteractions.onEventMouseDown(timing, e);
 	},
 	onResizerMouseDown: function (timing, e) {
+		if (this.props.readOnly) return;
 		if (!utils.hasClass(e.target, 'rc-event-resizer')) {
 			return;
 		}
 		var nearestOffsetTop = this.getMaxDragY(e.target.parentNode.offsetTop);
 		var nearestTiming = this.getNearestNextTiming(timing);
 		var maxTime = nearestTiming == undefined ? utils.addMinutes(this.props.dayStartTime, this.props.timeStep * this.props.timeCells) : nearestTiming.start;
-		this.props.onResizerMouseDown(timing, maxTime, nearestOffsetTop, e);
+		this.props.timingsInteractions.onResizerMouseDown(timing, maxTime, nearestOffsetTop, e);
 	},
 	onDayMouseDown: function (e) {
+		if (this.props.readOnly) return;
 		if (!utils.hasClass(e.target.parentNode, 'rc-day-time')) {
 			return;
 		}
@@ -85,7 +88,7 @@ var Day = React.createClass({
 		userActionValues.initialHeight = 0;
 		userActionValues.startMinutes = startMinutes;
 
-		this.props.onDayMouseDown(userActionValues, e);
+		this.props.timingsInteractions.onDayMouseDown(userActionValues, e);
 	},
 	getNearestNextTiming: function (timing) {
 		return this.props.timings.filter(function (t) {
@@ -151,7 +154,9 @@ var Day = React.createClass({
 		var timeCells = [];
 		var date = this.props.dayStartTime;
 		for (var i = 0; i < this.props.timeCells; i++) {
-			timeCells.push(<div key={utils.formatTime(date)} className="day-cell" onClick={this.clickTime.bind(null,date)}></div>);
+			var newCellMarkup = this.props.readOnly === true ? <div key={utils.formatTime(date)} className="day-cell"></div> :
+						<div key={utils.formatTime(date)} className="day-cell" onClick={this.clickTime.bind(null,date)}></div>;
+			timeCells.push(newCellMarkup);
 			date = utils.addMinutes(date, this.props.timeStep);
 		}
 
@@ -163,13 +168,19 @@ var Day = React.createClass({
 		var timingStep = this.props.timingStep;
 		for (var i = 0; i < timings.length; i++) {
 			var timing = timings[i];
-
-			timingsComponents.push(<Timing key={timing[this.props.timingsIdProperty]}
-										allMinutes={this.props.allMinutes} timing={timing} remove={this.props.removeTiming}
-										startMinutesDifference={utils.round(utils.minutesDifference(startDate,timing.start),timingStep)} 
-										endMinutesDifference={utils.round(utils.minutesDifference(startDate,timing.end),timingStep)}
-										onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)}/>);
-	}
+			var timeProperties = {
+				startMinutesDifference: utils.round(utils.minutesDifference(startDate, timing.start), timingStep),
+				endMinutesDifference: utils.round(utils.minutesDifference(startDate, timing.end), timingStep),
+				allMinutes: this.props.allMinutes
+			}
+			timingsComponents.push(this.props.readOnly 
+					? <Timing key={timing[this.props.timingsIdProperty]} timing={timing} 
+						timeProperties={timeProperties} readOnly={this.props.readOnly}/>
+					: <Timing key={timing[this.props.timingsIdProperty]} timing={timing}
+						timeProperties={timeProperties} readOnly={this.props.readOnly}
+						remove={this.props.timingsModifications.removeTiming}
+						onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)} />);
+		}
 
 		return (
 			<div className="rc-day" onMouseDown={this.onDayMouseDown}>

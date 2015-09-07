@@ -118,11 +118,13 @@ var Calendar = React.createClass({
 			return result;
 		});
 
+		var readOnly = this.props.readOnly.toString() === 'true';
+
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
 			timeStep: timeStep, timingStep: timingStep, allMinutes: allMinutes,
 			timings: timings, timingsIdProperty: timingsIdProperty, lastTimingId: _rc_id,
-			isMultipleAdding: false,
+			isMultipleAdding: false, readOnly: readOnly,
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -190,13 +192,16 @@ var Calendar = React.createClass({
 		var timings = this.state.timings.filter(function (t) {
 			return t.start >= weekStart && t.end <= weekEnd;
 		});
+		var timingsModifications = this.state.readOnly === true ? null : {
+			addTiming: this.addTiming, removeTiming: this.removeTiming, changeTiming: this.changeTiming
+		};
 		return (
 			<div className="rc-calendar">
 				<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek}/>
 				<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.state.timeStep} 
 						timings={timings} timingStep={this.state.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={60} 
-						addTiming={this.addTiming} removeTiming={this.removeTiming} changeTiming={this.changeTiming}/>
-				<Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd}/>
+						timingsModifications={timingsModifications} readOnly={this.state.readOnly}/>
+				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} />)}
 			</div>
 			);
 	}

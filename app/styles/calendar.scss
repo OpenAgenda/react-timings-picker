@@ -102,9 +102,10 @@
 				left: 1px;
 
 				.rc-time {
+					$timeMarginTop: 4px;
 					padding-right: 16px;
 					padding-left: 4px;
-					margin-top: 4px;
+					margin-top: $timeMarginTop;
 					height: 1.1em;
 					overflow: hidden;
 					text-decoration: underline;
@@ -119,8 +120,12 @@
 						font-size: $smallFont;
 					}
 					@include respond-to(small) {
-						margin-top: $smallFont + 4px;
+						margin-top: $smallFont + $timeMarginTop;
 						padding-right: 0;
+
+						&.rc-readonly{
+							margin-top: $timeMarginTop;
+						}
 					}
 				}
 
