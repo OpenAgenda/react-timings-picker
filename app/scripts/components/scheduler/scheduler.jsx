@@ -51,7 +51,7 @@ var Scheduler = React.createClass({
 		calendar.removeEventListener('mousemove', this.dayMouseMove);
 	},
 	isOverlap: function (start, end) {
-		var timingsIdProperty = this.state.timingsIdProperty,
+		var timingsIdProperty = this.props.timingsIdProperty,
 			actionTimingId = this.state.actionTiming[timingsIdProperty];
 		var timings = this.props.timings;
 		for (var i = 0; i < timings.length; i++) {
@@ -284,11 +284,8 @@ var Scheduler = React.createClass({
 		};
 	},
 	getInitialState: function () {
-		var timingsIdProperty = "_rc_id";
-
 		return {
-			userActionValues: this.getDefaultUserActionValues(),
-			forceUpdate: null, timingsIdProperty: timingsIdProperty,
+			userActionValues: this.getDefaultUserActionValues(), forceUpdate: null,
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -336,7 +333,7 @@ var Scheduler = React.createClass({
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						timingsModifications={timingsModifications} timingsIdProperty={this.state.timingsIdProperty} timingsInteractions={timingsInteractions}
+						timingsModifications={timingsModifications} timingsIdProperty={this.props.timingsIdProperty} timingsInteractions={timingsInteractions}
 						readOnly={this.props.readOnly} />);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);

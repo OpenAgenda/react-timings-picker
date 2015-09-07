@@ -89,8 +89,22 @@ var Calendar = React.createClass({
 		}
 		return new Date(sortedTimings[sortedTimings.length - 1].start);
 	},
+	getDefaultProps: function(){
+		return {
+			timeStep: 60,
+			timingStep: 10,
+			startTime: "7:00",
+			endTime: "3:00",
+			weekStartDay: 1,
+			readOnly: false,
+			onTimingClick: function () { },
+			onTimingsChange: function () { },
+			timings: [],
+			defaultTimigDuration: 60,
+		}
+	},
 	getInitialState: function () {
-		var timeStep = 60, timingStep = 10;
+		var timingStep = this.props.timingStep;
 
 		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
@@ -122,9 +136,8 @@ var Calendar = React.createClass({
 
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
-			timeStep: timeStep, timingStep: timingStep, allMinutes: allMinutes,
-			timings: timings, timingsIdProperty: timingsIdProperty, lastTimingId: _rc_id,
-			isMultipleAdding: false, readOnly: readOnly,
+			allMinutes: allMinutes, timings: timings, timingsIdProperty: timingsIdProperty,
+			lastTimingId: _rc_id, isMultipleAdding: false, readOnly: readOnly,
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -198,8 +211,8 @@ var Calendar = React.createClass({
 		return (
 			<div className="rc-calendar">
 				<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek}/>
-				<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.state.timeStep} 
-						timings={timings} timingStep={this.state.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={60} 
+				<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep} 
+						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
 						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick}/>
 				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} />)}
 			</div>
