@@ -143,12 +143,12 @@ gulp.task('serve', ['styles', 'fonts', 'react'], () =>
 		'app/scripts/**/*.js',
 		'app/images/**/*',
 		'.tmp/fonts/**/*',
-		'app/scripts/components/**/*.jsx'
+		'app/scripts/**/*.jsx'
 	]).on('change', reload);
 
 	gulp.watch('app/styles/**/*.scss', ['styles']);
 	gulp.watch('app/fonts/**/*', ['fonts']);
-	gulp.watch('app/scripts/components/**/*.jsx', ['react']);
+	gulp.watch('app/scripts/**/*.jsx', ['react']);
 	gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
