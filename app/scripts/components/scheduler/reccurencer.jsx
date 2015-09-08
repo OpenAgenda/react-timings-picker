@@ -2,7 +2,7 @@
 
 var moment = require('moment');
 var React = require('react');
-var DatePicker = require('react-date-picker');
+var DatePicker = require('react-datepicker');
 
 var Reccurencer = React.createClass({
 	createReccurences: function () {

@@ -5,7 +5,6 @@ import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
 import browserify from 'browserify';
-import debowerify from "debowerify";
 import reactify from 'reactify';
 import source from 'vinyl-source-stream';
 
@@ -16,7 +15,7 @@ const reload = browserSync.reload;
 
 gulp.task('styles', () =>
 {
-	return gulp.src('app/styles/*.scss')
+	return gulp.src(['app/styles/*.scss', 'app/styles/vendors/*.css'])
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass.sync
@@ -114,7 +113,6 @@ gulp.task('extras', () =>
 gulp.task('react', () => {
 	return browserify("app/scripts/main.jsx")
 		.transform(reactify)
-		.transform(debowerify)
 		.bundle()
 		.on('error', console.error.bind(console))
 		.pipe(source('bundle.js'))

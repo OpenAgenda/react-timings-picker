@@ -17,6 +17,10 @@ Utils.prototype.addDays = function (date, days) {
 	return new Date(date.getTime() + days * this.hours /*milliseconds in minute*/);
 }
 
+Utils.prototype.daysInMonth = function (month, year) {
+	return new Date(year, month, 0).getDate();
+}
+
 Utils.prototype.setTime = function (date, hours, minutes, seconds, milliseconds) {
 	var result = new Date(date);
 	result.setHours(hours || 0);

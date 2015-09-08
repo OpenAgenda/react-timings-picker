@@ -45,10 +45,24 @@
 
 		.rc-arrows {
 			font-size: $largeFonts;
+			@include vertical-align();
 
 			& > div {
 				cursor: pointer;
 			}
+		}
+
+		.rc-date{
+			@include vertical-align();
+		}
+
+		.rc-month{
+			@include selectbox-wrapper(130px);
+			margin-right: 15px;
+		}
+
+		.rc-years{
+			@include selectbox-wrapper(90px);
 		}
 	}
 
