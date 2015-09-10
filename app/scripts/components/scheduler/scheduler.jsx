@@ -93,7 +93,7 @@ var Scheduler = React.createClass({
 		}
 
 		if (newValue > userActionValues.maxDragY) {
-			top = parent.clientHeight - userActionValues.target.clientHeight;
+			top = parent.clientHeight - userActionValues.target.clientHeight - 2;
 			start = utils.addMinutes(this.props.endTime, timingDuration * (-1));
 			end = this.props.endTime;
 		}
@@ -114,7 +114,7 @@ var Scheduler = React.createClass({
 			return;
 		}
 		else {
-			this.setTimingValues(top, undefined, t.start, t.end);
+			this.setTimingValues(utils.round(top, userActionValues.dragStep), undefined, t.start, t.end);
 
 			if (utils.hasClass(parent, 'rc-day-time')) {
 				parent.appendChild(userActionValues.target);
@@ -163,7 +163,7 @@ var Scheduler = React.createClass({
 		var height, start, end;
 
 		if (newValue >= userActionValues.maxDragY) {
-			height = userActionValues.nearestOffsetTop - userActionValues.initialTop;
+			height = userActionValues.nearestOffsetTop - userActionValues.initialTop - 2;
 			end = userActionValues.maxTime;
 		}
 		else if (newValue < userActionValues.minDragY) {
@@ -178,8 +178,7 @@ var Scheduler = React.createClass({
 			return;
 		}
 		else {
-			userActionValues.target.style.height = height + 'px';
-			this.setTimingValues(undefined, height, actionTiming.start, end);
+			this.setTimingValues(undefined, utils.round(height, userActionValues.dragStep), actionTiming.start, end);
 		}
 	},
 	onResizerMouseDown: function (timing, maxTime, nearestOffsetTop, e) {
@@ -225,14 +224,14 @@ var Scheduler = React.createClass({
 		}
 
 		if (y < 0) {
-			if (newValue < userActionValues.minDragY) {
-				top = userActionValues.minDragY - parentOffsetTop;
-				height = utils.round(userActionValues.initialY - top - parentOffsetTop, userActionValues.dragStep);
+			if (newValue < userActionValues.minDragY + 2) {
+				top = userActionValues.minDragY - parentOffsetTop + 2;
+				height = userActionValues.initialY - top - parentOffsetTop, userActionValues.dragStep;
 				start = userActionValues.minTime;
 			}
 			else {
 				top = userActionValues.initialTop + y;
-				height = Math.abs(y)
+				height = Math.abs(y);
 				start = utils.addMinutes(actionTiming.start, minDiff);
 			}
 			end = actionTiming.start;
@@ -255,7 +254,7 @@ var Scheduler = React.createClass({
 			return;
 		}
 		else {
-			this.setTimingValues(top, height, start, end);
+			this.setTimingValues(utils.round(top, userActionValues.dragStep), utils.round(height, userActionValues.dragStep) - 2, start, end);
 		}
 	},
 	onDayMouseDown: function (userActionValues, e) {
@@ -339,7 +338,7 @@ var Scheduler = React.createClass({
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}
 		return (
-			<div className="rc-scheduler rc-noselect">
+			<div className="rc-scheduler">
 				<div className="rc-timetable">
 					<div className="rc-day-header"></div>
 					<div className="rc-side-day-time">

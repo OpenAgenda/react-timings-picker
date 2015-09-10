@@ -11,8 +11,19 @@
 	width: 100%;
 	height: 100%;
 	font-size: $normalFont;
+	color: $primaryColor;
+	background-color: $calendarBackColor;
 
-	a{
+	@include respond-to(small) {
+		font-size: $mediumFont;
+	}
+
+	.rc-calendar-body {
+		border: 1px solid #DCDCDC;
+		border-bottom: none;
+	}
+
+	a {
 		cursor: pointer;
 		color: $linkDefaultColor;
 	}
@@ -23,11 +34,28 @@
 		}
 
 		&.rc-icon-left-arrow:before {
-			content: "\2190";
+			content: "\02039";
 		}
 
 		&.rc-icon-right-arrow:before {
-			content: "\2192";
+			content: "\0203A";
+		}
+	}
+
+	.rc-icon-wrapper {
+		position: relative;
+		height: $normalFont;
+		width: 20px;
+
+		.rc-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-moz-transform: translate(-50%,-50%);
+			-ms-transform: translate(-50%,-50%);
+			-o-transform: translate(-50%,-50%);
+			-webkit-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
 		}
 	}
 
@@ -43,44 +71,120 @@
 			margin-right: 15px;
 		}
 
-		.rc-arrows {
-			font-size: $largeFonts;
+		.rc-week {
 			@include vertical-align();
+			margin-right: 40px;
 
-			& > div {
+			.rc-date{
+				width: 50px;
+				display: inline-block;
+				text-align: center;
+				margin: 0 10px;
+			}
+
+			.rc-icon-wrapper{
+				margin: 0 10px;
 				cursor: pointer;
+			}
+
+			.rc-icon {
+				color: $secondaryColor;
+				font-size: 48px;
 			}
 		}
 
-		.rc-date{
-			@include vertical-align();
+		.rc-options{
+			.is-focused:not(.is-open) > .Select-control {
+				box-shadow: none;
+			}
+
+			.Select-control{
+				border: none;
+				padding-right: 30px;
+				color: $primaryColor;
+
+				&:hover{
+					box-shadow: none;
+				}
+
+				.Select-placeholder{
+					padding-right: 30px;
+				}
+			}
+
+			.Select-placeholder, .Select-input{
+				color: $primaryColor;
+			}
+
+			.Select-option.is-focused {
+				background-color: $xlightGray;
+				color: $normalFont;
+			}
+
+			.Select-arrow-zone{
+				right: 5px;
+			}
+
+			.Select-arrow{
+				color: $secondaryColor;
+				right: 15px;
+				top: 15px;
+			}
 		}
 
-		.rc-month{
+		.rc-month {
 			@include selectbox-wrapper(130px);
 			margin-right: 15px;
 		}
 
-		.rc-years{
+		.rc-years {
 			@include selectbox-wrapper(90px);
+		}
+
+		@include respond-to(small) {
+			& > div {
+				margin-right: 8px;
+			}
+
+			.rc-week{
+				margin-right: 0;
+				.rc-icon-wrapper, .rc-date{
+					margin: 0;
+				}
+
+				.rc-icon{
+					font-size: 36px;
+				}
+			}
+
+			.rc-month {
+				@include selectbox-wrapper(115px);
+				margin-right: 15px;
+			}
+
+			.rc-years {
+				@include selectbox-wrapper(75px);
+			}
 		}
 	}
 
 	.rc-scheduler {
-		border: 2px solid $calendarBorderColor;
 		display: block;
 
 		.rc-day-header {
 			height: $dayHeaderHeight;
 			line-height: $dayHeaderHeight;
 			text-align: center;
-			background-color: $calendarHeaderBackColor;
+			background-color: $schedulerHeaderBackColor;
+			color: $reverseColor;
+			padding: 15px 0;
 			@include text-overflow(ellipsis);
 			white-space: nowrap;
 
 			&.small {
 				display: none;
 			}
+
 			@include respond-to(medium) {
 				&.small {
 					display: block;
@@ -98,6 +202,7 @@
 			&:nth-child(2n-1) {
 				background-color: $oddRowBackColor;
 			}
+
 			&:nth-child(2n) {
 				background-color: $evenRowBackColor;
 			}
@@ -108,7 +213,6 @@
 
 			.rc-event {
 				background-color: $eventBackColor;
-				border-radius: 5px;
 				padding: 0;
 				overflow: hidden;
 				position: absolute;
@@ -122,22 +226,16 @@
 					margin-top: $timeMarginTop;
 					height: 1.1em;
 					overflow: hidden;
-					text-decoration: underline;
 					@include text-overflow(ellipsis);
 					white-space: nowrap;
-					font-size: $normalFont;
+					font-size: $smallFont;
+					color: $xdarkGray;
 
-					@include respond-to(large) {
-						font-size: $mediumFont;
-					}
-					@include respond-to(medium) {
-						font-size: $smallFont;
-					}
 					@include respond-to(small) {
 						margin-top: $smallFont + $timeMarginTop;
 						padding-right: 0;
 
-						&.rc-readonly{
+						&.rc-readonly {
 							margin-top: $timeMarginTop;
 						}
 					}
@@ -174,6 +272,10 @@
 
 		.rc-timetable {
 			float: left;
+			font-size: $mediumFont;
+			border-bottom: 1px solid $calendarBorderColor;
+			border-top: 1px solid $schedulerHeaderBackColor;
+
 			& > div {
 				text-align: center;
 				line-height: $dayCellHeight;
@@ -198,41 +300,61 @@
 			}
 
 			.rc-day {
-				border-left: 1px solid $calendarBorderColor;
+				border-left: 1px solid $schedulerDayBorderColor;
+				border-bottom: 1px solid $calendarBorderColor;
+				border-top: 1px solid $schedulerHeaderBackColor;
 				width: part-of($dayInWeek);
 				display: inline-block;
 				@include word-break("break-word");
 				@include box-sizing(border-box);
 				font-size: $normalFont;
-			}
-		}
-		@include respond-to(large) {
-			.rc-side-day-time {
-				font-size: $mediumFont;
+
+				&.today{
+					border: 1px solid $lightBlue;
+					.rc-day-header{
+						color: $schedulerHeaderTodayColor;
+						background-color: $schedulerHeaderTodayBackColor;
+					}
+				}
+				&.tomorrow{
+					border-left: none;
+				}
 			}
 		}
 	}
 
 	.rc-reccurencer {
 		margin-top: 10px;
+		font-size: $mediumFont;
 
 		div {
 			display: inline-block;
 		}
 
-		.rc-ok-button{
-			padding: 3px 6px;
-			border: 2px solid $calendarBorderColor;
-			background-color: $darkblue;
+		.datepicker__input{
+			position: relative;
+			font-size: $mediumFont;
+			border-radius: 0;
+			box-shadow: none;
+			border: 1px solid $lightGray;
+			line-height: 16px;
+			padding: 6px 10px 5px;
+			margin: 0 5px;
+		}
+
+		.rc-ok-button {
+			padding: 7px 12px;
+			background-color: $lightBlue;
 			color: #fff;
 		}
+
 		@include respond-to(medium) {
-			div{
+			div {
 				display: block;
 				margin: 5px 0;
 			}
 
-			.rc-ok-button{
+			.rc-ok-button {
 				display: inline-block;
 				margin-top: 5px;
 			}

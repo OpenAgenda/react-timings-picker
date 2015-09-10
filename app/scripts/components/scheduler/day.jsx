@@ -57,9 +57,9 @@ var Day = React.createClass({
 
 		userActionValues.dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
 
-		userActionValues.initialY = utils.floor(top + e.clientY, userActionValues.dragStep);
+		userActionValues.initialY = utils.round(top + e.clientY, userActionValues.dragStep);
 
-		var y = userActionValues.initialTop = utils.floor(userActionValues.initialY - utils.pageOffset(dayNode).top, userActionValues.dragStep);
+		var y = userActionValues.initialTop = utils.round(userActionValues.initialY - utils.pageOffset(dayNode).top, userActionValues.dragStep);
 		var startMinutes = utils.addMinutes(this.props.dayStartTime,
 			this.props.allMinutes * y / dayNode.clientHeight);
 
@@ -181,9 +181,12 @@ var Day = React.createClass({
 						remove={this.props.timingsModifications.removeTiming}
 						onEventMouseDown={this.onEventMouseDown.bind(null,timing)} onResizerMouseDown={this.onResizerMouseDown.bind(null,timing)} />);
 		}
+		var isToday = this.props.dayStartTime.toDateString() == new Date().toDateString(),
+			isTomorrow = this.props.dayStartTime.toDateString() == utils.addDays(new Date(), 1).toDateString();
+		var extraClassName = isToday ? " today" : isTomorrow ? " tomorrow" : "";
 
 		return (
-			<div className="rc-day" onMouseDown={this.onDayMouseDown}>
+			<div className={'rc-day'+extraClassName} onMouseDown={this.onDayMouseDown}>
 				<div className="rc-day-header big">{names.full}</div>
 				<div className="rc-day-header small">{names.short}</div>
 				<div className="rc-day-time" data-date={this.props.dayStartTime.toDateString()}>

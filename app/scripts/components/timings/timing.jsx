@@ -12,7 +12,7 @@ var Timing = React.createClass({
 		var top = (height * this.props.timeProperties.startMinutesDifference) / this.props.timeProperties.allMinutes;
 		var bottom = (height * this.props.timeProperties.endMinutesDifference) / this.props.timeProperties.allMinutes;
 
-		var style = 'top:' + top + 'px; height:' + (bottom - top) + 'px;';
+		var style = 'top:' + top + 'px; height:' + (bottom - top - 2) + 'px;';
 		thisNode.style.cssText = style;
 	},
 	componentDidMount: function () {

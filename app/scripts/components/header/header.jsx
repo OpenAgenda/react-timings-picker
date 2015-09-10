@@ -32,11 +32,11 @@ var Header = React.createClass({
 		}
 		return (
 			<div className="rc-header">
-				<div className="rc-arrows">
-					<div className="rc-icon rc-icon-left-arrow" onClick={goAnotherWeek.bind(null,false)} ></div>
-					<div className="rc-icon rc-icon-right-arrow" onClick={goAnotherWeek.bind(null,true)}></div>
+				<div className="rc-week">
+					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={goAnotherWeek.bind(null,false)}></span></div>
+					<span className="rc-date">{startDay}-{endDay}</span>
+					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={goAnotherWeek.bind(null,true)}></span></div>
 				</div>
-				<div className="rc-date">{startDay}-{endDay}</div>
 				<div className="rc-options">
 					<div className="rc-month">
 						<Select options={monthes} value={this.props.startDate.getMonth()} onChange={this.props.goAnotherMonth}

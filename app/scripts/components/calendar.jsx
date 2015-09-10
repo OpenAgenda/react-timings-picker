@@ -227,11 +227,13 @@ var Calendar = React.createClass({
 			addTiming: this.addTiming, removeTiming: this.removeTiming, changeTiming: this.changeTiming
 		};
 		return (
-			<div className="rc-calendar">
-				<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear} />
-				<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep} 
-						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
-						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty}/>
+			<div className="rc-calendar rc-noselect">
+				<div className="rc-calendar-body">
+					<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear} />
+					<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep}
+						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration}
+						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} />
+				</div>
 				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} />)}
 			</div>
 			);

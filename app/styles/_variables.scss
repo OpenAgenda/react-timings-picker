@@ -3,9 +3,11 @@
 $white: #fff;
 $xlightGray: #eee;
 $lightGray: #ccc;
+$darkGray: #666;
+$xdarkGray: #333;
 $black: #000;
 
-$lightBlue: #2AABE8;
+$lightBlue: #42B0E1;
 $darkblue: #3367C0;
 
 /* #endregion absolute colors*/
@@ -24,10 +26,10 @@ $xxsmall: 400px;
 
 $xlageFonts: 24px;
 $largeFonts: 20px;
-$normalFont: 16px;
+$normalFont: 18px;
 $mediumFont: 14px;
-$smallFont: 11px;
-$xsmallFont: 9px;
+$smallFont: 12px;
+$xsmallFont: 10px;
 
 /* #endregion font sizes*/
 
@@ -49,12 +51,26 @@ $dayCellHeight: 40px;
 
 /* #region colors */
 
-$calendarBorderColor: $black;
-$calendarHeaderBackColor: $lightGray;
+$primaryColor: #696969;
+$secondaryColor: #ddd;
+$reverseColor: $white;
+
+$calendarBorderColor: #dcdcdc;
+$calendarBackColor: #fff;
+
+$headerPrimaryColor: $primaryColor;
+$headerSecondaryColor: $secondaryColor;
+
+$schedulerHeaderColor: $reverseColor;
+$schedulerHeaderBackColor: $lightBlue;
+$schedulerHeaderTodayColor: $primaryColor;
+$schedulerHeaderTodayBackColor: $white;
+$schedulerDayBorderColor: $white;
+
 $oddRowBackColor: $xlightGray;
 $evenRowBackColor: $white;
 
-$eventBackColor: $lightBlue;
+$eventBackColor: $lightGray;
 
 $linkDefaultColor: #165979;
 
