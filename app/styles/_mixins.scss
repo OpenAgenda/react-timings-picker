@@ -34,6 +34,30 @@
 	user-select: $value;
 }
 
+@mixin translateY($value) {
+	-moz-transform: translateY($value);
+	-ms-transform: translateY($value);
+	-o-transform: translateY($value);
+	-webkit-transform: translateY($value);
+	transform: translateY($value);
+}
+
+@mixin translateX($value) {
+	-moz-transform: translateX($value);
+	-ms-transform: translateX($value);
+	-o-transform: translateX($value);
+	-webkit-transform: translateX($value);
+	transform: translateX($value);
+}
+
+@mixin translate($x, $y) {
+	-moz-transform: translate($x, $y);
+	-ms-transform: translate($x, $y);
+	-o-transform: translate($x, $y);
+	-webkit-transform: translate($x, $y);
+	transform: translate($x, $y);
+}
+
 /* #endregion styles*/
 
 /* #region media queries*/
@@ -123,11 +147,14 @@
 @mixin vertical-align($position: relative) {
 	position: $position;
 	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-o-transform: translateY(-50%);
-	transform: translateY(-50%);
+	@include translateY(-50%);
+}
+
+@mixin center-absolute-position(){
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include translate(-50%, -50%);
 }
 
 /* #endregion positioning*/
