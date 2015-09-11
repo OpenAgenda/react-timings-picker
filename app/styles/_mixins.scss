@@ -58,6 +58,14 @@
 	transform: translate($x, $y);
 }
 
+@mixin rotate($angle) {
+	-moz-transform: rotate($angle);
+	-ms-transform: rotate($angle);
+	-o-transform: rotate($angle);
+	-webkit-transform: rotate($angle);
+	transform: rotate($angle);
+}
+
 /* #endregion styles*/
 
 /* #region media queries*/
@@ -158,3 +166,18 @@
 }
 
 /* #endregion positioning*/
+
+/* #region figures*/
+
+@mixin arrow($color: black, $width: 0.4em, $height: 0.4em, $leftWeight: 0.2em, $rightWeigh: 0.2em, $strokeType: solid, $angle: 0){
+	content: "";
+	display: inline-block;
+	/* By using an em scale, the arrows will size with the font */
+	width: $width;
+	height: $height;
+	border-right: $rightWeigh $strokeType $color;
+	border-top: $leftWeight $strokeType $color;
+	@include rotate($angle);
+}
+
+/* #endregion figures*/
