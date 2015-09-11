@@ -24,7 +24,7 @@ gulp.task('styles', () =>
 			precision: 10,
 			includePaths: ['.']
 		}).on('error', $.sass.logError))
-		.pipe($.autoprefixer({ browsers: ['last 1 version'] }))
+		.pipe($.autoprefixer({ browsers: ['ie >= 9', 'firefox >= 24', 'chrome >= 33', 'safari >= 5', 'ios_saf 5'] }))
 		.pipe($.sourcemaps.write())
 		.pipe(gulp.dest('dist/styles'))
 		.pipe(gulp.dest('.tmp/styles'))
