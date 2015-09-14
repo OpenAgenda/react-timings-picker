@@ -30,5 +30,9 @@ var Calendar = require('./components/calendar.jsx');
 		console.log(arguments);
 	}
 
-	React.render(<Calendar startTime="7:00" endTime="3:00" timings={timings} weekStartDay={1} onTimingsChange={onTimingsChange} onTimingClick={onTimingClick} readOnly={false} />, document.getElementById('calendar'));
+	var newLanguages = [];
+	var lang = "en-US";
+
+	React.render(<Calendar startTime="7:00" endTime="3:00" timings={timings} weekStartDay={1} onTimingsChange={onTimingsChange} onTimingClick={onTimingClick} readOnly={false} 
+						lang={lang} additionalLanguages={newLanguages} />, document.getElementById('calendar'));
 })()

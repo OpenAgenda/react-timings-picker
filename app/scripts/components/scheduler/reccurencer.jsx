@@ -27,16 +27,17 @@ var Reccurencer = React.createClass({
 	},
 	render: function () {
 		var result;
+		var strings = this.props.strings;
 		if (this.state.createReccurence == true) {
 			result = (<div>
-				Duplicate the timings above from
-				<DatePicker selected={moment(this.state.startDate)} onChange={this.onReccurenceStartChange} /> to
+				{strings.duplicateTimingsAbove} {strings.from}
+				<DatePicker selected={moment(this.state.startDate)} onChange={this.onReccurenceStartChange} /> {strings.to}
 				<DatePicker selected={moment(this.state.endDate)} onChange={this.onReccurenceEndChange}/>
 				<a className="rc-ok-button" onClick={this.createReccurences}>OK</a>
 			</div>);
 		}
 		else {
-			result = (<a onClick={this.toggleDatePickers}>Define a reccuring event</a>);
+			result = (<a onClick={this.toggleDatePickers}>{strings.defineReccuringEvent}</a>);
 		}
 
 		return (

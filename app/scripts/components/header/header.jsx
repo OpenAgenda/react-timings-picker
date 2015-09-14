@@ -10,21 +10,10 @@ var Header = React.createClass({
 
 		var goAnotherWeek = this.props.goAnotherWeek, goAnotherMonth = this.props.goAnotherMonth,
 			goAnotherYear = this.props.goAnotherYear;
-
-		var monthes = [
-			{ value: 0, label: "January" },
-			{ value: 1, label: "February" },
-			{ value: 2, label: "March" },
-			{ value: 3, label: "April" },
-			{ value: 4, label: "May" },
-			{ value: 5, label: "June" },
-			{ value: 6, label: "July" },
-			{ value: 7, label: "August" },
-			{ value: 8, label: "September" },
-			{ value: 9, label: "October" },
-			{ value: 10, label: "November" },
-			{ value: 11, label: "December" },
-		];
+		var monthes = [];
+		for (var i = 0; i < this.props.monthes.length; i++) {
+			monthes.push({ value: i, label: this.props.monthes[i] });
+		}
 		var years = [];
 		var currentYear = new Date().getFullYear();
 		for (var i = currentYear; i < currentYear + 5; i++) {

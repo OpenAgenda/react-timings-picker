@@ -330,10 +330,12 @@ var Scheduler = React.createClass({
 				return t.start >= dayStartTime && t.end <= dayEndTime;
 			});
 
+			var names = { full: this.props.weekdays.full[dayStartTime.getDay()], short: this.props.weekdays.short[dayStartTime.getDay()] }
+
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
 						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
 						timingsModifications={timingsModifications} timingsIdProperty={this.props.timingsIdProperty} timingsInteractions={timingsInteractions}
-						readOnly={this.props.readOnly} />);
+						readOnly={this.props.readOnly} names={names}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

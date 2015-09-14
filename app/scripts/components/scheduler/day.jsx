@@ -141,15 +141,7 @@ var Day = React.createClass({
 			: utils.pageOffset(nearestEvent).top + nearestEvent.clientHeight;
 	},
 	render: function () {
-		var weekday = new Array(7);
-		weekday[0] = { full: "Sunday", short: "Sun" };
-		weekday[1] = { full: "Monday", short: "Mon" };
-		weekday[2] = { full: "Tuesday", short: "Tue" };
-		weekday[3] = { full: "Wednesday", short: "Wed" };
-		weekday[4] = { full: "Thursday", short: "Thu" };
-		weekday[5] = { full: "Friday", short: "Fri" };
-		weekday[6] = { full: "Saturday", short: "Sat" };
-		var names = weekday[this.props.dayStartTime.getDay()];
+		var names = this.props.names;
 
 		var timeCells = [];
 		var date = this.props.dayStartTime;

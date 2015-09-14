@@ -104,6 +104,18 @@ Utils.prototype.createTwoDimensionalArray = function(size) {
 	return result;
 }
 
+Utils.prototype.isKeyValuePair = function (obj) {
+	return obj.hasOwnProperty("key") && obj.hasOwnProperty("value");
+}
+
+Utils.prototype.keyValueCollectionToObject = function(collection) {
+	var rv = {};
+	for (var i = 0; i < collection.length; ++i) {
+		if (collection[i] !== undefined && this.isKeyValuePair(collection[i])) rv[collection[i].key] = collection[i].value;
+	}
+	return rv;
+}
+
 var utils = new Utils();
 
 module.exports = utils;

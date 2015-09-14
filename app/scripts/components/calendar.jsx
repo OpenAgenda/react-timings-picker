@@ -3,6 +3,7 @@
 var React = require('react');
 
 var utils = require('../utils');
+var i18n = require('../../locales/locales.json');
 
 var Header = require('./header/header.jsx');
 var Scheduler = require('./scheduler/scheduler.jsx');
@@ -101,6 +102,8 @@ var Calendar = React.createClass({
 			onTimingsChange: function () { },
 			timings: [],
 			defaultTimigDuration: 60,
+			additionalLanguages: [],
+			lang: navigator.language,
 		}
 	},
 	getInitialState: function () {
@@ -134,10 +137,22 @@ var Calendar = React.createClass({
 
 		var readOnly = this.props.readOnly.toString() === 'true';
 
+		var addLanguages = Array.isArray(this.props.additionalLanguages) ? this.props.additionalLanguages : [this.props.additionalLanguages];
+		var languages = utils.keyValueCollectionToObject(addLanguages);
+
+		for (var l in i18n) {
+			if (languages[l] === undefined) {
+				languages[l] = i18n[l]
+			}
+		}
+		var currentLanguage = languages[this.props.lang] ? languages[this.props.lang] :
+								languages["en-US"] ? languages["en-US"] : i18n["en-US"];
+
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
 			allMinutes: allMinutes, timings: timings, timingsIdProperty: timingsIdProperty,
 			lastTimingId: _rc_id, isMultipleAdding: false, readOnly: readOnly,
+			languages: languages, currentLanguage: currentLanguage,
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -226,15 +241,18 @@ var Calendar = React.createClass({
 		var timingsModifications = this.state.readOnly === true ? null : {
 			addTiming: this.addTiming, removeTiming: this.removeTiming, changeTiming: this.changeTiming
 		};
+		var lang = this.state.currentLanguage;
 		return (
 			<div className="rc-calendar rc-noselect">
 				<div className="rc-calendar-body">
-					<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear} />
+					<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear}
+							monthes={lang.monthes} />
 					<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep}
 						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration}
-						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} />
+						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} 
+						weekdays={lang.weekdays}/>
 				</div>
-				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} />)}
+				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} strings={lang} />)}
 			</div>
 			);
 	}
