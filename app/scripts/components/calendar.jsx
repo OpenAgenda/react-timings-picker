@@ -13,36 +13,31 @@ var Calendar = React.createClass({
 	isOverlap: function (t1, t2) {
 		return t1.start < t2.end && t1.end > t2.start
 	},
-	createTiming: function (targetTiming) {
+	canCreateTiming: function (targetTiming) {
 		var timings = this.state.timings;
-
-		for (var i = 0; i < timings.length; i++) {
-			var t = timings[i]
-			if (this.isOverlap(t, targetTiming)) {
-				return false;
-			}
-		}
-
-		targetTiming[this.state.timingsIdProperty] = this.state.lastTimingId;
-		timings.push(targetTiming);
-		this.setState({ timings: timings, lastTimingId: this.state.lastTimingId + 1 });
-
+		for (var i = 0; i < timings.length; i++)
+			if (this.isOverlap(timings[i], targetTiming)) return false;
 		return true;
 	},
 	addTiming: function (targetTiming) {
-		if (this.createTiming(targetTiming)) {
+		if (this.canCreateTiming(targetTiming)) {
+			var timings = this.state.timings, lastId = this.state.lastTimingId;
+			targetTiming[this.state.timingsIdProperty] = lastId++;
+			timings.push(targetTiming);
+			this.setState({ timings: timings, lastTimingId: lastId });
 			this.props.onTimingsChange.call(this, this.state.timings, targetTiming, "Add timing");
 		}
 	},
-	addTimings: function(targetTimings){
-		this.setState({ isMultipleAdding: true });
-		var addedTimings = [];
+	addTimings: function (targetTimings) {
+		var timings = this.state.timings, lastId = this.state.lastTimingId, addedTimings = [];
 		for (var i = 0; i < targetTimings.length; i++) {
-			if (this.createTiming(targetTimings[i])) {
+			if (this.canCreateTiming(targetTimings[i])) {
+				targetTimings[i][this.state.timingsIdProperty] = lastId++;
+				timings.push(targetTimings[i]);
 				addedTimings.push(targetTimings[i]);
 			}
 		}
-		this.setState({ isMultipleAdding: false });
+		this.setState({ timings: timings, lastTimingId: lastId });
 		if (addedTimings.length > 0) {
 			this.props.onTimingsChange.call(this, this.state.timings, addedTimings, "Add timings");
 		}
@@ -151,15 +146,9 @@ var Calendar = React.createClass({
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
 			allMinutes: allMinutes, timings: timings, timingsIdProperty: timingsIdProperty,
-			lastTimingId: _rc_id, isMultipleAdding: false, readOnly: readOnly,
+			lastTimingId: _rc_id, readOnly: readOnly,
 			languages: languages, currentLanguage: currentLanguage,
 		};
-	},
-	shouldComponentUpdate: function (nextProps, nextState) {
-		if (nextState.isMultipleAdding == true) {
-			return false;
-		}
-		return true;
 	},
 	updateWeekStartAndEnd: function (weekStart) {
 		this.setState({ weekStart: weekStart, weekEnd: utils.addDays(weekStart, 7) });
@@ -206,8 +195,6 @@ var Calendar = React.createClass({
 				timingsToReccurence.push({ start: utils.addDays(currentDayTimings[l].start, daysDiff), end: utils.addDays(currentDayTimings[l].end, daysDiff) });
 			}
 		}
-		console.log(timingsToReccurence);
-
 		var selectedPeriodTimings = utils.createTwoDimensionalArray(7);
 		this.state.timings.filter(function (t) {
 			return !(t.start >= weekStart && t.end <= weekEnd) && (t.start >= reccurenceStart && t.end <= reccurenceEnd);
