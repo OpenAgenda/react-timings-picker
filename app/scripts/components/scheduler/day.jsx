@@ -1,11 +1,32 @@
 ﻿'use strict';
 
 var utils = require('../../utils');
+var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 var Timing = require('../timings/timing.jsx');
 
 var Day = React.createClass({
+	propTypes: {
+		dayStartTime: propTypes.date.isRequired,
+		dayEndTime: propTypes.date.isRequired,
+		timeCells: React.PropTypes.number.isRequired,
+		timeStep: React.PropTypes.number.isRequired,
+		timingStep: React.PropTypes.number.isRequired,
+		timings: React.PropTypes.array.isRequired,
+		allMinutes: React.PropTypes.number.isRequired,
+		defaultTimigDuration: React.PropTypes.number,
+		timingsModifications: propTypes.timingsModifications,
+		timingsInteractions: propTypes.timingsInteractions,
+		timingsIdProperty: React.PropTypes.string,
+		readOnly: React.PropTypes.bool.isRequired,
+		weekdays: propTypes.weekdayNames
+	},
+	getDefaultProps: function () {
+		return {
+			defaultTimigDuration: 60
+		}
+	},
 	clickTime: function (date, event) {
 		var dayNode = this.getDOMNode().querySelector('.rc-day-time');
 		if (dayNode.hasAttribute('creating')) {
@@ -141,7 +162,7 @@ var Day = React.createClass({
 			: utils.pageOffset(nearestEvent).top + nearestEvent.clientHeight;
 	},
 	render: function () {
-		var names = this.props.names;
+		var weekdays = this.props.weekdays;
 
 		var timeCells = [];
 		var date = this.props.dayStartTime;
@@ -179,8 +200,8 @@ var Day = React.createClass({
 
 		return (
 			<div className={'rc-day'+extraClassName} onMouseDown={this.onDayMouseDown}>
-				<div className="rc-day-header big">{names.full}</div>
-				<div className="rc-day-header small">{names.short}</div>
+				<div className="rc-day-header big">{weekdays.full}</div>
+				<div className="rc-day-header small">{weekdays.short}</div>
 				<div className="rc-day-time" data-date={this.props.dayStartTime.toDateString()}>
 					{timeCells}
 					{timingsComponents}

@@ -2,8 +2,15 @@
 
 var React = require('react');
 var DatePicker = require('../datepicker/datepicker.jsx');
+var propTypes = require("../../utils/propTypes");
 
 var Reccurencer = React.createClass({
+	propTypes: {
+		createReccurence: React.PropTypes.func.isRequired,
+		startDate: propTypes.date.isRequired,
+		endDate: propTypes.date.isRequired,
+		strings: propTypes.alli18n.isRequired,
+	},
 	createReccurences: function () {
 		this.props.createReccurence(this.state.startDate, this.state.endDate);
 	},

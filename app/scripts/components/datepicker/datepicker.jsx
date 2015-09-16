@@ -4,6 +4,7 @@ var React = require("react");
 var Popover = require("./popover.jsx");
 var Calendar = require("./calendar.jsx");
 var DateInput = require("./date-input.jsx");
+var propTypes = require("../../utils/propTypes");
 var isEqual = require("lodash/lang/isEqual");
 require("date-format-lite");
 
@@ -11,10 +12,7 @@ var DatePicker = React.createClass({
 	displayName: "DatePicker",
 	propTypes: {
 		weekdays: React.PropTypes.arrayOf(React.PropTypes.string),
-		months: React.PropTypes.shape({
-			full: React.PropTypes.array,
-			short: React.PropTypes.array
-		}).isRequired,
+		months: propTypes.monthNames.isRequired,
 		locale: React.PropTypes.string,
 		dateFormatCalendar: React.PropTypes.string,
 		popoverAttachment: React.PropTypes.string,
@@ -22,7 +20,7 @@ var DatePicker = React.createClass({
 		popoverTargetOffset: React.PropTypes.string,
 		weekStart: React.PropTypes.number,
 		onChange: React.PropTypes.func.isRequired,
-		selected: React.PropTypes.object,
+		selected: propTypes.date,
 		excludeDates: React.PropTypes.array,
 		isClearable: React.PropTypes.bool
 	},

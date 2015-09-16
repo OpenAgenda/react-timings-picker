@@ -2,6 +2,7 @@
 
 var React = require("react");
 var utils = require("../../utils");
+var propTypes = require("../../utils/propTypes");
 var Week = require("./week.jsx");
 require("date-format-lite");
 
@@ -12,13 +13,10 @@ var Calendar = React.createClass({
 	},
 	propTypes: {
 		weekdays: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-		months: React.PropTypes.shape({
-			full: React.PropTypes.array,
-			short: React.PropTypes.array
-		}).isRequired,
+		months: propTypes.monthNames,
 		locale: React.PropTypes.string,
 		dateFormat: React.PropTypes.string.isRequired,
-		selected: React.PropTypes.object.isRequired,
+		selected: propTypes.date.isRequired,
 		onSelect: React.PropTypes.func.isRequired,
 		hideCalendar: React.PropTypes.func.isRequired,
 		excludeDates: React.PropTypes.array,

@@ -1,11 +1,29 @@
 ﻿'use strict';
 
 var utils = require('../../utils');
+var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 var Day = require('./day.jsx');
 
 var Scheduler = React.createClass({
+	propTypes: {
+		startDate: propTypes.date.isRequired,
+		startTime: propTypes.date.isRequired,
+		endTime: propTypes.date.isRequired,
+		timeStep: React.PropTypes.number,
+		timingStep: React.PropTypes.number.isRequired,
+		timings: React.PropTypes.array.isRequired,
+		timingsModifications: propTypes.timingsModifications,
+		readOnly: React.PropTypes.bool,
+		onTimingClick: React.PropTypes.func,
+		timingsIdProperty: React.PropTypes.string
+	},
+	getDefaultProps: function () {
+		return {
+			timeStep: 60,
+		}
+	},
 	onSchedulerMouseUp: function(e){
 		e.stopPropagation();
 
@@ -132,7 +150,7 @@ var Scheduler = React.createClass({
 		var parent = e.target.parentNode;
 		parent.appendChild(target);
 
-		var dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
+		var dragStep = parent.clientHeight * this.props.timingStep / this.state.allMinutes,
 			initialY = e.clientY, minDragY = initialY - target.offsetTop,
 			maxDragY = minDragY + parent.clientHeight - target.clientHeight,
 			initialTop = parseInt(target.style.top.replace('px'));
@@ -178,7 +196,7 @@ var Scheduler = React.createClass({
 			return;
 		}
 		else {
-			this.setTimingValues(undefined, utils.round(height, userActionValues.dragStep), actionTiming.start, end);
+			this.setTimingValues(undefined, utils.round(height, userActionValues.dragStep) - 2, actionTiming.start, end);
 		}
 	},
 	onResizerMouseDown: function (timing, maxTime, nearestOffsetTop, e) {
@@ -189,7 +207,7 @@ var Scheduler = React.createClass({
 		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
 		var target = e.target.parentNode, parent = target.parentNode, initialY = scrollTop + e.clientY,
-			dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
+			dragStep = parent.clientHeight * this.props.timingStep / this.state.allMinutes,
 			minDragY = initialY - (target.clientHeight - e.target.clientHeight),
 			maxDragY = nearestOffsetTop - dragStep,
 			initialHeight = target.clientHeight, initialTop = utils.pageOffset(target).top;
@@ -284,7 +302,8 @@ var Scheduler = React.createClass({
 	},
 	getInitialState: function () {
 		return {
-			userActionValues: this.getDefaultUserActionValues(), forceUpdate: null,
+			userActionValues: this.getDefaultUserActionValues(), forceUpdate: null, 
+			allMinutes: utils.minutesDifference(this.props.startTime, this.props.endTime)
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -317,11 +336,11 @@ var Scheduler = React.createClass({
 		var days = [];
 		startTime = this.props.startTime;
 		var dayStartTime = utils.setTime(this.props.startDate, startTime.getHours(), startTime.getMinutes(), 0, 0);
-		var dayEndTime = utils.addMinutes(dayStartTime, this.props.allMinutes);
-		var timingsModifications = this.props.readOnly === true ? null : {
+		var dayEndTime = utils.addMinutes(dayStartTime, this.state.allMinutes);
+		var timingsModifications = this.props.readOnly === true ? undefined : {
 			addTiming: this.props.timingsModifications.addTiming, removeTiming: this.props.timingsModifications.removeTiming,
 		}
-		var timingsInteractions = this.props.readOnly === true ? null : {
+		var timingsInteractions = this.props.readOnly === true ? undefined : {
 			onEventMouseDown: this.onEventMouseDown, onResizerMouseDown: this.onResizerMouseDown, onDayMouseDown: this.onDayMouseDown,
 		}
 		for (var i = 0; i < 7/*7 days in a week*/; i++) {
@@ -330,12 +349,12 @@ var Scheduler = React.createClass({
 				return t.start >= dayStartTime && t.end <= dayEndTime;
 			});
 
-			var names = { full: this.props.weekdays.full[dayStartTime.getDay()], short: this.props.weekdays.short[dayStartTime.getDay()] }
+			var weekdays = { full: this.props.weekdays.full[dayStartTime.getDay()], short: this.props.weekdays.short[dayStartTime.getDay()] }
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
-						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
+						timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
 						timingsModifications={timingsModifications} timingsIdProperty={this.props.timingsIdProperty} timingsInteractions={timingsInteractions}
-						readOnly={this.props.readOnly} names={names}/>);
+						readOnly={this.props.readOnly} weekdays={weekdays}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
 			dayEndTime = utils.addDays(dayEndTime, 1);
 		}

@@ -2,14 +2,15 @@
 
 var React = require("react");
 var utils = require("../../utils");
+var propTypes = require("../../utils/propTypes");
 require("date-format-lite");
 
 var Week = React.createClass({
 	displayName: "Week",
 	propTypes: {
-		date: React.PropTypes.object.isRequired,
-		month: React.PropTypes.object.isRequired,
-		selected: React.PropTypes.object.isRequired
+		date: propTypes.date.isRequired,
+		month: propTypes.date.isRequired,
+		selected: propTypes.date.isRequired
 	},
 
 	render: function () {

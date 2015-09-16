@@ -1,9 +1,17 @@
 ﻿var utils = require('../../utils');
+var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 var Select = require('react-select');
 
 var Header = React.createClass({
+	propTypes: {
+		startDate: propTypes.date.isRequired,
+		goAnotherWeek: React.PropTypes.func.isRequired,
+		goAnotherMonth: React.PropTypes.func.isRequired,
+		goAnotherYear: React.PropTypes.func.isRequired,
+		months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+	},
 	render: function () {
 		var startDay = this.props.startDate.getDate();
 		var endDay = utils.addDays(this.props.startDate, 7 /*days in a week*/).getDate();

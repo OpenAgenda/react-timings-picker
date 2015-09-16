@@ -3,6 +3,7 @@
 var React = require('react');
 
 var utils = require('../utils');
+var propTypes = require("../utils/propTypes");
 var i18n = require('../../locales/locales.json');
 
 var Header = require('./header/header.jsx');
@@ -10,6 +11,31 @@ var Scheduler = require('./scheduler/scheduler.jsx');
 var Reccurencer = require('./scheduler/reccurencer.jsx');
 
 var TimingsPicker = React.createClass({
+	propTypes: {
+		startTime: propTypes.time,
+		endTime: propTypes.time,
+		weekDayStart: React.PropTypes.number,
+		readOnly: React.PropTypes.bool,
+		onTimingClick: React.PropTypes.func,
+		onTimingsChange: React.PropTypes.func,
+		timings: React.PropTypes.array,
+		additionalLanguages: propTypes.additionalLanguages,
+		lang: propTypes.locale,
+	},
+	getDefaultProps: function(){
+		return {
+			timingStep: 10,
+			startTime: "7:00",
+			endTime: "3:00",
+			weekStartDay: 1,
+			readOnly: false,
+			onTimingClick: function () { },
+			onTimingsChange: function () { },
+			timings: [],
+			additionalLanguages: [],
+			lang: navigator.language,
+		}
+	},
 	isOverlap: function (t1, t2) {
 		return t1.start < t2.end && t1.end > t2.start
 	},
@@ -85,28 +111,11 @@ var TimingsPicker = React.createClass({
 		}
 		return new Date(sortedTimings[sortedTimings.length - 1].start);
 	},
-	getDefaultProps: function(){
-		return {
-			timeStep: 60,
-			timingStep: 10,
-			startTime: "7:00",
-			endTime: "3:00",
-			weekStartDay: 1,
-			readOnly: false,
-			onTimingClick: function () { },
-			onTimingsChange: function () { },
-			timings: [],
-			defaultTimigDuration: 60,
-			additionalLanguages: [],
-			lang: navigator.language,
-		}
-	},
 	getInitialState: function () {
 		var timingStep = this.props.timingStep;
 
 		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
-		var allMinutes = utils.minutesDifference(startTime, endTime);
 
 		var startDate = this.props.timings.length < 0 ? new Date() : this.getDateFromTimings(this.props.timings);
 
@@ -145,7 +154,7 @@ var TimingsPicker = React.createClass({
 
 		return {
 			endTime: endTime, startTime: startTime, weekStart: weekStart, weekEnd: weekEnd,
-			allMinutes: allMinutes, timings: timings, timingsIdProperty: timingsIdProperty,
+			timings: timings, timingsIdProperty: timingsIdProperty,
 			lastTimingId: _rc_id, readOnly: readOnly,
 			languages: languages, currentLanguage: currentLanguage,
 		};
@@ -225,7 +234,7 @@ var TimingsPicker = React.createClass({
 		var timings = this.state.timings.filter(function (t) {
 			return t.start >= weekStart && t.end <= weekEnd;
 		});
-		var timingsModifications = this.state.readOnly === true ? null : {
+		var timingsModifications = this.state.readOnly === true ? undefined : {
 			addTiming: this.addTiming, removeTiming: this.removeTiming, changeTiming: this.changeTiming
 		};
 		var lang = this.state.currentLanguage;
@@ -235,9 +244,8 @@ var TimingsPicker = React.createClass({
 					<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear}
 							months={lang.months.full} />
 					<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep}
-						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration}
-						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} 
-						weekdays={lang.weekdays}/>
+						timings={timings} timingStep={this.props.timingStep} defaultTimigDuration={this.props.defaultTimigDuration} weekdays={lang.weekdays}
+						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} />
 				</div>
 				{(this.state.readOnly ? undefined : <Reccurencer createReccurence={this.createReccurence} startDate={weekStart} endDate={weekEnd} strings={lang} />)}
 			</div>

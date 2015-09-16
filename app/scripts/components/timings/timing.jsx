@@ -1,10 +1,19 @@
 ﻿'use strict';
 
 var utils = require('../../utils');
+var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 
 var Timing = React.createClass({
+	propTypes:{
+		timing: React.PropTypes.object.isRequired,
+		timeProperties: propTypes.timingsTimeProperties.isRequired,
+		readOnly: React.PropTypes.bool.isRequired,
+		remove: React.PropTypes.func,
+		onEventMouseDown: React.PropTypes.func,
+		onResizerMouseDown: React.PropTypes.func
+	},
 	calculateStyles: function(){
 		var thisNode = this.getDOMNode();
 		var height = thisNode.parentNode.clientHeight;
