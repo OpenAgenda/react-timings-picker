@@ -65,7 +65,7 @@ var Calendar = React.createClass({
 
 		var date = utils.startOf(this.state.month, "month");
 
-		while (date.getDay() != 0) {
+		while (date.getDay() != this.props.weekStart) {
 			date = utils.addDays(date, -1);
 		}
 
