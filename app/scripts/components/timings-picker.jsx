@@ -9,7 +9,7 @@ var Header = require('./header/header.jsx');
 var Scheduler = require('./scheduler/scheduler.jsx');
 var Reccurencer = require('./scheduler/reccurencer.jsx');
 
-var Calendar = React.createClass({
+var TimingsPicker = React.createClass({
 	isOverlap: function (t1, t2) {
 		return t1.start < t2.end && t1.end > t2.start
 	},
@@ -245,4 +245,4 @@ var Calendar = React.createClass({
 	}
 });
 
-module.exports = Calendar;
+module.exports = TimingsPicker;

@@ -1,5 +1,5 @@
 var React = require('react');
-var Calendar = require('./components/calendar.jsx');
+var Calendar = require('./components/timings-picker.jsx');
 
 (function () {
 	'use strict';
