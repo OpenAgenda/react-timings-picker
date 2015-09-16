@@ -17,12 +17,38 @@ Utils.prototype.addDays = function (date, days) {
 	return new Date(date.getTime() + days * this.hours /*milliseconds in minute*/);
 }
 
+Utils.prototype.addMonths = function (date, months) {
+	var n = date.getDate();
+	date.setDate(1);
+	date.setMonth(date.getMonth() + months);
+	date.setDate(Math.min(n, this.daysInMonth(date.getMonth(), date.getYear())));
+	return date;
+}
+
 Utils.prototype.daysInMonth = function (month, year) {
 	return new Date(year, month, 0).getDate();
 }
 
+Utils.prototype.startOf = function (date, value) {
+	var d = this.clone(date);
+	switch (value) {
+		case "year":
+			d.setMonth(0);
+			d.setDate(1);
+			return this.setTime(d);
+		case "month":
+			d.setDate(1);
+			return this.setTime(d);
+		case "day": return this.setTime(d);
+		case "hour": return this.setTime(d, d.getHours());
+		case "minute": return this.setTime(d, d.getHours(), d.getMinutes());
+		case "second": return this.setTime(d, d.getHours(), d.getMinutes(), d.getSeconds());
+		default: return d;
+	}
+}
+
 Utils.prototype.setTime = function (date, hours, minutes, seconds, milliseconds) {
-	var result = new Date(date);
+	var result = this.clone(date);
 	result.setHours(hours || 0);
 	result.setMinutes(minutes || 0);
 	result.setSeconds(seconds || 0);
@@ -114,6 +140,10 @@ Utils.prototype.keyValueCollectionToObject = function(collection) {
 		if (collection[i] !== undefined && this.isKeyValuePair(collection[i])) rv[collection[i].key] = collection[i].value;
 	}
 	return rv;
+}
+
+Utils.prototype.clone = function (date) {
+	return new Date(date.getTime());
 }
 
 var utils = new Utils();

@@ -1,9 +1,37 @@
 @import '_mixins';
 @import '_variables.scss';
 
+.border-box {
+	@include box-sizing(border-box)
+}
+
 .rc-noselect {
-    -webkit-touch-callout: none;
-    @include user-select(none);
+	-webkit-touch-callout: none;
+	@include user-select(none);
+}
+
+.rc-icon {
+	&.rc-icon-close:after {
+		content: "\2716";
+	}
+
+	&.rc-icon-left-arrow:before {
+		@include arrow($secondaryColor, 2px, 2px, solid, -135deg);
+	}
+
+	&.rc-icon-right-arrow:before {
+		@include arrow($secondaryColor, 2px, 2px, solid, 45deg);
+	}
+}
+
+.rc-icon-wrapper {
+	position: relative;
+	height: 0.5em;
+	width: 20px;
+
+	.rc-icon {
+		@include center-absolute-position();
+	}
 }
 
 .rc-calendar {
@@ -26,30 +54,6 @@
 	a {
 		cursor: pointer;
 		color: $linkDefaultColor;
-	}
-
-	.rc-icon {
-		&.rc-icon-close:after {
-			content: "\2716";
-		}
-
-		&.rc-icon-left-arrow:before {
-			@include arrow($secondaryColor, $normalFont / 1.5, $normalFont / 1.5, 2px, 2px, solid, -135deg);
-		}
-
-		&.rc-icon-right-arrow:before {
-			@include arrow($secondaryColor, $normalFont / 1.5, $normalFont / 1.5, 2px, 2px, solid, 45deg);
-		}
-	}
-
-	.rc-icon-wrapper {
-		position: relative;
-		height: $normalFont / 2;
-		width: 20px;
-
-		.rc-icon {
-			@include center-absolute-position();
-		}
 	}
 
 	.rc-header {
@@ -282,13 +286,13 @@
 			}
 
 			.rc-day {
+				@extend .border-box;
 				border-left: 1px solid $schedulerDayBorderColor;
 				border-bottom: 1px solid $calendarBorderColor;
 				border-top: 1px solid $schedulerHeaderBackColor;
 				width: part-of($dayInWeek);
 				display: inline-block;
 				@include word-break("break-word");
-				@include box-sizing(border-box);
 				font-size: $normalFont;
 
 				&.today{
@@ -313,17 +317,6 @@
 			display: inline-block;
 		}
 
-		.datepicker__input{
-			position: relative;
-			font-size: $mediumFont;
-			border-radius: 0;
-			box-shadow: none;
-			border: 1px solid $lightGray;
-			line-height: 16px;
-			padding: 6px 10px 5px;
-			margin: 0 5px;
-		}
-
 		.rc-ok-button {
 			padding: 7px 12px;
 			background-color: $lightBlue;
@@ -341,5 +334,146 @@
 				margin-top: 5px;
 			}
 		}
+	}
+}
+
+.rc-datepicker-wrapper {
+	position: absolute;
+	display: inline-block;
+	z-index: 2147483647;
+}
+
+.rc-dp-calendar {
+	font-size: $mediumFont;
+	float:left;
+	display:block;
+	@extend .border-box;
+	background:$white;
+	width:250px;
+	border:solid 1px $calendarBorderColor;
+	margin-bottom:10px;
+	
+	$spacing:10px;
+	$icon-width:40px;
+	$header-height:40px;
+	
+	>div.rc-dp-header {
+		float:left;
+		width:100%;
+		background:$schedulerHeaderBackColor;
+		height:$header-height;
+		color:$reverseColor;
+		
+		> * { 
+			@include vertical-centre($header-height);
+		}
+		
+		>.rc-icon-wrapper {
+			float:left;
+			width:$icon-width;
+			font-weight:bold;
+			position:relative;
+			@extend .border-box;
+			padding:0 $spacing;
+			cursor:pointer;
+			> span:before{
+				border-color:$reverseColor;
+			}
+		}
+		
+		>.left {
+			text-align:left;
+		}
+		
+		>.right {
+			text-align:right;
+			margin-left:$icon-width*-1;
+		}
+		
+		>span { 
+			float:left;
+			width:100%;
+			font-weight:bold;
+			text-transform:uppercase;
+			@extend .border-box;
+			padding-left:$icon-width+$spacing;
+			margin-left:$icon-width*-1;
+			text-align:center;
+			padding-right:$icon-width;
+			color:inherit;
+		}
+	}
+	>div.rc-dp-week {
+		float:left;
+		width:100%;
+		border-top:solid 1px $calendarBorderColor;
+		
+		&:first-child {
+			border-top:none;
+		}
+		
+		>span.rc-dp-day {
+			float:left;
+			width: part-of($dayInWeek);
+			@extend .border-box;
+			border-left:solid 1px $calendarBorderColor;
+			font-size:0.75em;
+			text-align:center;
+			@include vertical-centre(26px);
+			background:$white;
+			cursor:pointer;
+			color:$black;
+			
+			&:first-child {
+				border-left:none;
+			}
+			
+			&.today {
+				background:$datepickerTodayBackColor;
+			}
+			
+			&.different-month {
+				color:$secondaryColor;
+			}
+			
+			&.selected {
+				background:$datepickerSelectedBackColor;
+				color:$reverseColor;
+			}
+
+			&:hover{
+				background-color: $datepickerHoverBackColor;
+			}
+		}
+		
+		&.rc-dp-names>span {
+			color:$primaryColor;
+			font-weight:bold;
+		}
+	}
+}
+
+.rc-datepicker.rc-dp-container {
+	position: relative;
+}
+
+.rc-dp-input {
+	position: relative;
+	font-size: $mediumFont;
+	border-radius: 0;
+	box-shadow: none;
+	border: 1px solid $lightGray;
+	line-height: 16px;
+	padding: 6px 10px 5px;
+	margin: 0 5px;
+
+	&:focus {
+		outline: none;
+		border-color: $gray;
+		box-shadow: inset 0 2px 2px $xlightGray, 0 0 10px 0 $lightGray;
+	}
+
+	&:not(:valid) ~ .close-icon {
+		display: none;
 	}
 }

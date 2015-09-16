@@ -3,10 +3,12 @@
 $white: #fff;
 $xlightGray: #eee;
 $lightGray: #ccc;
+$gray: #aaa;
 $darkGray: #666;
 $xdarkGray: #333;
 $black: #000;
 
+$xlightBlue: #E3F2FF;
 $lightBlue: #42B0E1;
 $darkblue: #3367C0;
 
@@ -71,6 +73,10 @@ $oddRowBackColor: $xlightGray;
 $evenRowBackColor: $white;
 
 $eventBackColor: $lightGray;
+
+$datepickerSelectedBackColor: $lightBlue;
+$datepickerTodayBackColor: $xlightBlue;
+$datepickerHoverBackColor: $xlightGray;
 
 $linkDefaultColor: #165979;
 

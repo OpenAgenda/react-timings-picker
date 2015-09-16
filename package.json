@@ -6,6 +6,7 @@
     "babel": "^5.5.6",
     "babel-core": "^5.8.21",
     "browser-sync": "^2.2.1",
+    "browserify": "^11.0.1",
     "connect": "^3.4.0",
     "del": "^1.1.1",
     "gulp": "^3.9.0",
@@ -25,6 +26,10 @@
     "gulp-useref": "^1.1.1",
     "main-bower-files": "^2.5.0",
     "opn": "^1.0.1",
+    "react": "^0.13.3",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "browserify-shim": "^3.8.10",
     "wiredep": "^2.2.2"
   },
   "eslintConfig": {
@@ -40,12 +45,10 @@
     }
   },
   "dependencies": {
-    "browserify": "^11.0.1",
-    "moment": "^2.10.6",
-    "react": "^0.13.3",
-    "react-datepicker": "^0.12.0",
+    "date-format-lite": "^0.7.4",
+    "lodash": "^3.10.1",
+    "react-onclickoutside": "^0.3.1",
     "react-select": "^0.6.6",
-    "reactify": "^1.1.1",
-    "vinyl-source-stream": "^1.1.0"
+    "tether": "^1.1.0"
   }
 }

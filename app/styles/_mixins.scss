@@ -165,16 +165,23 @@
 	@include translate(-50%, -50%);
 }
 
+@mixin vertical-centre ($height) {
+	height:$height;
+	line-height:$height !important;
+	display:inline-block;
+	vertical-align:middle;
+}
+
 /* #endregion positioning*/
 
 /* #region figures*/
 
-@mixin arrow($color: black, $width: 0.4em, $height: 0.4em, $leftWeight: 0.2em, $rightWeigh: 0.2em, $strokeType: solid, $angle: 0){
+@mixin arrow($color: black, $leftWeight: 0.2em, $rightWeigh: 0.2em, $strokeType: solid, $angle: 0){
 	content: "";
 	display: inline-block;
 	/* By using an em scale, the arrows will size with the font */
-	width: $width;
-	height: $height;
+	width: 0.7em;
+	height: 0.7em;
 	border-right: $rightWeigh $strokeType $color;
 	border-top: $leftWeight $strokeType $color;
 	@include rotate($angle);

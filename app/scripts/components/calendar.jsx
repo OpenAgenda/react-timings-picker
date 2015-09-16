@@ -233,7 +233,7 @@ var Calendar = React.createClass({
 			<div className="rc-calendar rc-noselect">
 				<div className="rc-calendar-body">
 					<Header startDate={weekStart} goAnotherWeek={this.goAnotherWeek} goAnotherMonth={this.goAnotherMonth} goAnotherYear={this.goAnotherYear}
-							monthes={lang.monthes} />
+							months={lang.months.full} />
 					<Scheduler ref="scheduler" startDate={weekStart} startTime={this.state.startTime} endTime={this.state.endTime} timeStep={this.props.timeStep}
 						timings={timings} timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration}
 						timingsModifications={timingsModifications} readOnly={this.state.readOnly} onTimingClick={this.props.onTimingClick} timingsIdProperty={this.state.timingsIdProperty} 

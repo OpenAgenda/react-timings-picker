@@ -1,82 +1,30 @@
 ﻿{
-		"en-US": {
-			"monthes": [
-				"January",
-				"February",
-				"March",
-				"April",
-				"May",
-				"June",
-				"July",
-				"August",
-				"September",
-				"October",
-				"November",
-				"December"
-			],
-			"weekdays": {
-				"full": [
-					"Sunday",
-					"Monday",
-					"Tuesday",
-					"Wednesday",
-					"Thursday",
-					"Friday",
-					"Saturday"
-				],
-				"short": [
-					"Su",
-					"Mo",
-					"Tu",
-					"We",
-					"Th",
-					"Fr",
-					"Sa"
-				]
-			},
-			"defineReccuringEvent": "Define a recurring event",
-			"duplicateTimingsAbove": "Duplicate the timings above",
-			"from": "from",
-			"to":  "to"
+	"en-US": {
+		"months": {
+			"full": [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+			"short": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
 		},
-		"fr-FR": {
-			"monthes": [
-				"Janvier",
-				"Février",
-				"Mars",
-				"Avril",
-				"Mai",
-				"Juin",
-				"Juillet",
-				"Août",
-				"Septembre",
-				"Octobre",
-				"Novembre",
-				"Décembre"
-			],
-			"weekdays": {
-				"full": [
-					"Dimanche",
-					"Lundi",
-					"Mardi",
-					"Mercredi",
-					"Jeudi",
-					"Vendredi",
-					"Samedi"
-				],
-				"short": [
-					"Di",
-					"Lu",
-					"Ma",
-					"Me",
-					"Je",
-					"Ve",
-					"Sa"
-				]
-			},
-			"defineReccuringEvent": "Définir un événement récurrent",
-			"duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
-			"from": "de",
-			"to":  "à"
-		}
+		"weekdays": {
+			"full": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+			"short": ["Su","Mo","Tu","We","Th","Fr","Sa"]
+		},
+		"defineReccuringEvent": "Define a recurring event",
+		"duplicateTimingsAbove": "Duplicate the timings above",
+		"from": "from",
+		"to": "to"
+	},
+	"fr-FR": {
+		"months": {
+			"full": ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
+			"short": ["Janv","Févr","Mars","Avr","Mai","Juin","Juil","Août","Sept","Oct","Nov","Déc"]
+		},
+		"weekdays": {
+			"full": ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"],
+			"short": ["Di","Lu","Ma","Me","Je","Ve","Sa"]
+		},
+		"defineReccuringEvent": "Définir un événement récurrent",
+		"duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
+		"from": "de",
+		"to": "à"
+	}
 }

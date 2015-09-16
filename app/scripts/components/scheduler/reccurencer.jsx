@@ -1,18 +1,17 @@
 ﻿'use strict';
 
-var moment = require('moment');
 var React = require('react');
-var DatePicker = require('react-datepicker');
+var DatePicker = require('../datepicker/datepicker.jsx');
 
 var Reccurencer = React.createClass({
 	createReccurences: function () {
 		this.props.createReccurence(this.state.startDate, this.state.endDate);
 	},
-	onReccurenceStartChange: function(m){
-		this.setState({ startDate: m.toDate() });
+	onReccurenceStartChange: function(date){
+		this.setState({ startDate: date });
 	},
-	onReccurenceEndChange: function(m){
-		this.setState({ endDate: m.toDate() });
+	onReccurenceEndChange: function(date){
+		this.setState({ endDate: date });
 	},
 	toggleDatePickers: function () {
 		this.setState({ createReccurence: !this.state.createReccurence });
@@ -31,8 +30,8 @@ var Reccurencer = React.createClass({
 		if (this.state.createReccurence == true) {
 			result = (<div>
 				{strings.duplicateTimingsAbove} {strings.from}
-				<DatePicker selected={moment(this.state.startDate)} onChange={this.onReccurenceStartChange} /> {strings.to}
-				<DatePicker selected={moment(this.state.endDate)} onChange={this.onReccurenceEndChange}/>
+				<DatePicker selected={this.state.startDate} onChange={this.onReccurenceStartChange} weekdays={strings.weekdays.short} months={strings.months}/> {strings.to}
+				<DatePicker selected={this.state.endDate} onChange={this.onReccurenceEndChange} weekdays={strings.weekdays.short} months={strings.months}/>
 				<a className="rc-ok-button" onClick={this.createReccurences}>OK</a>
 			</div>);
 		}

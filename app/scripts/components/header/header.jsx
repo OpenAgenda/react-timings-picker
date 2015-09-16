@@ -10,9 +10,9 @@ var Header = React.createClass({
 
 		var goAnotherWeek = this.props.goAnotherWeek, goAnotherMonth = this.props.goAnotherMonth,
 			goAnotherYear = this.props.goAnotherYear;
-		var monthes = [];
-		for (var i = 0; i < this.props.monthes.length; i++) {
-			monthes.push({ value: i, label: this.props.monthes[i] });
+		var months = [];
+		for (var i = 0; i < this.props.months.length; i++) {
+			months.push({ value: i, label: this.props.months[i] });
 		}
 		var years = [];
 		var currentYear = new Date().getFullYear();
@@ -28,7 +28,7 @@ var Header = React.createClass({
 				</div>
 				<div className="rc-options">
 					<div className="rc-month">
-						<Select options={monthes} value={this.props.startDate.getMonth()} onChange={this.props.goAnotherMonth}
+						<Select options={months} value={this.props.startDate.getMonth()} onChange={this.props.goAnotherMonth}
 							searchable={false} clearable={false}/>
 					</div>
 					<div className="rc-years">
