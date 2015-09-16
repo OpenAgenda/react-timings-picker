@@ -1,0 +1,14 @@
+﻿{
+	"ecmaFeatures": {
+		"jsx": true
+	},
+	"rules": {
+		"eol-last": 0,
+		"no-alert": 0,
+		"no-lone-blocks": 0,
+		"no-trailing-spaces": 0,
+		"no-underscore-dangle": 0,
+		"no-unused-vars": 0,
+		"quotes": 0
+	}
+}

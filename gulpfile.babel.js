@@ -31,40 +31,19 @@ gulp.task('styles', () =>
 		.pipe(reload({ stream: true }));
 });
 
-function lint(files, options)
+function lint(files)
 {
 	return () =>
 	{
 		return gulp.src(files)
 			.pipe(reload({ stream: true, once: true }))
-			.pipe($.eslint(options))
+			.pipe($.eslint({ config: 'eslint.config.json' }))
 			.pipe($.eslint.format())
 			.pipe($.if(!browserSync.active, $.eslint.failAfterError()));
 	};
 }
 
-const lintOptions =
-{
-	rules: {
-		'eol-last': 0
-	}
-}
-
-const testLintOptions =
-{
-	env: {
-		jasmine: true
-	},
-	globals: {
-		assert: false,
-		expect: false,
-		should: false,
-		React: false
-	}
-};
-
-gulp.task('lint', lint('app/scripts/**/*.js', lintOptions));
-gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
+gulp.task('lint', lint(['app/scripts/**/*.js', 'app/scripts/**/*.jsx']));
 
 gulp.task('html', ['styles'], () =>
 {
