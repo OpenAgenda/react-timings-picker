@@ -1,13 +1,6 @@
 // bower:scss
 // endbower
 
-@import '_mixins';
-
-@include font-face(Roboto-Bold, "../fonts/Roboto-Bold", 800, bold, eot woff2 woff);
-@include font-face(Roboto-Light, "../fonts/Roboto-Light", 300, normal, eot woff2 woff);
-@include font-face(Roboto-Regular, "../fonts/Roboto-Regular", 400, bolder, eot woff2 woff);
-@include font-face(Roboto-Thin, "../fonts/Roboto-Thin", 100, lighter, eot woff2 woff);
-
 body {
 	background: #fafafa;
 	font-family: Helvetica, Arial, sans-serif;

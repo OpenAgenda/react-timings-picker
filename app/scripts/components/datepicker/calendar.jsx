@@ -4,10 +4,11 @@ var React = require("react");
 var utils = require("../../utils");
 var propTypes = require("../../utils/propTypes");
 var Week = require("./week.jsx");
+var onClickOutside = require("react-onclickoutside");
 require("date-format-lite");
 
 var Calendar = React.createClass({
-	mixins: [require("react-onclickoutside")],
+	mixins: [onClickOutside],
 	handleClickOutside: function () {
 		this.props.hideCalendar();
 	},

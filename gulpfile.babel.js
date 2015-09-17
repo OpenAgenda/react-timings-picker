@@ -6,6 +6,7 @@ import del from 'del';
 import {stream as wiredep} from 'wiredep';
 import browserify from 'browserify';
 import reactify from 'reactify';
+import buffer from 'vinyl-buffer';
 import source from 'vinyl-source-stream';
 
 const webServerPort = 9000;
@@ -15,7 +16,7 @@ const reload = browserSync.reload;
 
 gulp.task('styles', () =>
 {
-	return gulp.src(['app/styles/*.scss', 'app/styles/vendors/*.css'])
+	return gulp.src(['app/styles/*.scss', 'app/styles/component/*.scss', 'app/styles/vendors/*.css'])
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass.sync
@@ -26,10 +27,30 @@ gulp.task('styles', () =>
 		}).on('error', $.sass.logError))
 		.pipe($.autoprefixer({ browsers: ['ie >= 9', 'firefox >= 24', 'chrome >= 33', 'safari >= 5', 'ios_saf 5'] }))
 		.pipe($.sourcemaps.write())
-		.pipe(gulp.dest('dist/styles'))
 		.pipe(gulp.dest('.tmp/styles'))
 		.pipe(reload({ stream: true }));
 });
+
+gulp.task('styles:dist', () =>
+{
+	return gulp.src(['app/styles/component/*.scss', 'app/styles/vendors/*.css'])
+		.pipe($.plumber())
+		.pipe($.sourcemaps.init())
+		.pipe($.sass.sync
+		({
+			outputStyle: 'expanded',
+			precision: 10,
+			includePaths: ['.']
+		}).on('error', $.sass.logError))
+		.pipe($.autoprefixer({ browsers: ['ie >= 9', 'firefox >= 24', 'chrome >= 33', 'safari >= 5', 'ios_saf 5'] }))
+		.pipe($.sourcemaps.write())
+		.pipe($.concat("react-timings-picker.css"))
+		.pipe(gulp.dest('dist/styles'))
+		.pipe($.minifyCss({ compatibility: '*' }))
+		.pipe($.rename({ suffix: '.min' }))
+		.pipe(gulp.dest('dist/styles'));
+});
+
 
 function lint(files)
 {
@@ -56,7 +77,7 @@ gulp.task('html', ['styles'], () =>
 		.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe($.if('*.html', $.minifyHtml({ conditionals: true, loose: true })))
-		.pipe(gulp.dest('dist'));
+		.pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('images', () =>
@@ -83,20 +104,27 @@ gulp.task('fonts', () =>
 		.pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('extras', () =>
-{
-	return gulp.src(['app/*.*', '!app/*.html'], { dot: true })
-		.pipe(gulp.dest('dist'));
-});
-
 gulp.task('react', () => {
-	return browserify("app/scripts/main.jsx")
+	return browserify("app/scripts/main.jsx", { debug: true })
 		.transform(reactify)
 		.bundle()
 		.on('error', console.error.bind(console))
 		.pipe(source('bundle.js'))
-		.pipe(gulp.dest('dist/scripts'))
 		.pipe(gulp.dest('.tmp/scripts'));
+});
+
+gulp.task('react:dist', () => {
+	return browserify("app/scripts/components/timings-picker.jsx")
+		.transform(reactify)
+		.transform('browserify-shim')
+		.bundle()
+		.on('error', console.error.bind(console))
+		.pipe(source('react-timings-picker.js'))
+		.pipe(buffer())
+		.pipe(gulp.dest('dist/scripts'))
+		.pipe($.uglify())
+		.pipe($.rename({ suffix: '.min' }))
+		.pipe(gulp.dest('dist/scripts'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
@@ -172,7 +200,12 @@ gulp.task('wiredep', () =>
 		.pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras', 'react'], () =>
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'styles', 'react'], () =>
+{
+	return gulp.src('dist/**/*').pipe($.size({ title: 'build', gzip: true }));
+});
+
+gulp.task('build:dist', ['lint', 'html', 'images', 'fonts', 'styles:dist', 'react:dist'], () =>
 {
 	return gulp.src('dist/**/*').pipe($.size({ title: 'build', gzip: true }));
 });
