@@ -104,18 +104,16 @@ gulp.task('fonts', () =>
 		.pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('react', () => {
-	return browserify("app/scripts/main.jsx", { debug: true })
-		.transform(reactify)
+gulp.task('react', ["react:lib"], () => {
+	return browserify("lib/scripts/main.js", { debug: true })
 		.bundle()
 		.on('error', console.error.bind(console))
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('.tmp/scripts'));
 });
 
-gulp.task('react:dist', () => {
-	return browserify("app/scripts/components/timings-picker.jsx")
-		.transform(reactify)
+gulp.task('react:dist', ["react:lib"], () => {
+	return browserify("lib/scripts/components/timings-picker.js")
 		.transform('browserify-shim')
 		.bundle()
 		.on('error', console.error.bind(console))
@@ -127,7 +125,14 @@ gulp.task('react:dist', () => {
 		.pipe(gulp.dest('dist/scripts'));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task("react:lib", () => {
+	gulp.src("app/locales/**/*.json").pipe(gulp.dest("lib/locales"));
+	return gulp.src(["app/scripts/**/*.jsx", "app/scripts/**/*.js"])
+		.pipe($.react())
+		.pipe(gulp.dest("lib/scripts"));
+});
+
+gulp.task('clean', del.bind(null, ['.tmp', 'dist', "lib"]));
 
 gulp.task('serve', ['styles', 'fonts', 'react'], () =>
 {

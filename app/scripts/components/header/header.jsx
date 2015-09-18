@@ -1,4 +1,4 @@
-﻿var utils = require('../../utils');
+﻿var utils = require('../../utils/utils');
 var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
