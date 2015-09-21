@@ -22,7 +22,7 @@ var DateInput = React.createClass({
 		return {
 			onBlur: function () { },
 			onFocus: function () { },
-			dateFormat: "YYYY-MM-DD",
+			dateFormat: "DD-MM-YYYY",
 			className: "rc-dp-input",
 		};
 	},

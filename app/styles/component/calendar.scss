@@ -10,6 +10,14 @@
 	@include user-select(none);
 }
 
+.rc-error{
+		color: $error;
+	}
+
+	.rc-success{
+		color: $success;
+	}
+
 .rc-icon {
 	&.rc-icon-close:after {
 		content: "\2716";
@@ -212,12 +220,8 @@
 				}
 
 				.rc-event-icon {
-					width: 12px;
-					height: 12px;
-					font-size: 12px;
-					position: absolute;
-					right: 2px;
-					top: 2px;
+					@include right-top-corner();
+					font-size: $smallFont;
 					cursor: pointer;
 				}
 			}
@@ -270,6 +274,7 @@
 	.rc-reccurencer {
 		margin-top: 10px;
 		font-size: $mediumFont;
+		position: relative;
 
 		div {
 			display: inline-block;
@@ -279,6 +284,11 @@
 			padding: 7px 12px;
 			background-color: $lightBlue;
 			color: #fff;
+		}
+
+		.rc-message-close{
+			@include right-top-corner(0, 2px);
+			cursor: pointer;
 		}
 	}
 }

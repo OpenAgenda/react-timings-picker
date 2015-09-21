@@ -37,8 +37,8 @@ var Reccurencer = React.createClass({
 		if (this.state.createReccurence == true) {
 			result = (<div>
 				{strings.duplicateTimingsAbove} {strings.from}
-				<DatePicker selected={this.state.startDate} onChange={this.onReccurenceStartChange} weekdays={strings.weekdays.short} months={strings.months}/> {strings.to}
-				<DatePicker selected={this.state.endDate} onChange={this.onReccurenceEndChange} weekdays={strings.weekdays.short} months={strings.months}/>
+				<DatePicker selected={this.state.startDate} onChange={this.onReccurenceStartChange} weekdays={strings.weekdays.short} months={strings.months} dateFormat={this.props.dateFormat}/> {strings.to}
+				<DatePicker selected={this.state.endDate} onChange={this.onReccurenceEndChange} weekdays={strings.weekdays.short} months={strings.months} dateFormat={this.props.dateFormat}/>
 				<a className="rc-ok-button" onClick={this.createReccurences}>OK</a>
 			</div>);
 		}
@@ -47,7 +47,7 @@ var Reccurencer = React.createClass({
 		}
 
 		return (
-			<div className="rc-reccurencer">
+			<div>
 				{result}
 			</div>
 			);

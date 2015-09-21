@@ -11,7 +11,9 @@
 		"defineReccuringEvent": "Define a recurring event",
 		"duplicateTimingsAbove": "Duplicate the timings above",
 		"from": "from",
-		"to": "to"
+		"to": "to",
+		"recurrenceAddedSuccessfully": "Recurring timings hav been added",
+		"timingsPreventRecurring":  "The following timings prevent the creation of the recurrence"
 	},
 	"fr-FR": {
 		"months": {
@@ -25,6 +27,8 @@
 		"defineReccuringEvent": "Définir un événement récurrent",
 		"duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
 		"from": "de",
-		"to": "à"
+		"to": "à",
+		"recurrenceAddedSuccessfully": "Recurring timings hav been added",
+		"timingsPreventRecurring":  "The following timings prevent the creation of the recurrence"
 	}
 }

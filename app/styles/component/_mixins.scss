@@ -172,6 +172,14 @@
 	vertical-align:middle;
 }
 
+@mixin right-top-corner ($top: 2px, $right: 2px, $width: auto, $height: auto){
+	width: $height;
+	height: $width;
+	position: absolute;
+	right: $right;
+	top: $top;
+}
+
 /* #endregion positioning*/
 
 /* #region figures*/
