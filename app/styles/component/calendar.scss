@@ -42,10 +42,6 @@
 	color: $primaryColor;
 	background-color: $calendarBackColor;
 
-	@include respond-to(small) {
-		font-size: $mediumFont;
-	}
-
 	.rc-calendar-body {
 		border: 1px solid #DCDCDC;
 		border-bottom: none;
@@ -133,10 +129,6 @@
 		.rc-years {
 			@include selectbox-wrapper(75px);
 		}
-
-		@include respond-to(small) {
-			font-size: $normalFont;
-		}
 	}
 
 	.rc-scheduler {
@@ -151,20 +143,6 @@
 			padding: 15px 0;
 			@include text-overflow(ellipsis);
 			white-space: nowrap;
-
-			&.small {
-				display: none;
-			}
-
-			@include respond-to(medium) {
-				&.small {
-					display: block;
-				}
-
-				&.big {
-					display: none;
-				}
-			}
 		}
 
 		.rc-day-cell {
@@ -191,9 +169,8 @@
 				left: 1px;
 
 				.rc-time {
-					$timeMarginTop: 4px;
-					padding-right: 16px;
-					margin-top: $timeMarginTop;
+					margin-right: 16px;
+					margin-top: 4px;
 					height: 1.1em;
 					overflow: hidden;
 					white-space: nowrap;
@@ -201,16 +178,6 @@
 					color: $xdarkGray;
 					font-weight: bolder;
 					text-align: center;
-
-					@include respond-to(small) {
-						& > span:not(.start){
-							display: none;
-						}
-
-						&.rc-readonly {
-							margin-top: $timeMarginTop;
-						}
-					}
 				}
 
 				.rc-icon-close{
@@ -269,21 +236,12 @@
 
 			width: $timetableWidth;
 			min-width: $timetableMinWidth;
-
-			@include respond-to(large) {
-				width: $timetableSmallWidth;
-				min-width: $timetableMinSmallWidth;
-			}
 		}
 
 		.rc-days {
 			margin-left: $timetableWidth;
 			position: relative;
 			font-size: 0;
-
-			@include respond-to(large) {
-				margin-left: $timetableSmallWidth;
-			}
 
 			.rc-day {
 				@extend .border-box;
@@ -321,18 +279,6 @@
 			padding: 7px 12px;
 			background-color: $lightBlue;
 			color: #fff;
-		}
-
-		@include respond-to(medium) {
-			div {
-				display: block;
-				margin: 5px 0;
-			}
-
-			.rc-ok-button {
-				display: inline-block;
-				margin-top: 5px;
-			}
 		}
 	}
 }

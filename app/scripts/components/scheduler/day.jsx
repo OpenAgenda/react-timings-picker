@@ -200,8 +200,7 @@ var Day = React.createClass({
 
 		return (
 			<div className={'rc-day'+extraClassName} onMouseDown={this.onDayMouseDown}>
-				<div className="rc-day-header big">{weekdays.full}</div>
-				<div className="rc-day-header small">{weekdays.short}</div>
+				<div className="rc-day-header">{weekdays.short}</div>
 				<div className="rc-day-time" data-date={this.props.dayStartTime.toDateString()}>
 					{timeCells}
 					{timingsComponents}
