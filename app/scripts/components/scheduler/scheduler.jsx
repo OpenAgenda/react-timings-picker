@@ -150,7 +150,7 @@ var Scheduler = React.createClass({
 		var parent = e.target.parentNode;
 		parent.appendChild(target);
 
-		var dragStep = parent.clientHeight * this.props.timingStep / this.state.allMinutes,
+		var dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
 			initialY = e.clientY, minDragY = initialY - target.offsetTop,
 			maxDragY = minDragY + parent.clientHeight - target.clientHeight,
 			initialTop = parseInt(target.style.top.replace('px'));
@@ -207,7 +207,7 @@ var Scheduler = React.createClass({
 		var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
 		var target = e.target.parentNode, parent = target.parentNode, initialY = scrollTop + e.clientY,
-			dragStep = parent.clientHeight * this.props.timingStep / this.state.allMinutes,
+			dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
 			minDragY = initialY - (target.clientHeight - e.target.clientHeight),
 			maxDragY = nearestOffsetTop - dragStep,
 			initialHeight = target.clientHeight, initialTop = utils.pageOffset(target).top;
@@ -302,8 +302,7 @@ var Scheduler = React.createClass({
 	},
 	getInitialState: function () {
 		return {
-			userActionValues: this.getDefaultUserActionValues(), forceUpdate: null, 
-			allMinutes: utils.minutesDifference(this.props.startTime, this.props.endTime)
+			userActionValues: this.getDefaultUserActionValues(), forceUpdate: null
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
@@ -336,7 +335,7 @@ var Scheduler = React.createClass({
 		var days = [];
 		startTime = this.props.startTime;
 		var dayStartTime = utils.setTime(this.props.startDate, startTime.getHours(), startTime.getMinutes(), 0, 0);
-		var dayEndTime = utils.addMinutes(dayStartTime, this.state.allMinutes);
+		var dayEndTime = utils.addMinutes(dayStartTime, this.props.allMinutes);
 		var timingsModifications = this.props.readOnly === true ? undefined : {
 			addTiming: this.props.timingsModifications.addTiming, removeTiming: this.props.timingsModifications.removeTiming,
 		}
@@ -352,7 +351,7 @@ var Scheduler = React.createClass({
 			var weekdays = { full: this.props.weekdays.full[dayStartTime.getDay()], short: this.props.weekdays.short[dayStartTime.getDay()] }
 
 			days.push(<Day key={i} dayStartTime={dayStartTime} dayEndTime={dayEndTime} timeCells={times.length} timeStep={step} timings={currentDayTimings} 
-						timingStep={this.props.timingStep} allMinutes={this.state.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
+						timingStep={this.props.timingStep} allMinutes={this.props.allMinutes} defaultTimigDuration={this.props.defaultTimigDuration} 
 						timingsModifications={timingsModifications} timingsIdProperty={this.props.timingsIdProperty} timingsInteractions={timingsInteractions}
 						readOnly={this.props.readOnly} weekdays={weekdays}/>);
 			dayStartTime = utils.addDays(dayStartTime, 1) /*set next day */
