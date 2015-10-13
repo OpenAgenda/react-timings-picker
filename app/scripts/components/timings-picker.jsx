@@ -53,14 +53,17 @@ var TimingsPicker = React.createClass({
 		return true;
 	},
 	getEdgeTimingsValues: function () {
-		var timings = this.state.timings,
-			earliest = new Date(timings[0].start),
-			latest = new Date(timings[0].end);
-		timings.forEach(function (t) {
-			if (t.start < earliest) earliest = t.start;
-			if (t.end > latest) latest = t.end;
-		});
-		return { earliestTimingStart: earliest, latestTimingEnd: latest };
+		var timings = this.state.timings;
+		if (timings.length > 0) {
+			var earliest = new Date(timings[0].start),
+				latest = new Date(timings[0].end);
+			timings.forEach(function (t) {
+				if (t.start < earliest) earliest = t.start;
+				if (t.end > latest) latest = t.end;
+			});
+			return { earliestTimingStart: earliest, latestTimingEnd: latest };
+		}
+		return { earliestTimingStart: new Date(), latestTimingEnd: new Date() };
 	},
 	checkAndUpdateEdgeTimingsValues: function (newTiming) {
 		var earliest = this.state.earliestTimingStart,
@@ -158,7 +161,28 @@ var TimingsPicker = React.createClass({
 		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
 
-		var startDate = this.props.timings.length < 0 ? new Date() : this.getDateFromTimings(this.props.timings);
+		var startDate = new Date(),
+			earliestTimingStart = startDate,
+			latestTimingEnd = startDate,
+			timings = [];
+		if (this.props.timings.length > 0) {
+			startDate = this.getDateFromTimings(this.props.timings);
+			earliestTimingStart = new Date(this.props.timings[0].start);
+			latestTimingEnd = new Date(this.props.timings[0].end);
+
+			var setSecondsToZero = function (date) { date.setSeconds(0); date.setMilliseconds(0); return date };
+			timings = this.props.timings.map(function (t) {
+				var result = {
+					start: setSecondsToZero(utils.roundMinutes(new Date(t.start), timingStep)),
+					end: setSecondsToZero(utils.roundMinutes(new Date(t.end), timingStep)),
+					originalTiming: t,
+				};
+				result[timingsIdProperty] = _rc_id++;
+				if (earliestTimingStart > result.start) earliestTimingStart = result.start;
+				if (latestTimingEnd < result.end) latestTimingEnd = result.end;
+				return result;
+			});
+		}
 
 		while (startDate.getDay() != this.props.weekStartDay) {
 			startDate = utils.addDays(startDate, -1);
@@ -167,22 +191,6 @@ var TimingsPicker = React.createClass({
 			weekEnd = utils.setTime(utils.addDays(weekStart, 7), endTime.getHours(), endTime.getMinutes());
 
 		var timingsIdProperty = "_rc_id", _rc_id = 0;
-
-		var setSecondsToZero = function (date) { date.setSeconds(0); date.setMilliseconds(0); return date };
-
-		var earliestTimingStart = new Date(this.props.timings[0].start), latestTimingEnd = new Date(this.props.timings[0].end);
-
-		var timings = this.props.timings.map(function (t) {
-			var result = {
-				start: setSecondsToZero(utils.roundMinutes(new Date(t.start), timingStep)),
-				end: setSecondsToZero(utils.roundMinutes(new Date(t.end), timingStep)),
-				originalTiming: t,
-			};
-			result[timingsIdProperty] = _rc_id++;
-			if (earliestTimingStart > result.start) earliestTimingStart = result.start;
-			if (latestTimingEnd < result.end) latestTimingEnd = result.end;
-			return result;
-		});
 
 		var readOnly = this.props.readOnly.toString() === 'true';
 
