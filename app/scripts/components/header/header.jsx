@@ -51,7 +51,7 @@ var Header = React.createClass({
 							searchable={false} clearable={false}/>
 					</div>
 					<div className="rc-years">
-						<Select options={years} value={currentYear} onChange={this.props.goAnotherYear} clearable={false} allowCreate={true}
+						<Select options={years} value={currentYear} onChange={this.props.goAnotherYear} clearable={false}
 								newOptionCreator={this.optionsCreator}/>
 					</div>
 				</div>
