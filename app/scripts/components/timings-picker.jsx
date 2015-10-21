@@ -211,11 +211,12 @@ var TimingsPicker = React.createClass({
 			timings: timings, timingsIdProperty: timingsIdProperty,
 			lastTimingId: _rc_id, readOnly: readOnly,
 			languages: languages, currentLanguage: currentLanguage,
-			isRecurrenceAdded: undefined, overlaps: [],
+			isRecurrenceAdded: null, overlaps: [],
 			earliestTimingStart: earliestTimingStart, latestTimingEnd: latestTimingEnd
 		};
 	},
 	shouldComponentUpdate: function (nextProps, nextState) {
+		if (nextState.isRecurrenceAdded !== this.state.isRecurrenceAdded) return true;
 		if (nextState.earliestTimingStart.toISOString() != this.state.earliestTimingStart.toISOString() ||
 			nextState.latestTimingEnd.toISOString() != this.state.latestTimingEnd.toISOString()) {
 			return false;
@@ -292,7 +293,7 @@ var TimingsPicker = React.createClass({
 		else {
 			this.addTimings(timingsToReccurence);
 			this.setState({ isRecurrenceAdded: true });
-			setTimeout((function () { this.setState({ isRecurrenceAdded: undefined }) }).bind(this), 3000);
+			setTimeout((function () { this.setState({ isRecurrenceAdded: null }) }).bind(this), 3000);
 		}
 	},
 	render: function () {
