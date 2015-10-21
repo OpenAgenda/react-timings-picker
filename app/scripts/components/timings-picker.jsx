@@ -164,7 +164,9 @@ var TimingsPicker = React.createClass({
 		var startDate = new Date(),
 			earliestTimingStart = startDate,
 			latestTimingEnd = startDate,
-			timings = [];
+			timings = [],
+			timingsIdProperty = "_rc_id",
+			_rc_id = 0;
 		if (this.props.timings.length > 0) {
 			startDate = this.getDateFromTimings(this.props.timings);
 			earliestTimingStart = new Date(this.props.timings[0].start);
@@ -189,8 +191,6 @@ var TimingsPicker = React.createClass({
 		}
 		var weekStart = utils.setTime(startDate, startTime.getHours(), startTime.getMinutes()),
 			weekEnd = utils.setTime(utils.addDays(weekStart, 7), endTime.getHours(), endTime.getMinutes());
-
-		var timingsIdProperty = "_rc_id", _rc_id = 0;
 
 		var readOnly = this.props.readOnly.toString() === 'true';
 
