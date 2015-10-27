@@ -12,7 +12,7 @@
 		"duplicateTimingsAbove": "Duplicate the timings above",
 		"from": "from",
 		"to": "to",
-		"recurrenceAddedSuccessfully": "Recurring timings hav been added",
+		"recurrenceAddedSuccessfully": "Recurring timings have been added",
 		"timingsPreventRecurring":  "The following timings prevent the creation of the recurrence"
 	},
 	"fr-FR": {
@@ -28,7 +28,7 @@
 		"duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
 		"from": "de",
 		"to": "à",
-		"recurrenceAddedSuccessfully": "Recurring timings hav been added",
-		"timingsPreventRecurring":  "The following timings prevent the creation of the recurrence"
+		"recurrenceAddedSuccessfully": "Timings récurrents ont été ajoutés",
+		"timingsPreventRecurring":  "Les horaires suivants empêchent la création de la récidive"
 	}
 }
