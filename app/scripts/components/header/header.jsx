@@ -1,58 +1,136 @@
-﻿var utils = require('../../utils/utils');
-var propTypes = require("../../utils/propTypes");
+﻿var utils = require('../../utils/utils'),
 
-var React = require('react');
-var Select = require('react-select');
+propTypes = require( '../../utils/propTypes' ),
 
-var Header = React.createClass({
+React = require( 'react' ),
+
+Select = require( 'react-select' ),
+
+Header = React.createClass({
+
 	propTypes: {
 		startDate: propTypes.date.isRequired,
 		goAnotherWeek: React.PropTypes.func.isRequired,
 		goAnotherMonth: React.PropTypes.func.isRequired,
 		goAnotherYear: React.PropTypes.func.isRequired,
 		months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-		earliestYear: React.PropTypes.number.isRequired,
-		latestYear: React.PropTypes.number.isRequired
+		earliestTimingStart: React.PropTypes.number.isRequired,
+		latestTimingEnd: React.PropTypes.number.isRequired
 	},
-	optionsCreator: function (value) {
-		var val = parseInt(value);
-		return { value: val, label: val.toString(), create: true };
-	},
-	render: function () {
-		var startDay = this.props.startDate.getDate();
-		var endDay = utils.addDays(this.props.startDate, 7 /*days in a week*/).getDate();
 
-		var goAnotherWeek = this.props.goAnotherWeek;
+	onChangeTimeout: false,
+
+	onChange: function( value ) {
+
+		var year, self = this;
+
+		clearTimeout( this.onChangeTimeout );
+
+		try {
+
+			year = parseInt( value, 10 );
+
+			if ( isNaN( year ) ) throw 'not a number';
+
+		} catch ( e ) {
+
+			return;
+
+		}
+
+		if ( this.isInOptions( year ) ) {
+
+			this.props.goAnotherYear( year );
+
+		} else {
+
+			this.onChangeTimeout = setTimeout( function() {
+
+				self.props.goAnotherYear( year );
+
+			}, 1000 );
+
+		}
+
+	},
+
+	getYearOptions: function() {
+
+		var years = [], i,
+
+		currentYear = this.props.startDate.getFullYear(),
+
+		minDdYearsDiff = 5,
+
+		firstOption, lastOption;
+
+		for ( i = currentYear; i <= currentYear + 5; i++ ) {
+
+			years.push({
+				value: i, 
+				label: i.toString()
+			});
+
+		}
+
+		return years;
+
+	},
+
+	isInOptions: function( year ) {
+
+		var years = this.getYearOptions(), is = false;
+
+		years.forEach( function( y ) {
+
+			if ( y.value == year ) is = true;
+
+		});
+
+		return is;
+
+	},
+
+	render: function () {
+
+		var startDay = this.props.startDate.getDate();
+
+		var endDay = utils.addDays( this.props.startDate, 7 /*days in a week*/ ).getDate();
+
 		var months = [];
-		for (var i = 0; i < this.props.months.length; i++) {
-			months.push({ value: i, label: this.props.months[i] });
+
+		for ( var i = 0; i < this.props.months.length; i++ ) {
+
+			months.push({
+				value: i,
+				label: this.props.months[i]
+			});
+
 		}
-		var years = [],
-			earliestYear = this.props.earliestYear,
-			latestYear = this.props.latestYear;
-		var currentYear = this.props.startDate.getFullYear(),
-			todaysYear = new Date().getFullYear(),
-			minDdYearsDiff = 5/*see specs*/;
-		var ddStartYear = currentYear > earliestYear ? earliestYear : currentYear,
-			ddEndYear = todaysYear + minDdYearsDiff < latestYear ? latestYear : todaysYear + minDdYearsDiff;
-		for (var i = ddStartYear; i <= ddEndYear; i++) {
-			years.push({value: i, label: i.toString()});
-		}
+
 		return (
 			<div className="rc-header">
 				<div className="rc-week">
-					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={goAnotherWeek.bind(null,false)}></span></div>
+					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
 					<span className="rc-date">{startDay}-{endDay}</span>
-					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={goAnotherWeek.bind(null,true)}></span></div>
+					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
 				</div>
 				<div className="rc-options">
 					<div className="rc-month">
-						<Select options={months} value={this.props.startDate.getMonth()} onChange={this.props.goAnotherMonth}
-							searchable={false} clearable={false}/>
+						<Select
+						  options={months}
+						  value={this.props.startDate.getMonth()}
+						  onChange={this.props.goAnotherMonth}
+							searchable={false}
+							clearable={false} />
 					</div>
 					<div className="rc-years">
-						<Select options={years} value={currentYear} onChange={this.props.goAnotherYear} clearable={false}
-								newOptionCreator={this.optionsCreator}/>
+						<Select
+						  options={this.getYearOptions()}
+						  value={this.props.startDate.getFullYear()}
+						  clearable={false}
+						  onChange={this.onChange}
+						  onInputChange={this.onChange} />
 					</div>
 				</div>
 			</div>
