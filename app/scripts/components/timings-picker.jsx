@@ -9,7 +9,9 @@ var i18n = require('../../locales/locales.json');
 
 var Header = require('./header/header');
 var Scheduler = require('./scheduler/scheduler');
-var Reccurencer = require('./scheduler/reccurencer');
+var Recurrencer = require('./scheduler/recurrencer');
+
+var Stats = require( './stats/stats' );
 
 var TimingsPicker = React.createClass({
 	propTypes: {
@@ -219,11 +221,16 @@ var TimingsPicker = React.createClass({
 			weekStart: weekStart,
 			weekEnd: weekEnd,
 			allMinutes: utils.minutesDifference(startTime, endTime),
-			timings: timings, timingsIdProperty: timingsIdProperty,
-			lastTimingId: _rc_id, readOnly: readOnly,
-			languages: languages, currentLanguage: currentLanguage,
-			isRecurrenceAdded: null, overlaps: [],
-			earliestTimingStart: earliestTimingStart, latestTimingEnd: latestTimingEnd
+			timings: timings,
+			timingsIdProperty: timingsIdProperty,
+			lastTimingId: _rc_id,
+			readOnly: readOnly,
+			languages: languages, 
+			currentLanguage: currentLanguage,
+			isRecurrenceAdded: null,
+			overlaps: [],
+			earliestTimingStart: earliestTimingStart,
+			latestTimingEnd: latestTimingEnd
 		};
 	},
 
@@ -375,13 +382,21 @@ var TimingsPicker = React.createClass({
 				</div>;
 			}
 			else {
-				bottompart = <Reccurencer createRecurrence={this.createRecurrence} startDate={weekStart} endDate={weekEnd} strings={lang} dateFormat={this.props.dateFormat} />;
+				bottompart = <Recurrencer
+				  createRecurrence={this.createRecurrence}
+				  startDate={weekStart}
+				  endDate={weekEnd}
+				  strings={lang}
+				  dateFormat={this.props.dateFormat} />;
 			}
 		}
 
 		return (
 			<div className="rc-calendar rc-noselect">
 				<div className="rc-calendar-body">
+					<Stats
+					  timings={timings}
+					  strings={lang} />
 					<Header
 					  startDate={weekStart}
 					  goAnotherWeek={this.goAnotherWeek}

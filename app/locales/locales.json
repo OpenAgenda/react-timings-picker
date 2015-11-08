@@ -8,6 +8,10 @@
 			"full": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			"short": ["Su","Mo","Tu","We","Th","Fr","Sa"]
 		},
+		"oneTiming" : "On timing is defined on the %date%",
+		"severalTimingsSameDay" : "%count% timings are defined on the %date%",
+		"severalTimings" : "%count% timings are defined between the %start% and the %end%",
+		"howTo" : "Add and modify timings",
 		"defineReccuringEvent": "Define a recurring event",
 		"duplicateTimingsAbove": "Duplicate the timings above",
 		"from": "from",
@@ -18,17 +22,21 @@
 	"fr-FR": {
 		"months": {
 			"full": ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
-			"short": ["Janv","Févr","Mars","Avr","Mai","Juin","Juil","Août","Sept","Oct","Nov","Déc"]
+			"short": ["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Aoû","Sep","Oct","Nov","Déc"]
 		},
 		"weekdays": {
 			"full": ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"],
 			"short": ["Di","Lu","Ma","Me","Je","Ve","Sa"]
 		},
+		"oneTiming" : "Un horaire est défini le %date%",
+		"severalTimingsSameDay" : "%count% horaires sont définis le %date%",
+		"severalTimings" : "%count% horaires sont définis du %start% au %end%",
+		"howTo" : "Ajoutez et modifiez des horaires",
 		"defineReccuringEvent": "Définir un événement récurrent",
 		"duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
-		"from": "de",
-		"to": "à",
-		"recurrenceAddedSuccessfully": "Timings récurrents ont été ajoutés",
-		"timingsPreventRecurring":  "Les horaires suivants empêchent la création de la récidive"
+		"from": "du",
+		"to": "au",
+		"recurrenceAddedSuccessfully": "Les horaires ont été ajoutés",
+		"timingsPreventRecurring":  "Les horaires suivants empêchent l'ajout des horaires récurrents"
 	}
 }
