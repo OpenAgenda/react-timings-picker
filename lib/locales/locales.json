@@ -8,7 +8,7 @@
 			"full": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			"short": ["Su","Mo","Tu","We","Th","Fr","Sa"]
 		},
-		"oneTiming" : "Un horaire est défini le %date%",
+		"oneTiming" : "On timing is defined on the %date%",
 		"severalTimingsSameDay" : "%count% timings are defined on the %date%",
 		"severalTimings" : "%count% timings are defined between the %start% and the %end%",
 		"howTo" : "Add and modify timings",
