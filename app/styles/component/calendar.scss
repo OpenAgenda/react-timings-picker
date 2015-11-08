@@ -62,7 +62,7 @@
 
 	.rc-header {
 		display: block;
-		padding: 0 5px;
+		padding: 0;
 
 		div {
 			display: inline-block;
@@ -137,21 +137,41 @@
 		.rc-years {
 			@include selectbox-wrapper(75px);
 		}
+
+
+		.rc-weekdays {
+
+			text-align: right;
+			display: block;
+			padding-left: $timetableWidth;
+			background-color: $schedulerHeaderBackColor;
+
+			.rc-day-name {
+
+				width: part-of($dayInWeek);
+
+			  span {
+
+			  	padding: 15px 0;
+			  	display: block;
+			  	color: $reverseColor;
+					@include text-overflow(ellipsis);
+					text-align: center;
+					white-space: nowrap;
+					line-height: $dayHeaderHeight;
+					height: $dayHeaderHeight;
+					border-left: 1px solid white;
+
+			  }
+
+			}
+
+		}
+
 	}
 
 	.rc-scheduler {
 		display: block;
-
-		.rc-day-header {
-			height: $dayHeaderHeight;
-			line-height: $dayHeaderHeight;
-			text-align: center;
-			background-color: $schedulerHeaderBackColor;
-			color: $reverseColor;
-			padding: 15px 0;
-			@include text-overflow(ellipsis);
-			white-space: nowrap;
-		}
 
 		.rc-day-cell {
 			height: $dayCellHeight;

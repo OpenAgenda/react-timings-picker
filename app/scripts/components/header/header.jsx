@@ -91,6 +91,28 @@ Header = React.createClass({
 
 	},
 
+	renderWeekdays: function() {
+
+		var day = utils.setTime( this.props.startDate ),
+
+		weekdayItems = [];
+
+		for ( var i = 0; i < 7; i++ ) {
+
+			weekdayItems.push(
+				<div className="rc-day-name">
+				  <span>{this.props.weekdays.short[ day.getDay() ]}</span>
+			  </div>
+			);
+
+			day = utils.addDays( day, 1 );
+
+		}
+
+		return ( <div className="rc-weekdays">{weekdayItems}</div> )
+
+	},
+
 	render: function () {
 
 		var startDay = this.props.startDate.getDate();
@@ -133,6 +155,7 @@ Header = React.createClass({
 						  onInputChange={this.onChange} />
 					</div>
 				</div>
+				{this.renderWeekdays()}
 			</div>
 			);
 	}
