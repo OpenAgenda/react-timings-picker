@@ -19,14 +19,16 @@ var Day = React.createClass({
     timingsModifications: propTypes.timingsModifications,
     timingsInteractions: propTypes.timingsInteractions,
     timingsIdProperty: React.PropTypes.string,
-    readOnly: React.PropTypes.bool.isRequired
+    readOnly: React.PropTypes.bool.isRequired,
+    canvasScroll: React.PropTypes.number
   },
   getDefaultProps: function () {
     return {
       defaultTimigDuration: 60
     }
   },
-  clickTime: function (date, event) {
+  clickTime: function ( date, event ) {
+
     var dayNode = this.getDOMNode().querySelector('.rc-day-time');
     if (dayNode.hasAttribute('creating')) {
       dayNode.removeAttribute('creating');
@@ -34,7 +36,8 @@ var Day = React.createClass({
     }
 
     var doc = document.documentElement;
-    var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+    var top = ( window.pageYOffset || doc.scrollTop ) 
+              - (doc.clientTop || 0);
 
     var timingStep = this.props.timingStep;
 
@@ -50,6 +53,7 @@ var Day = React.createClass({
       this.props.timingsModifications.addTiming({ start: newTimingStart, end: newTimingEnd });
     }
   },
+
   onEventMouseDown: function (timing, e) {
     if (this.props.readOnly) return;
     this.props.timingsInteractions.onEventMouseDown(timing, e);
@@ -64,24 +68,35 @@ var Day = React.createClass({
     var maxTime = nearestTiming == undefined ? utils.addMinutes(this.props.dayStartTime, this.props.timeStep * this.props.timeCells) : nearestTiming.start;
     this.props.timingsInteractions.onResizerMouseDown(timing, maxTime, nearestOffsetTop, e);
   },
-  onDayMouseDown: function (e) {
-    if (this.props.readOnly) return;
-    if (!utils.hasClass(e.target.parentNode, 'rc-day-time')) {
-      return;
-    }
-    var doc = document.documentElement;
-    var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-    var dayNode = e.target.parentNode, userActionValues = {};
+  onDayMouseDown: function ( e ) {
+
+    if (this.props.readOnly) return;
+
+    if (!utils.hasClass(e.target.parentNode, 'rc-day-time')) {
+
+      return;
+
+    }
+
+    var doc = document.documentElement;
+
+    var top = ( window.pageYOffset || doc.scrollTop ) - ( doc.clientTop || 0 );
+
+    var dayNode = e.target.parentNode,
+
+    userActionValues = {};
+
     userActionValues.parent = dayNode;
 
     userActionValues.dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
 
     userActionValues.initialY = utils.round(top + e.clientY, userActionValues.dragStep);
 
-    var y = userActionValues.initialTop = utils.round(userActionValues.initialY - utils.pageOffset(dayNode).top, userActionValues.dragStep);
+    var y = userActionValues.initialTop = utils.round( userActionValues.initialY - utils.pageOffset( dayNode ).top, userActionValues.dragStep );
+    
     var startMinutes = utils.addMinutes(this.props.dayStartTime,
-      this.props.allMinutes * y / dayNode.clientHeight);
+      this.props.allMinutes * ( y + this.props.canvasScroll ) / dayNode.clientHeight);
 
 
     var nearestTiming = this.getNearestNextTiming({ start: startMinutes });

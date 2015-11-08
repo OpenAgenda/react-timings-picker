@@ -50,7 +50,9 @@ Calendar = require('./components/timings-picker');
   var newLanguages = [];
   var lang = "en-US";
 
-  React.render(<Calendar 
+  document.getElementById('calendar').setAttribute( 'style', 'max-width: 500px; max-height: 600px;')
+
+  React.render( <Calendar 
     startTime="7:00" 
     endTime="3:00" 
     timings={timings} 

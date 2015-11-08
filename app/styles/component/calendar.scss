@@ -177,7 +177,10 @@
 	}
 
 	.rc-scheduler {
+
 		display: block;
+		max-height: 400px;
+		overflow-y: scroll;
 
 		.rc-day-cell {
 			height: $dayCellHeight;
