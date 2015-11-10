@@ -442,7 +442,8 @@ var Scheduler = React.createClass({
     var dayStartTime = utils.setTime(this.props.startDate, startTime.getHours(), startTime.getMinutes(), 0, 0);
     var dayEndTime = utils.addMinutes(dayStartTime, this.props.allMinutes);
     var timingsModifications = this.props.readOnly === true ? undefined : {
-      addTiming: this.props.timingsModifications.addTiming, removeTiming: this.props.timingsModifications.removeTiming,
+      addTiming: this.props.timingsModifications.addTiming,
+      removeTiming: this.props.timingsModifications.removeTiming,
     }
 
     var timingsInteractions = this.props.readOnly === true ? undefined : {

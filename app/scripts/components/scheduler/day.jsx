@@ -192,13 +192,17 @@ var Day = React.createClass({
 
     var timings = this.props.timings;
     var timingStep = this.props.timingStep;
+
     for (var i = 0; i < timings.length; i++) {
+    
       var timing = timings[i];
+    
       var timeProperties = {
         startMinutesDifference: utils.round(utils.minutesDifference(startDate, timing.start), timingStep),
         endMinutesDifference: utils.round(utils.minutesDifference(startDate, timing.end), timingStep),
         allMinutes: this.props.allMinutes
       }
+
       timingsComponents.push(this.props.readOnly 
           ? <Timing key={timing[this.props.timingsIdProperty]} timing={timing} 
             timeProperties={timeProperties} readOnly={this.props.readOnly}/>
