@@ -419,7 +419,7 @@ var TimingsPicker = React.createClass({
 			<div className="rc-calendar rc-noselect">
 				<div className="rc-calendar-body">
 					<Stats
-					  timings={timings}
+					  timings={this.state.timings}
 					  strings={lang} />
 					<Header
 					  startDate={weekStart}
