@@ -36,8 +36,8 @@ var Day = React.createClass({
     }
 
     var doc = document.documentElement;
-    var top = ( window.pageYOffset || doc.scrollTop ) 
-              - (doc.clientTop || 0);
+    var top = (( window.pageYOffset || doc.scrollTop ) 
+              - (doc.clientTop || 0)) + this.props.canvasScroll;
 
     var timingStep = this.props.timingStep;
 
