@@ -210,7 +210,7 @@ var Scheduler = React.createClass({
     var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
     var userActionValues = this.state.userActionValues, actionTiming = this.state.actionTiming;
-    var y = utils.round(scrollTop + e.clientY - userActionValues.initialY, userActionValues.dragStep);
+    var y = utils.round(scrollTop + e.clientY - userActionValues.initialY + this.state.canvasScroll, userActionValues.dragStep);
     var newValue = userActionValues.initialY + y;
 
     var minDiff = (y / userActionValues.dragStep) * this.props.timingStep;
@@ -244,7 +244,7 @@ var Scheduler = React.createClass({
       return;
     }
     var doc = document.documentElement;
-    var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+    var scrollTop = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0) + this.state.canvasScroll;
 
     var target = e.target.parentNode,
 
