@@ -101,7 +101,7 @@ Header = React.createClass({
 
 			weekdayItems.push(
 				<div className="rc-day-name">
-				  <span>{this.props.weekdays.short[ day.getDay() ]}</span>
+				  <div>{this.props.weekdays.short[ day.getDay() ]} {day.getDate()}</div>
 			  </div>
 			);
 
