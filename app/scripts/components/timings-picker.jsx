@@ -113,6 +113,16 @@ var TimingsPicker = React.createClass({
 		}
 	},
 
+	clearTimings: function() {
+
+		this.setState( {
+			timings: []
+		} );
+
+		this.props.onTimingsChange.call( this, [], null, 'Cleared timings' );
+
+	},
+
 	removeTiming: function (targetTiming) {
 
 		var timings = this.state.timings;
@@ -254,16 +264,6 @@ var TimingsPicker = React.createClass({
 	shouldComponentUpdate: function (nextProps, nextState) {
 
 		if ( nextState.isRecurrenceAdded !== this.state.isRecurrenceAdded ) return true;
-
-		// what is the purpose of this bit? 
-		/*if ( nextState.earliestTimingStart.toISOString() !== this.state.earliestTimingStart.toISOString() ||
-			nextState.latestTimingEnd.toISOString() !== this.state.latestTimingEnd.toISOString() ) {
-
-			console.log( 'here');
-
-			return false;
-
-		} */
 
 		return true;
 	},
@@ -420,6 +420,7 @@ var TimingsPicker = React.createClass({
 				<div className="rc-calendar-body">
 					<Stats
 					  timings={this.state.timings}
+					  onClear={this.clearTimings}
 					  strings={lang} />
 					<Header
 					  startDate={weekStart}

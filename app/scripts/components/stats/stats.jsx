@@ -41,11 +41,17 @@ module.exports = React.createClass( {
 
   },
 
+  renderClear: function() {
+
+    return <span> - <a onClick={this.props.onClear}>{this.props.strings.clearTimings}</a></span>;
+
+  },
+
   render: function() {
 
     var stats = this.computeStats(),
 
-    info = this.props.strings.howTo;
+    info = this.props.strings.howTo, displayClear = true;
 
     if ( this.props.timings.length == 1 ) {
 
@@ -65,9 +71,13 @@ module.exports = React.createClass( {
              .replace( '%start%', stats.first.start.format( 'DD/MM/YYYY' ) )
              .replace( '%end%', stats.last.start.format( 'DD/MM/YYYY' ) );
 
+    } else {
+
+      displayClear = false;
+
     }
 
-    return <div className="rc-stats">{info}</div>;
+    return <div className="rc-stats">{info}{ displayClear ? this.renderClear(): '' }</div>;
 
   } 
 
