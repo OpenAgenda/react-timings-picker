@@ -52,6 +52,15 @@ Utils.prototype.startOf = function (date, value) {
 	}
 };
 
+Utils.prototype.setSecondsToZero = function( date ) {
+
+	date.setSeconds(0);
+	date.setMilliseconds(0);
+
+	return date
+
+};
+
 Utils.prototype.setTime = function (date, hours, minutes, seconds, milliseconds) {
 	var result = this.clone(date);
 	result.setHours(hours || 0);

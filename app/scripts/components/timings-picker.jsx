@@ -59,58 +59,56 @@ var TimingsPicker = React.createClass({
 		return true;
 	},
 
-	getEdgeTimingsValues: function () {
-		var timings = this.state.timings;
-		if (timings.length > 0) {
-			var earliest = new Date(timings[0].start),
-				latest = new Date(timings[0].end);
-			timings.forEach(function (t) {
-				if (t.start < earliest) earliest = t.start;
-				if (t.end > latest) latest = t.end;
-			});
-			return { earliestTimingStart: earliest, latestTimingEnd: latest };
-		}
-		return { earliestTimingStart: new Date(), latestTimingEnd: new Date() };
-	},
+	addTiming: function ( targetTiming ) {
 
-	checkAndUpdateEdgeTimingsValues: function (newTiming) {
-		var earliest = this.state.earliestTimingStart,
-			latest = this.state.latestTimingEnd;
+		if ( !this.canCreateTiming( targetTiming ) ) return;
 
-		if (newTiming.start < earliest) earliest = newTiming.start;
-		if (newTiming.end > latest) latest = newTiming.end;
+		var timings = this.state.timings, 
 
+		lastId = this.state.lastTimingId;
+
+		targetTiming[this.state.timingsIdProperty] = lastId++;
+
+		timings.push( targetTiming );
+		
 		this.setState({
-			earliestTimingStart: earliest,
-			latestTimingEnd: latest
+			timings: timings,
+			lastTimingId: lastId
 		});
+
+		this.props.onTimingsChange.call( this, this.state.timings, targetTiming, "Add timing" );
+		
+
 	},
 
-	addTiming: function (targetTiming) {
-		if (this.canCreateTiming(targetTiming)) {
-			var timings = this.state.timings, lastId = this.state.lastTimingId;
-			targetTiming[this.state.timingsIdProperty] = lastId++;
-			timings.push(targetTiming);
-			this.checkAndUpdateEdgeTimingsValues(targetTiming);
-			this.setState({ timings: timings, lastTimingId: lastId });
-			this.props.onTimingsChange.call(this, this.state.timings, targetTiming, "Add timing");
-		}
-	},
+	addTimings: function( targetTimings ) {
 
-	addTimings: function (targetTimings) {
-		var timings = this.state.timings, lastId = this.state.lastTimingId, addedTimings = [];
-		for (var i = 0; i < targetTimings.length; i++) {
-			if (this.canCreateTiming(targetTimings[i])) {
-				targetTimings[i][this.state.timingsIdProperty] = lastId++;
-				timings.push(targetTimings[i]);
-				addedTimings.push(targetTimings[i]);
-				this.checkAndUpdateEdgeTimingsValues(targetTimings[i]);
-			}
+		var timings = this.state.timings, 
+
+		lastId = this.state.lastTimingId,
+
+		addedTimings = [];
+
+		for ( var i = 0; i < targetTimings.length; i++ ) {
+
+			if ( !this.canCreateTiming(targetTimings[i]) ) return;
+
+			targetTimings[i][this.state.timingsIdProperty] = lastId++;
+
+			timings.push(targetTimings[i]);
+
+			addedTimings.push(targetTimings[i]);
+
 		}
+
 		this.setState({ timings: timings, lastTimingId: lastId });
-		if (addedTimings.length > 0) {
-			this.props.onTimingsChange.call(this, this.state.timings, addedTimings, "Add timings");
+
+		if ( addedTimings.length > 0 ) {
+
+			this.props.onTimingsChange.call( this, this.state.timings, addedTimings, "Add timings" );
+
 		}
+
 	},
 
 	clearTimings: function() {
@@ -137,12 +135,8 @@ var TimingsPicker = React.createClass({
 
 		}
 
-		var timingsEdges = this.getEdgeTimingsValues();
-
 		this.setState({
-			timings: timings,
-			earliestTimingStart: timingsEdges.earliestTimingStart,
-			latestTimingEnd: timingsEdges.latestTimingEnd
+			timings: timings
 		});
 
 		this.props.onTimingsChange.call( this, timings, targetTiming, 'Remove timing' );
@@ -159,11 +153,8 @@ var TimingsPicker = React.createClass({
 			}
 		}
 
-		var timingsEdges = this.getEdgeTimingsValues();
 		this.setState({
-			timings: timings,
-			earliestTimingStart: timingsEdges.earliestTimingStart,
-			latestTimingEnd: timingsEdges.latestTimingEnd
+			timings: timings
 		});
 
 		this.props.onTimingsChange.call(this, timings, targetTiming, "Change timing");
@@ -187,42 +178,46 @@ var TimingsPicker = React.createClass({
 
 	getInitialState: function () {
 
-		var timingStep = this.props.timingStep;
+	  var timingStep = this.props.timingStep,
 
-		var startTime = utils.parseTime(this.props.startTime), endTime = utils.parseTime(this.props.endTime);
+		startTime = utils.parseTime( this.props.startTime ),
+
+		endTime = utils.parseTime( this.props.endTime ),
+
+		startDate = new Date(),
+			
+		timings = [],
+
+		timingsIdProperty = "_rc_id",
+
+		_rc_id = 0;
 
 		endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
 
-		var startDate = new Date(),
-			earliestTimingStart = startDate,
-			latestTimingEnd = startDate,
-			timings = [],
-			timingsIdProperty = "_rc_id",
-			_rc_id = 0;
-
 		if (this.props.timings.length > 0) {
 
-			startDate = this.getDateFromTimings(this.props.timings);
-			earliestTimingStart = new Date(this.props.timings[0].start);
-			latestTimingEnd = new Date(this.props.timings[0].end);
+			startDate = this.getDateFromTimings( this.props.timings );
 
-			var setSecondsToZero = function (date) { date.setSeconds(0); date.setMilliseconds(0); return date };
+			timings = this.props.timings.map( function ( t ) {
 
-			timings = this.props.timings.map(function (t) {
 				var result = {
-					start: setSecondsToZero(utils.roundMinutes(new Date(t.start), timingStep)),
-					end: setSecondsToZero(utils.roundMinutes(new Date(t.end), timingStep)),
+					start: utils.setSecondsToZero( utils.roundMinutes( new Date(t.start), timingStep ) ),
+					end: utils.setSecondsToZero( utils.roundMinutes( new Date(t.end), timingStep ) ),
 					originalTiming: t,
 				};
+
 				result[timingsIdProperty] = _rc_id++;
-				if (earliestTimingStart > result.start) earliestTimingStart = result.start;
-				if (latestTimingEnd < result.end) latestTimingEnd = result.end;
+
 				return result;
+
 			});
+
 		}
 
-		while (startDate.getDay() != this.props.weekStartDay) {
-			startDate = utils.addDays(startDate, -1);
+		while ( startDate.getDay() != this.props.weekStartDay ) {
+
+			startDate = utils.addDays( startDate, -1 );
+
 		}
 
 		var weekStart = utils.setTime( startDate, startTime.getHours(), startTime.getMinutes() ),
@@ -255,10 +250,9 @@ var TimingsPicker = React.createClass({
 			languages: languages, 
 			currentLanguage: currentLanguage,
 			isRecurrenceAdded: null,
-			overlaps: [],
-			earliestTimingStart: earliestTimingStart,
-			latestTimingEnd: latestTimingEnd
+			overlaps: []
 		};
+
 	},
 
 	shouldComponentUpdate: function (nextProps, nextState) {

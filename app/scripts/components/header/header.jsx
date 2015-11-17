@@ -13,9 +13,7 @@ Header = React.createClass({
 		goAnotherWeek: React.PropTypes.func.isRequired,
 		goAnotherMonth: React.PropTypes.func.isRequired,
 		goAnotherYear: React.PropTypes.func.isRequired,
-		months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-		earliestTimingStart: React.PropTypes.number.isRequired,
-		latestTimingEnd: React.PropTypes.number.isRequired
+		months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 	},
 
 	onChangeTimeout: false,
