@@ -116,7 +116,7 @@ var Day = React.createClass({
     event.style.top = y + 'px';
 
     event.innerHTML = React.renderToStaticMarkup(
-        <div className="rc-time rc-above">
+        <div className="rc-time rc-below">
           <span className="start">{utils.formatTime(startMinutes)}</span> - <span className="end">{utils.formatTime(startMinutes)}</span>
         </div>
       )

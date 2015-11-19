@@ -217,7 +217,6 @@
           margin-right: 16px;
           margin-top: 4px;
           height: 1.1em;
-          overflow: hidden;
           white-space: nowrap;
           font-size: $xsmallFont;
           color: $xdarkGray;
@@ -228,6 +227,14 @@
 
             position: absolute;
             top: -20px;
+
+          }
+
+          &.rc-below {
+
+            position: absolute;
+            width: 100%;
+            bottom: -30px;
 
           }
 
