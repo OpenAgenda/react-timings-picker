@@ -113,11 +113,11 @@ Header = React.createClass({
 
 	render: function () {
 
-		var startDay = this.props.startDate.getDate();
+		var startDay = this.props.startDate.getDate(),
 
-		var endDay = utils.addDays( this.props.startDate, 7 /*days in a week*/ ).getDate();
+		endDay = utils.addDays( this.props.startDate, 6 ).getDate(),
 
-		var months = [];
+		months = [];
 
 		for ( var i = 0; i < this.props.months.length; i++ ) {
 
