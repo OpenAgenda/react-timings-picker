@@ -128,7 +128,8 @@ var Day = React.createClass({
 
     this.props.timingsInteractions.onDayMouseDown(userActionValues, e);
   },
-  getNearestNextTiming: function (timing) {
+  getNearestNextTiming: function ( timing ) {
+
     return this.props.timings.filter(function (t) {
       return t.start > timing.start;
     }).sort(function (t1, t2) {
@@ -137,7 +138,8 @@ var Day = React.createClass({
     })[0];
 
   },
-  getNearestPrevTiming: function (timing) {
+  getNearestPrevTiming: function ( timing ) {
+    
     return this.props.timings.filter(function (t) {
       return t.start < timing.start;
     }).sort(function (t1, t2) {

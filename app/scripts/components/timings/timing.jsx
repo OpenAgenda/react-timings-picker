@@ -37,8 +37,8 @@ var Timing = React.createClass({
 				<div className={timeClassNames}>
 					<span className="start">{utils.formatTime(this.props.timing.start)}</span> - <span className="end">{utils.formatTime(this.props.timing.end)}</span>
 				</div>
-				{this.props.readOnly ? undefined : <div className="rc-event-resizer" onMouseDown={this.props.onResizerMouseDown}></div>}
-				{this.props.readOnly ? undefined : <div className="rc-event-icon rc-icon rc-icon-close" onClick={this.props.remove.bind(null,this.props.timing)}></div>}
+				{this.props.readOnly ? undefined : <div className="rc-event-resizer" data-nodrag="1" onMouseDown={this.props.onResizerMouseDown}></div>}
+				{this.props.readOnly ? undefined : <div className="rc-event-icon rc-icon rc-icon-close" preventDrag onClick={this.props.remove.bind(null,this.props.timing)}></div>}
 			</div>
 			);
 	}
