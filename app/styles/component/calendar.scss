@@ -2,501 +2,501 @@
 @import '_variables.scss';
 
 .border-box {
-	@include box-sizing(border-box)
+  @include box-sizing(border-box)
 }
 
 .rc-noselect {
-	-webkit-touch-callout: none;
-	@include user-select(none);
+  -webkit-touch-callout: none;
+  @include user-select(none);
 }
 
 .rc-error{
-		color: $error;
-	}
+    color: $error;
+  }
 
-	.rc-success{
-		color: $success;
-	}
+  .rc-success{
+    color: $success;
+  }
 
 .rc-icon {
-	&.rc-icon-close:after {
-		content: "\2716";
-	}
+  &.rc-icon-close:after {
+    content: "\2716";
+  }
 
-	&.rc-icon-left-arrow:before {
-		@include arrow($secondaryColor, 2px, 2px, solid, -135deg);
-	}
+  &.rc-icon-left-arrow:before {
+    @include arrow($secondaryColor, 2px, 2px, solid, -135deg);
+  }
 
-	&.rc-icon-right-arrow:before {
-		@include arrow($secondaryColor, 2px, 2px, solid, 45deg);
-	}
+  &.rc-icon-right-arrow:before {
+    @include arrow($secondaryColor, 2px, 2px, solid, 45deg);
+  }
 }
 
 .rc-icon-wrapper {
-	position: relative;
-	height: 0.5em;
-	width: 20px;
+  position: relative;
+  height: 0.5em;
+  width: 20px;
 
-	.rc-icon {
-		@include center-absolute-position();
-	}
+  .rc-icon {
+    @include center-absolute-position();
+  }
 }
 
 .rc-calendar {
-	display: block;
-	width: 100%;
-	height: 100%;
-	font-size: $normalFont;
-	color: $primaryColor;
-	background-color: $calendarBackColor;
-
-	.rc-calendar-body {
-		border: 1px solid #DCDCDC;
-		border-bottom: none;
-	}
-
-	a {
-		cursor: pointer;
-		color: $linkDefaultColor;
-	}
-
-	.rc-stats {
-
-		float: right;
-		padding: 0.5em 0;
-
-	}
-
-	.rc-header {
-		display: block;
-		padding: 0;
-
-		div {
-			display: inline-block;
-		}
-
-		.rc-week {
-			margin-right: 15px;
-			min-width: 150px;
-			width: 150px;
-			display: table-cell;
-			vertical-align: middle;
-
-			.rc-date{
-				width: 50px;
-				display: inline-block;
-				text-align: center;
-				margin: 0 8px;
-			}
-
-			.rc-icon-wrapper{
-				margin: 0 10px;
-				cursor: pointer;
-			}
-
-			.rc-icon {
-				color: $secondaryColor;
-			}
-		}
-
-		.rc-options{
-			display: table-cell;
-			padding-left: 15px;
-			.is-focused:not(.is-open) > .Select-control {
-				box-shadow: none;
-			}
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: $normalFont;
+  color: $primaryColor;
+  background-color: $calendarBackColor;
+
+  .rc-calendar-body {
+    border: 1px solid #DCDCDC;
+    border-bottom: none;
+  }
+
+  a {
+    cursor: pointer;
+    color: $linkDefaultColor;
+  }
+
+  .rc-stats {
+
+    float: right;
+    padding: 0.5em 0;
+
+  }
+
+  .rc-header {
+    display: block;
+    padding: 0;
+
+    div {
+      display: inline-block;
+    }
+
+    .rc-week {
+      margin-right: 15px;
+      min-width: 150px;
+      width: 150px;
+      display: table-cell;
+      vertical-align: middle;
+
+      .rc-date{
+        width: 50px;
+        display: inline-block;
+        text-align: center;
+        margin: 0 8px;
+      }
+
+      .rc-icon-wrapper{
+        margin: 0 10px;
+        cursor: pointer;
+      }
+
+      .rc-icon {
+        color: $secondaryColor;
+      }
+    }
+
+    .rc-options{
+      display: table-cell;
+      padding-left: 15px;
+      .is-focused:not(.is-open) > .Select-control {
+        box-shadow: none;
+      }
 
-			.Select-control{
-				border: none;
-				padding-right: 20px;
-				color: $primaryColor;
+      .Select-control{
+        border: none;
+        padding-right: 20px;
+        color: $primaryColor;
 
-				&:hover{
-					box-shadow: none;
-				}
+        &:hover{
+          box-shadow: none;
+        }
 
-				.Select-placeholder{
-					padding-right: 20px;
-				}
-			}
+        .Select-placeholder{
+          padding-right: 20px;
+        }
+      }
 
-			.Select-placeholder, .Select-input{
-				color: $primaryColor;
-			}
-
-			.Select-option.is-focused {
-				background-color: $xlightGray;
-				color: $normalFont;
-			}
-
-			.Select-arrow{
-				color: $secondaryColor;
-				border-color: $secondaryColor transparent transparent;
-				top: 15px;
-			}
-		}
+      .Select-placeholder, .Select-input{
+        color: $primaryColor;
+      }
+
+      .Select-option.is-focused {
+        background-color: $xlightGray;
+        color: $normalFont;
+      }
+
+      .Select-arrow{
+        color: $secondaryColor;
+        border-color: $secondaryColor transparent transparent;
+        top: 15px;
+      }
+    }
 
-		.rc-month {
-			@include selectbox-wrapper(130px);
-			margin-right: 15px;
-		}
+    .rc-month {
+      @include selectbox-wrapper(130px);
+      margin-right: 15px;
+    }
 
-		.rc-years {
-			@include selectbox-wrapper(75px);
-		}
+    .rc-years {
+      @include selectbox-wrapper(75px);
+    }
 
-		.rc-weekdays {
+    .rc-weekdays {
 
-			text-align: right;
-			display: block;
-			padding-left: $timetableWidth;
-			background-color: $schedulerHeaderBackColor;
+      text-align: right;
+      display: block;
+      padding-left: $timetableWidth;
+      background-color: $schedulerHeaderBackColor;
 
-			.rc-day-name {
+      .rc-day-name {
 
-				width: part-of($dayInWeek);
+        width: part-of($dayInWeek);
 
-			  div {
+        div {
 
-			  	padding: 15px 0;
-			  	display: block;
-					@include text-overflow(ellipsis);
-					text-align: center;
-					white-space: nowrap;
-					line-height: $dayHeaderHeight;
-					height: $dayHeaderHeight;
-					border-left: 1px solid white;
+          padding: 15px 0;
+          display: block;
+          @include text-overflow(ellipsis);
+          text-align: center;
+          white-space: nowrap;
+          line-height: $dayHeaderHeight;
+          height: $dayHeaderHeight;
+          border-left: 1px solid white;
 
-					span {
+          span {
 
-						color: $reverseColor;
+            color: $reverseColor;
 
-					}
+          }
 
-			  }
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
-	.rc-scheduler {
+  .rc-scheduler {
 
-		display: block;
-		max-height: 400px;
-		overflow-y: scroll;
+    display: block;
+    max-height: 400px;
+    overflow-y: scroll;
 
-		.rc-day-cell {
-			height: $dayCellHeight;
+    .rc-day-cell {
+      height: $dayCellHeight;
 
-			&:nth-child(2n-1) {
-				background-color: $oddRowBackColor;
-			}
+      &:nth-child(2n-1) {
+        background-color: $oddRowBackColor;
+      }
 
-			&:nth-child(2n) {
-				background-color: $evenRowBackColor;
-			}
-		}
+      &:nth-child(2n) {
+        background-color: $evenRowBackColor;
+      }
+    }
 
-		.rc-day-time {
+    .rc-day-time {
 
-			position: relative;
+      position: relative;
 
-			.rc-event {
+      .rc-event {
 
-				background-color: $eventBackColor;
-				padding: 0;
-				cursor: pointer;
-				position: absolute;
-				right: 0;
-				left: 1px;
+        background-color: $eventBackColor;
+        padding: 0;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        left: 1px;
 
-				.rc-time {
+        .rc-time {
 
-					margin-right: 16px;
-					margin-top: 4px;
-					height: 1.1em;
-					overflow: hidden;
-					white-space: nowrap;
-					font-size: $xsmallFont;
-					color: $xdarkGray;
-					font-weight: bolder;
-					text-align: center;
+          margin-right: 16px;
+          margin-top: 4px;
+          height: 1.1em;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: $xsmallFont;
+          color: $xdarkGray;
+          font-weight: bolder;
+          text-align: center;
 
-					&.rc-above {
+          &.rc-above {
 
-						position: absolute;
-						top: -20px;
+            position: absolute;
+            top: -20px;
 
-					}
+          }
 
-				}
+        }
 
-				.rc-icon-close{
+        .rc-icon-close {
 
-					color: $secondaryColor;
+          color: $secondaryColor;
 
-					&:hover{
-						color: $primaryColor;
-					}
+          &:hover{
+            color: $primaryColor;
+          }
 
-					&.rc-above {
+          &.rc-above {
 
-						position: absolute;
-						top: -18px;
-						color: $primaryColor;
+            position: absolute;
+            top: -18px;
+            color: $primaryColor;
 
-					}
+          }
 
-				}
+        }
 
-				.rc-event-resizer {
+        .rc-event-resizer {
 
-					position: absolute;
-					right: 0;
-					left: 0;
-					bottom: 0;
-					height: $smallFont;
-					line-height: $smallFont;
-					text-align: center;
-					cursor: s-resize;
-					background-color: $eventBackColor;
-					font-size: $normalFont;
+          position: absolute;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          height: $smallFont;
+          line-height: $smallFont;
+          text-align: center;
+          cursor: s-resize;
+          background-color: $eventBackColor;
+          font-size: $normalFont;
 
-					&:before {
-						content: "\3d";
-					}
+          &:before {
+            content: "\3d";
+          }
 
-					color: $secondaryColor;
+          color: $secondaryColor;
 
-					&:hover{
-						color: $primaryColor;
-					}
+          &:hover{
+            color: $primaryColor;
+          }
 
-					&.rc-below {
+          &.rc-below {
 
-						bottom: -15px;
-						color: $primaryColor;
-						background-color: transparent;
+            bottom: -15px;
+            color: $primaryColor;
+            background-color: transparent;
 
-					}
+          }
 
-				}
+        }
 
-				.rc-event-icon {
+        .rc-event-icon {
 
-					@include right-top-corner();
-					font-size: $smallFont;
-					cursor: pointer;
+          @include right-top-corner();
+          font-size: $smallFont;
+          cursor: pointer;
 
-				}
-			}
-		}
+        }
+      }
+    }
 
-		.rc-timetable {
-			float: left;
-			font-size: $mediumFont;
-			border-bottom: 1px solid $calendarBorderColor;
-			border-top: 1px solid $schedulerHeaderBackColor;
+    .rc-timetable {
+      float: left;
+      font-size: $mediumFont;
+      border-bottom: 1px solid $calendarBorderColor;
+      border-top: 1px solid $schedulerHeaderBackColor;
 
-			& > div {
-				text-align: center;
-				line-height: $dayCellHeight;
-			}
+      & > div {
+        text-align: center;
+        line-height: $dayCellHeight;
+      }
 
-			width: $timetableWidth;
-			min-width: $timetableMinWidth;
-		}
+      width: $timetableWidth;
+      min-width: $timetableMinWidth;
+    }
 
-		.rc-days {
-			margin-left: $timetableWidth;
-			position: relative;
-			font-size: 0;
+    .rc-days {
+      margin-left: $timetableWidth;
+      position: relative;
+      font-size: 0;
 
-			.rc-day {
-				@extend .border-box;
-				border-left: 1px solid $schedulerDayBorderColor;
-				border-bottom: 1px solid $calendarBorderColor;
-				border-top: 1px solid $schedulerHeaderBackColor;
-				width: part-of($dayInWeek);
-				display: inline-block;
-				@include word-break("break-word");
-				font-size: $normalFont;
+      .rc-day {
+        @extend .border-box;
+        border-left: 1px solid $schedulerDayBorderColor;
+        border-bottom: 1px solid $calendarBorderColor;
+        border-top: 1px solid $schedulerHeaderBackColor;
+        width: part-of($dayInWeek);
+        display: inline-block;
+        @include word-break("break-word");
+        font-size: $normalFont;
 
-				&.today{
-					border: 1px solid $lightBlue;
-					.rc-day-header{
-						color: $schedulerHeaderTodayColor;
-						background-color: $schedulerHeaderTodayBackColor;
-					}
-				}
-				&.tomorrow{
-					border-left: none;
-				}
-			}
-		}
-	}
+        &.today{
+          border: 1px solid $lightBlue;
+          .rc-day-header{
+            color: $schedulerHeaderTodayColor;
+            background-color: $schedulerHeaderTodayBackColor;
+          }
+        }
+        &.tomorrow{
+          border-left: none;
+        }
+      }
+    }
+  }
 
-	.rc-reccurencer {
-		margin-top: 10px;
-		font-size: $mediumFont;
-		position: relative;
+  .rc-reccurencer {
+    margin-top: 10px;
+    font-size: $mediumFont;
+    position: relative;
 
-		div {
-			display: inline-block;
-		}
+    div {
+      display: inline-block;
+    }
 
-		.rc-ok-button {
-			padding: 7px 12px;
-			background-color: $lightBlue;
-			color: #fff;
-		}
+    .rc-ok-button {
+      padding: 7px 12px;
+      background-color: $lightBlue;
+      color: #fff;
+    }
 
-		.rc-message-close{
-			@include right-top-corner(0, 2px);
-			cursor: pointer;
-		}
-	}
+    .rc-message-close{
+      @include right-top-corner(0, 2px);
+      cursor: pointer;
+    }
+  }
 }
 
 .rc-datepicker-wrapper {
-	position: absolute;
-	display: inline-block;
-	z-index: 2147483647;
+  position: absolute;
+  display: inline-block;
+  z-index: 2147483647;
 }
 
 .rc-dp-calendar {
-	font-size: $mediumFont;
-	float:left;
-	display:block;
-	@extend .border-box;
-	background:$white;
-	width:250px;
-	border:solid 1px $calendarBorderColor;
-	margin-bottom:10px;
-	
-	$spacing:10px;
-	$icon-width:40px;
-	$header-height:40px;
-	
-	>div.rc-dp-header {
-		float:left;
-		width:100%;
-		background:$schedulerHeaderBackColor;
-		height:$header-height;
-		color:$reverseColor;
-		
-		> * { 
-			@include vertical-centre($header-height);
-		}
-		
-		>.rc-icon-wrapper {
-			float:left;
-			width:$icon-width;
-			font-weight:bold;
-			position:relative;
-			@extend .border-box;
-			padding:0 $spacing;
-			cursor:pointer;
-			> span:before{
-				border-color:$reverseColor;
-			}
-		}
-		
-		>.left {
-			text-align:left;
-		}
-		
-		>.right {
-			text-align:right;
-			margin-left:$icon-width*-1;
-		}
-		
-		>span { 
-			float:left;
-			width:100%;
-			font-weight:bold;
-			text-transform:uppercase;
-			@extend .border-box;
-			padding-left:$icon-width+$spacing;
-			margin-left:$icon-width*-1;
-			text-align:center;
-			padding-right:$icon-width;
-			color:inherit;
-		}
-	}
-	>div.rc-dp-week {
-		float:left;
-		width:100%;
-		border-top:solid 1px $calendarBorderColor;
-		
-		&:first-child {
-			border-top:none;
-		}
-		
-		>span.rc-dp-day {
-			float:left;
-			width: part-of($dayInWeek);
-			@extend .border-box;
-			border-left:solid 1px $calendarBorderColor;
-			font-size:0.75em;
-			text-align:center;
-			@include vertical-centre(26px);
-			background:$white;
-			cursor:pointer;
-			color:$black;
-			
-			&:first-child {
-				border-left:none;
-			}
-			
-			&.today {
-				background:$datepickerTodayBackColor;
-			}
-			
-			&.different-month {
-				color:$secondaryColor;
-			}
-			
-			&.selected {
-				background:$datepickerSelectedBackColor;
-				color:$reverseColor;
-			}
+  font-size: $mediumFont;
+  float:left;
+  display:block;
+  @extend .border-box;
+  background:$white;
+  width:250px;
+  border:solid 1px $calendarBorderColor;
+  margin-bottom:10px;
+  
+  $spacing:10px;
+  $icon-width:40px;
+  $header-height:40px;
+  
+  >div.rc-dp-header {
+    float:left;
+    width:100%;
+    background:$schedulerHeaderBackColor;
+    height:$header-height;
+    color:$reverseColor;
+    
+    > * { 
+      @include vertical-centre($header-height);
+    }
+    
+    >.rc-icon-wrapper {
+      float:left;
+      width:$icon-width;
+      font-weight:bold;
+      position:relative;
+      @extend .border-box;
+      padding:0 $spacing;
+      cursor:pointer;
+      > span:before{
+        border-color:$reverseColor;
+      }
+    }
+    
+    >.left {
+      text-align:left;
+    }
+    
+    >.right {
+      text-align:right;
+      margin-left:$icon-width*-1;
+    }
+    
+    >span { 
+      float:left;
+      width:100%;
+      font-weight:bold;
+      text-transform:uppercase;
+      @extend .border-box;
+      padding-left:$icon-width+$spacing;
+      margin-left:$icon-width*-1;
+      text-align:center;
+      padding-right:$icon-width;
+      color:inherit;
+    }
+  }
+  >div.rc-dp-week {
+    float:left;
+    width:100%;
+    border-top:solid 1px $calendarBorderColor;
+    
+    &:first-child {
+      border-top:none;
+    }
+    
+    >span.rc-dp-day {
+      float:left;
+      width: part-of($dayInWeek);
+      @extend .border-box;
+      border-left:solid 1px $calendarBorderColor;
+      font-size:0.75em;
+      text-align:center;
+      @include vertical-centre(26px);
+      background:$white;
+      cursor:pointer;
+      color:$black;
+      
+      &:first-child {
+        border-left:none;
+      }
+      
+      &.today {
+        background:$datepickerTodayBackColor;
+      }
+      
+      &.different-month {
+        color:$secondaryColor;
+      }
+      
+      &.selected {
+        background:$datepickerSelectedBackColor;
+        color:$reverseColor;
+      }
 
-			&:hover{
-				background-color: $datepickerHoverBackColor;
-			}
-		}
-		
-		&.rc-dp-names>span {
-			color:$primaryColor;
-			font-weight:bold;
-		}
-	}
+      &:hover{
+        background-color: $datepickerHoverBackColor;
+      }
+    }
+    
+    &.rc-dp-names>span {
+      color:$primaryColor;
+      font-weight:bold;
+    }
+  }
 }
 
 .rc-datepicker.rc-dp-container {
-	position: relative;
+  position: relative;
 }
 
 .rc-dp-input {
-	position: relative;
-	font-size: $mediumFont;
-	border-radius: 0;
-	box-shadow: none;
-	border: 1px solid $lightGray;
-	line-height: 16px;
-	padding: 6px 10px 5px;
-	margin: 0 5px;
+  position: relative;
+  font-size: $mediumFont;
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid $lightGray;
+  line-height: 16px;
+  padding: 6px 10px 5px;
+  margin: 0 5px;
 
-	&:focus {
-		outline: none;
-		border-color: $gray;
-		box-shadow: inset 0 2px 2px $xlightGray, 0 0 10px 0 $lightGray;
-	}
+  &:focus {
+    outline: none;
+    border-color: $gray;
+    box-shadow: inset 0 2px 2px $xlightGray, 0 0 10px 0 $lightGray;
+  }
 
-	&:not(:valid) ~ .close-icon {
-		display: none;
-	}
+  &:not(:valid) ~ .close-icon {
+    display: none;
+  }
 }
