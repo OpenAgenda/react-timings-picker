@@ -54,9 +54,12 @@ var Day = React.createClass({
     }
   },
 
-  onEventMouseDown: function (timing, e) {
-    if (this.props.readOnly) return;
-    this.props.timingsInteractions.onEventMouseDown(timing, e);
+  onEventMouseDown: function ( timing, e ) {
+    
+    if ( this.props.readOnly ) return;
+
+    this.props.timingsInteractions.onEventMouseDown( timing, e );
+
   },
   onResizerMouseDown: function (timing, e) {
     if (this.props.readOnly) return;

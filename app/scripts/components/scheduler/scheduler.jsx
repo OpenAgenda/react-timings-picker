@@ -160,18 +160,20 @@ var Scheduler = React.createClass({
 
   onEventMouseDown: function( timing, e ) {
 
-    if ( !utils.hasClass( e.target, 'rc-event' ) ) {
-      return;
-    }
+    var timingElem = utils.getParentHavingClass( e.target, 'rc-event' ),
 
-    var target = e.target.cloneNode( true );
+    target;
 
-    e.target.style.display = 'none';
+    if ( !timingElem ) return;
+
+    target = timingElem.cloneNode( true );
+
+    timingElem.style.display = 'none';
 
     target.setAttribute( 'data-reactid', '' );
 
 
-    var parent = e.target.parentNode;
+    var parent = timingElem.parentNode;
 
     parent.appendChild( target );
 
@@ -194,14 +196,14 @@ var Scheduler = React.createClass({
         initialTop: initialTop,
         dragStep: dragStep,
         isDrag: true, isResize: false,
-        originalTarget: e.target
+        originalTarget: timingElem
       },
       actionTiming: timing,
     });
 
     e.stopPropagation();
 
-    document.addEventListener('mousemove', this.eventDragMouseMove);
+    document.addEventListener( 'mousemove', this.eventDragMouseMove );
   },
 
   eventResizeMouseMove: function (e) {

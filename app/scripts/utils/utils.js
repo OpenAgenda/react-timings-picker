@@ -119,9 +119,23 @@ Utils.prototype.minutesDifference = function (lowerDate, greaterDate) {
 	return Math.round(diffMs / 60000);
 };
 
-Utils.prototype.hasClass = function(element, cls) {
-	return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+Utils.prototype.hasClass = function( element, cls ) {
+
+	return ( ' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+
 };
+
+Utils.prototype.getParentHavingClass = getParentHavingClass;
+
+function getParentHavingClass( element, cls ) {
+
+	if ( element.className.split(' ').indexOf( cls ) >= 0 ) return element;
+
+	if ( !element.parentNode ) return false;
+
+  return getParentHavingClass( element.parentNode, cls );
+
+}
 
 Utils.prototype.pageOffset = function (element) {
 	var top = 0, left = 0;

@@ -200,17 +200,21 @@
 		}
 
 		.rc-day-time {
+
 			position: relative;
 
 			.rc-event {
+
 				background-color: $eventBackColor;
 				padding: 0;
+				cursor: pointer;
 				overflow: hidden;
 				position: absolute;
 				right: 0;
 				left: 1px;
 
 				.rc-time {
+
 					margin-right: 16px;
 					margin-top: 4px;
 					height: 1.1em;
@@ -220,17 +224,21 @@
 					color: $xdarkGray;
 					font-weight: bolder;
 					text-align: center;
+
 				}
 
 				.rc-icon-close{
+
 					color: $secondaryColor;
 
 					&:hover{
 						color: $primaryColor;
 					}
+
 				}
 
 				.rc-event-resizer {
+
 					position: absolute;
 					right: 0;
 					left: 0;
@@ -254,9 +262,11 @@
 				}
 
 				.rc-event-icon {
+
 					@include right-top-corner();
 					font-size: $smallFont;
 					cursor: pointer;
+
 				}
 			}
 		}
