@@ -32,13 +32,17 @@ var Timing = React.createClass({
 	},
 	render: function () {
 
-		var timeClassNames = this.props.readOnly ? 'rc-time rc-readonly' : 'rc-time', 
+		var timeClassNames = this.props.readOnly ? 'rc-time rc-readonly' : 'rc-time',
+
+		resizerClassNames = 'rc-event-resizer', closeClassNames = 'rc-event-icon rc-icon rc-icon-close',
 
 		minutesSpan = ( this.props.timing.end.getTime() - this.props.timing.start.getTime() ) / ( 60 * 1000 );
 
 		if ( minutesSpan <= 30 ) {
 
 			timeClassNames += ' rc-above';
+			resizerClassNames += ' rc-below';
+			closeClassNames += ' rc-above';
 
 		}
 
@@ -47,8 +51,8 @@ var Timing = React.createClass({
 				<div className={timeClassNames}>
 					<span className="start">{utils.formatTime(this.props.timing.start)}</span> - <span className="end">{utils.formatTime(this.props.timing.end)}</span>
 				</div>
-				{this.props.readOnly ? undefined : <div className="rc-event-resizer" data-nodrag="1" onMouseDown={this.props.onResizerMouseDown}></div>}
-				{this.props.readOnly ? undefined : <div className="rc-event-icon rc-icon rc-icon-close" data-nodrag="1" onClick={this.props.remove.bind(null,this.props.timing)}></div>}
+				{this.props.readOnly ? undefined : <div className={resizerClassNames} data-nodrag="1" onMouseDown={this.props.onResizerMouseDown}></div>}
+				{this.props.readOnly ? undefined : <div className={closeClassNames} data-nodrag="1" onClick={this.props.remove.bind(null,this.props.timing)}></div>}
 			</div>
 		);
 	}

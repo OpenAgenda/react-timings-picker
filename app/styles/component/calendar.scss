@@ -228,7 +228,6 @@
 
 						position: absolute;
 						top: -20px;
-						width: 100%;
 
 					}
 
@@ -240,6 +239,14 @@
 
 					&:hover{
 						color: $primaryColor;
+					}
+
+					&.rc-above {
+
+						position: absolute;
+						top: -18px;
+						color: $primaryColor;
+
 					}
 
 				}
@@ -266,6 +273,15 @@
 					&:hover{
 						color: $primaryColor;
 					}
+
+					&.rc-below {
+
+						bottom: -15px;
+						color: $primaryColor;
+						background-color: transparent;
+
+					}
+
 				}
 
 				.rc-event-icon {

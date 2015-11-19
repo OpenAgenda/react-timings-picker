@@ -189,7 +189,7 @@ var Scheduler = React.createClass({
     
     initialTop = parseInt( target.style.top.replace( 'px' ) );
 
-    this.setState({
+    this.setState( {
       userActionValues: {
         target: target,
         initialY: initialY,
@@ -201,7 +201,7 @@ var Scheduler = React.createClass({
         originalTarget: timingElem
       },
       actionTiming: timing,
-    });
+    } );
 
     e.stopPropagation();
 
