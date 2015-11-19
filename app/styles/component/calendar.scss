@@ -208,7 +208,6 @@
 				background-color: $eventBackColor;
 				padding: 0;
 				cursor: pointer;
-				overflow: hidden;
 				position: absolute;
 				right: 0;
 				left: 1px;
@@ -224,6 +223,14 @@
 					color: $xdarkGray;
 					font-weight: bolder;
 					text-align: center;
+
+					&.rc-above {
+
+						position: absolute;
+						top: -20px;
+						width: 100%;
+
+					}
 
 				}
 

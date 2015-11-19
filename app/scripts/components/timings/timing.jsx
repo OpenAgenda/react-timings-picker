@@ -31,16 +31,26 @@ var Timing = React.createClass({
 		this.calculateStyles.call(this);
 	},
 	render: function () {
-		var timeClassNames = this.props.readOnly ? 'rc-time rc-readonly' : 'rc-time';
+
+		var timeClassNames = this.props.readOnly ? 'rc-time rc-readonly' : 'rc-time', 
+
+		minutesSpan = ( this.props.timing.end.getTime() - this.props.timing.start.getTime() ) / ( 60 * 1000 );
+
+		if ( minutesSpan <= 30 ) {
+
+			timeClassNames += ' rc-above';
+
+		}
+
 		return (
 			<div className="rc-event" onMouseDown={this.props.onEventMouseDown}>
 				<div className={timeClassNames}>
 					<span className="start">{utils.formatTime(this.props.timing.start)}</span> - <span className="end">{utils.formatTime(this.props.timing.end)}</span>
 				</div>
 				{this.props.readOnly ? undefined : <div className="rc-event-resizer" data-nodrag="1" onMouseDown={this.props.onResizerMouseDown}></div>}
-				{this.props.readOnly ? undefined : <div className="rc-event-icon rc-icon rc-icon-close" preventDrag onClick={this.props.remove.bind(null,this.props.timing)}></div>}
+				{this.props.readOnly ? undefined : <div className="rc-event-icon rc-icon rc-icon-close" data-nodrag="1" onClick={this.props.remove.bind(null,this.props.timing)}></div>}
 			</div>
-			);
+		);
 	}
 });
 
