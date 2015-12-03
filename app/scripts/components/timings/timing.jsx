@@ -4,6 +4,7 @@ var utils = require('../../utils/utils');
 var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
+var ReactDOM = require("react-dom");
 
 var Timing = React.createClass({
 	propTypes:{
@@ -15,7 +16,7 @@ var Timing = React.createClass({
 		onResizerMouseDown: React.PropTypes.func
 	},
 	calculateStyles: function(){
-		var thisNode = this.getDOMNode();
+		var thisNode = ReactDOM.findDOMNode(this);
 		var height = thisNode.parentNode.clientHeight;
 
 		var top = (height * this.props.timeProperties.startMinutesDifference) / this.props.timeProperties.allMinutes;

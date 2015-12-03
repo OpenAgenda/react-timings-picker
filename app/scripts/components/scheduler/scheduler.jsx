@@ -4,6 +4,8 @@ var utils = require('../../utils/utils');
 var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
+var ReactDOM = require("react-dom");
+
 var Day = require('./day');
 
 var Scheduler = React.createClass({
@@ -420,7 +422,7 @@ var Scheduler = React.createClass({
 
     var self = this;
 
-    this.refs.scrollable.getDOMNode().addEventListener( 'scroll', function( e ) {
+    this.refs.scrollable.addEventListener( 'scroll', function( e ) {
 
       self.setState( {
         canvasScroll: e.target.scrollTop

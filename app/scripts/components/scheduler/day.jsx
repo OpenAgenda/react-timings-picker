@@ -4,6 +4,9 @@ var utils = require('../../utils/utils');
 var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
+var ReactDOM = require("react-dom");
+var ReactDOMServer = require("react-dom/server");
+
 var Timing = require('../timings/timing');
 
 var Day = React.createClass({
@@ -29,7 +32,7 @@ var Day = React.createClass({
   },
   clickTime: function ( date, event ) {
 
-    var dayNode = this.getDOMNode().querySelector('.rc-day-time');
+    var dayNode = ReactDOM.findDOMNode(this).querySelector('.rc-day-time');
     if (dayNode.hasAttribute('creating')) {
       dayNode.removeAttribute('creating');
       return;
@@ -115,7 +118,7 @@ var Day = React.createClass({
     event.style.height = 0 + 'px';
     event.style.top = y + 'px';
 
-    event.innerHTML = React.renderToStaticMarkup(
+    event.innerHTML = ReactDOMServer.renderToStaticMarkup(
         <div className="rc-time rc-below">
           <span className="start">{utils.formatTime(startMinutes)}</span> - <span className="end">{utils.formatTime(startMinutes)}</span>
         </div>
@@ -149,7 +152,7 @@ var Day = React.createClass({
 
   },
   getMaxDragY: function (currentTop) {
-    var el = this.getDOMNode().querySelector('.rc-day-time');
+    var el = ReactDOM.findDOMNode(this).querySelector('.rc-day-time');
     var children = el.querySelectorAll('.rc-event');
 
     var nearestOffsetTop = el.clientHeight, nearestEvent = el;
@@ -165,7 +168,7 @@ var Day = React.createClass({
       : utils.pageOffset(nearestEvent).top;
   },
   getMinDragY: function (currentTop) {
-    var el = this.getDOMNode().querySelector('.rc-day-time');
+    var el = ReactDOM.findDOMNode(this).querySelector('.rc-day-time');
     var children = el.querySelectorAll('.rc-event');
 
     var nearestOffsetTop = 0, nearestEvent = el;

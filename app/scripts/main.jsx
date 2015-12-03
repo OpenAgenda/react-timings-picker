@@ -1,8 +1,9 @@
 "use strict";
 
-var React = require('react'),
+var React = require('react');
+var ReactDOM = require("react-dom");
 
-Calendar = require('./components/timings-picker');
+var Calendar = require('./components/timings-picker');
 
 (function () {
   
@@ -52,7 +53,7 @@ Calendar = require('./components/timings-picker');
 
   document.getElementById('calendar').setAttribute( 'style', 'max-width: 600px; max-height: 600px;')
 
-  React.render( <Calendar 
+  ReactDOM.render( <Calendar 
     startTime="7:00" 
     endTime="3:00" 
     timings={timings} 
