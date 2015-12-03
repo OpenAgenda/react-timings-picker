@@ -98,7 +98,7 @@ Header = React.createClass({
 		for ( var i = 0; i < 7; i++ ) {
 
 			weekdayItems.push(
-				<div className="rc-day-name">
+				<div key={i} className="rc-day-name">
 				  <div>{this.props.weekdays.short[ day.getDay() ]} {day.getDate()}</div>
 			  </div>
 			);
