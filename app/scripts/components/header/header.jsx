@@ -149,7 +149,7 @@ Header = React.createClass({
 						  options={this.getYearOptions()}
 						  value={this.props.startDate.getFullYear()}
 						  clearable={false}
-						  noResultsText={false}
+						  noResultsText={''}
 						  onChange={this.onChange}
 						  onInputChange={this.onChange} />
 					</div>
