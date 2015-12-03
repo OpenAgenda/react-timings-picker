@@ -152,10 +152,21 @@
 
 /* #region positioning */
 
-@mixin vertical-align($position: relative) {
-  position: $position;
-  top: 50%;
-  @include translateY(-50%);
+@mixin vertical-align($child-element-name) {
+  vertical-align: middle;
+  
+  &:before{
+    content: " ";
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    vertical-align: middle;
+  }
+
+  > #{$child-element-name}{
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
 @mixin center-absolute-position(){

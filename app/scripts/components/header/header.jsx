@@ -13,7 +13,7 @@ Header = React.createClass({
     goAnotherWeek: React.PropTypes.func.isRequired,
     goAnotherMonth: React.PropTypes.func.isRequired,
     goAnotherYear: React.PropTypes.func.isRequired,
-    months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+    months: propTypes.monthNames.isRequired
   },
 
   onChangeTimeout: false,
@@ -89,6 +89,19 @@ Header = React.createClass({
 
   },
 
+  getTogglerText: function (startDate, endDate) {
+
+    if (utils.isSameYear(startDate, endDate)) {
+
+      return startDate.getDate() + ' ' + this.props.months.short[startDate.getMonth()] + ' - ' + endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()];
+
+    }
+
+    return startDate.getDate() + ' ' + this.props.months.short[startDate.getMonth()] + ' ' + startDate.getFullYear() + ' - ' +
+      endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()] + ' ' + endDate.getFullYear();
+
+  },
+
   renderWeekdays: function() {
 
     var day = utils.setTime( this.props.startDate ),
@@ -113,45 +126,50 @@ Header = React.createClass({
 
   render: function () {
 
-    var startDay = this.props.startDate.getDate(),
+    var startDate = this.props.startDate,
+      endDate = utils.addDays( this.props.startDate, 6 ) /*6 - numbers of weekdays minus current */
 
-    endDay = utils.addDays( this.props.startDate, 6 ).getDate(),
+    var startDay = startDate.getDate(),
 
-    months = [];
+      endDay = endDate.getDate(),
 
-    for ( var i = 0; i < this.props.months.length; i++ ) {
+      months = [];
+
+    for ( var i = 0; i < this.props.months.full.length; i++ ) {
 
       months.push({
         value: i,
-        label: this.props.months[i]
+        label: this.props.months.full[i]
       });
 
     }
 
     return (
       <div className="rc-header">
-        <div className="rc-week">
-          <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
-          <span className="rc-date">{startDay}-{endDay}</span>
-          <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
-        </div>
-        <div className="rc-options">
-          <div className="rc-month">
-            <Select
+        <div className="rc-toolbar border-box">
+          <div className="rc-week">
+            <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
+            <span className="rc-date">{this.getTogglerText(startDate, endDate)}</span>
+            <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
+            </div>
+          <div className="rc-options">
+            <div className="rc-month">
+              <Select
               options={months}
-              value={this.props.startDate.getMonth()}
-              onChange={this.props.goAnotherMonth}
-              searchable={false}
-              clearable={false} />
-          </div>
-          <div className="rc-years">
-            <Select
+                value={this.props.startDate.getMonth()}
+                onChange={this.props.goAnotherMonth}
+                searchable={false}
+                clearable={false} />
+            </div>
+            <div className="rc-years">
+              <Select
               options={this.getYearOptions()}
-              value={this.props.startDate.getFullYear()}
-              clearable={false}
-              noResultsText={''}
-              onChange={this.onChange}
-              onInputChange={this.onChange} />
+                value={this.props.startDate.getFullYear()}
+                clearable={false}
+                noResultsText={''}
+                onChange={this.onChange}
+                onInputChange={this.onChange} />
+            </div>
           </div>
         </div>
         {this.renderWeekdays()}

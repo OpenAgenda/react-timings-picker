@@ -62,7 +62,6 @@
 
   .rc-stats {
 
-    float: right;
     padding: 0.5em 0;
 
   }
@@ -75,64 +74,74 @@
       display: inline-block;
     }
 
-    .rc-week {
-      margin-right: 15px;
-      min-width: 150px;
-      width: 150px;
-      display: table-cell;
-      vertical-align: middle;
+    .rc-toolbar{
 
-      .rc-date{
-        width: 50px;
-        display: inline-block;
-        text-align: center;
-        margin: 0 8px;
+      $toolbar-height: 40px;
+
+      width: 100%;
+      padding: 0 0 5px 10px;
+
+      .rc-week {
+
+        min-width: 260px;
+
+        @include vertical-centre($toolbar-height);
+
+        .rc-date{
+          width: 220px;
+          display: inline-block;
+          text-align: center;
+        }
+
+        .rc-icon-wrapper{
+          cursor: pointer;
+        }
+
+        .rc-icon {
+          color: $secondaryColor;
+        }
       }
 
-      .rc-icon-wrapper{
-        margin: 0 10px;
-        cursor: pointer;
-      }
+      .rc-options{
 
-      .rc-icon {
-        color: $secondaryColor;
-      }
-    }
+        $child-elements: div;
+        @include vertical-align($child-elements);
 
-    .rc-options{
-      display: table-cell;
-      padding-left: 15px;
-      .is-focused:not(.is-open) > .Select-control {
-        box-shadow: none;
-      }
+        float: right;
+        text-align: right;
+        height: $toolbar-height;
 
-      .Select-control{
-        border: none;
-        padding-right: 20px;
-        color: $primaryColor;
+        & > #{$child-elements} {
+          text-align: left;
+        }
 
-        &:hover{
+        .is-focused:not(.is-open) > .Select-control {
           box-shadow: none;
         }
 
-        .Select-placeholder{
-          padding-right: 20px;
+        .Select-control{
+          border: none;
+          color: $primaryColor;
+          display: table;
+
+          &:hover{
+            box-shadow: none;
+          }
         }
-      }
 
-      .Select-placeholder, .Select-input{
-        color: $primaryColor;
-      }
+        .Select-placeholder{
+          color: $primaryColor;
+        }
 
-      .Select-option.is-focused {
-        background-color: $xlightGray;
-        color: $normalFont;
-      }
+        .Select-option.is-focused {
+          background-color: $xlightGray;
+          color: $normalFont;
+        }
 
-      .Select-arrow{
-        color: $secondaryColor;
-        border-color: $secondaryColor transparent transparent;
-        top: 15px;
+        .Select-arrow{
+          border-color: $secondaryColor transparent transparent;
+          top: 15px;
+        }
       }
     }
 
