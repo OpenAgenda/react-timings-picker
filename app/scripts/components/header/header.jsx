@@ -8,156 +8,156 @@ Select = require( 'react-select' ),
 
 Header = React.createClass({
 
-	propTypes: {
-		startDate: propTypes.date.isRequired,
-		goAnotherWeek: React.PropTypes.func.isRequired,
-		goAnotherMonth: React.PropTypes.func.isRequired,
-		goAnotherYear: React.PropTypes.func.isRequired,
-		months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
-	},
+  propTypes: {
+    startDate: propTypes.date.isRequired,
+    goAnotherWeek: React.PropTypes.func.isRequired,
+    goAnotherMonth: React.PropTypes.func.isRequired,
+    goAnotherYear: React.PropTypes.func.isRequired,
+    months: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+  },
 
-	onChangeTimeout: false,
+  onChangeTimeout: false,
 
-	onChange: function( value ) {
+  onChange: function( value ) {
 
-		var year, self = this;
+    var year, self = this;
 
-		clearTimeout( this.onChangeTimeout );
+    clearTimeout( this.onChangeTimeout );
 
-		try {
+    try {
 
-			year = parseInt( value, 10 );
+      year = parseInt( value, 10 );
 
-			if ( isNaN( year ) ) throw 'not a number';
+      if ( isNaN( year ) ) throw 'not a number';
 
-		} catch ( e ) {
+    } catch ( e ) {
 
-			return;
+      return;
 
-		}
+    }
 
-		if ( this.isInOptions( year ) ) {
+    if ( this.isInOptions( year ) ) {
 
-			this.props.goAnotherYear( year );
+      this.props.goAnotherYear( year );
 
-		} else {
+    } else {
 
-			this.onChangeTimeout = setTimeout( function() {
+      this.onChangeTimeout = setTimeout( function() {
 
-				self.props.goAnotherYear( year );
+        self.props.goAnotherYear( year );
 
-			}, 1000 );
+      }, 1000 );
 
-		}
+    }
 
-	},
+  },
 
-	getYearOptions: function() {
+  getYearOptions: function() {
 
-		var years = [], i,
+    var years = [], i,
 
-		currentYear = this.props.startDate.getFullYear(),
+    currentYear = this.props.startDate.getFullYear(),
 
-		minDdYearsDiff = 5,
+    minDdYearsDiff = 5,
 
-		firstOption, lastOption;
+    firstOption, lastOption;
 
-		for ( i = currentYear; i <= currentYear + 5; i++ ) {
+    for ( i = currentYear; i <= currentYear + 5; i++ ) {
 
-			years.push({
-				value: i, 
-				label: i.toString()
-			});
+      years.push({
+        value: i, 
+        label: i.toString()
+      });
 
-		}
+    }
 
-		return years;
+    return years;
 
-	},
+  },
 
-	isInOptions: function( year ) {
+  isInOptions: function( year ) {
 
-		var years = this.getYearOptions(), is = false;
+    var years = this.getYearOptions(), is = false;
 
-		years.forEach( function( y ) {
+    years.forEach( function( y ) {
 
-			if ( y.value == year ) is = true;
+      if ( y.value == year ) is = true;
 
-		});
+    });
 
-		return is;
+    return is;
 
-	},
+  },
 
-	renderWeekdays: function() {
+  renderWeekdays: function() {
 
-		var day = utils.setTime( this.props.startDate ),
+    var day = utils.setTime( this.props.startDate ),
 
-		weekdayItems = [];
+    weekdayItems = [];
 
-		for ( var i = 0; i < 7; i++ ) {
+    for ( var i = 0; i < 7; i++ ) {
 
-			weekdayItems.push(
-				<div key={i} className="rc-day-name">
-				  <div>{this.props.weekdays.short[ day.getDay() ]} {day.getDate()}</div>
-			  </div>
-			);
+      weekdayItems.push(
+        <div key={i} className="rc-day-name">
+          <div>{this.props.weekdays.short[ day.getDay() ]} {day.getDate()}</div>
+        </div>
+      );
 
-			day = utils.addDays( day, 1 );
+      day = utils.addDays( day, 1 );
 
-		}
+    }
 
-		return ( <div className="rc-weekdays">{weekdayItems}</div> )
+    return ( <div className="rc-weekdays">{weekdayItems}</div> )
 
-	},
+  },
 
-	render: function () {
+  render: function () {
 
-		var startDay = this.props.startDate.getDate(),
+    var startDay = this.props.startDate.getDate(),
 
-		endDay = utils.addDays( this.props.startDate, 6 ).getDate(),
+    endDay = utils.addDays( this.props.startDate, 6 ).getDate(),
 
-		months = [];
+    months = [];
 
-		for ( var i = 0; i < this.props.months.length; i++ ) {
+    for ( var i = 0; i < this.props.months.length; i++ ) {
 
-			months.push({
-				value: i,
-				label: this.props.months[i]
-			});
+      months.push({
+        value: i,
+        label: this.props.months[i]
+      });
 
-		}
+    }
 
-		return (
-			<div className="rc-header">
-				<div className="rc-week">
-					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
-					<span className="rc-date">{startDay}-{endDay}</span>
-					<div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
-				</div>
-				<div className="rc-options">
-					<div className="rc-month">
-						<Select
-						  options={months}
-						  value={this.props.startDate.getMonth()}
-						  onChange={this.props.goAnotherMonth}
-							searchable={false}
-							clearable={false} />
-					</div>
-					<div className="rc-years">
-						<Select
-						  options={this.getYearOptions()}
-						  value={this.props.startDate.getFullYear()}
-						  clearable={false}
-						  noResultsText={''}
-						  onChange={this.onChange}
-						  onInputChange={this.onChange} />
-					</div>
-				</div>
-				{this.renderWeekdays()}
-			</div>
-			);
-	}
+    return (
+      <div className="rc-header">
+        <div className="rc-week">
+          <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
+          <span className="rc-date">{startDay}-{endDay}</span>
+          <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
+        </div>
+        <div className="rc-options">
+          <div className="rc-month">
+            <Select
+              options={months}
+              value={this.props.startDate.getMonth()}
+              onChange={this.props.goAnotherMonth}
+              searchable={false}
+              clearable={false} />
+          </div>
+          <div className="rc-years">
+            <Select
+              options={this.getYearOptions()}
+              value={this.props.startDate.getFullYear()}
+              clearable={false}
+              noResultsText={''}
+              onChange={this.onChange}
+              onInputChange={this.onChange} />
+          </div>
+        </div>
+        {this.renderWeekdays()}
+      </div>
+      );
+  }
 });
 
 module.exports = Header;

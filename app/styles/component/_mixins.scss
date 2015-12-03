@@ -3,67 +3,67 @@
 /* #region styles */
 
 @mixin rotate($deg) {
-	-moz-transform: rotate($deg);
-	-ms-transform: rotate($deg);
-	-o-transform: rotate($deg);
-	-webkit-transform: rotate($deg);
-	transform: rotate($deg);
+  -moz-transform: rotate($deg);
+  -ms-transform: rotate($deg);
+  -o-transform: rotate($deg);
+  -webkit-transform: rotate($deg);
+  transform: rotate($deg);
 }
 
 @mixin box-sizing($value) {
-	-moz-box-sizing: $value;
-	-webkit-box-sizing: $value;
-	box-sizing: $value;
+  -moz-box-sizing: $value;
+  -webkit-box-sizing: $value;
+  box-sizing: $value;
 }
 
 @mixin word-break($value) {
-	-ms-word-break: #{$value};
-	 word-break: #{$value};
+  -ms-word-break: #{$value};
+   word-break: #{$value};
 }
 
 @mixin text-overflow($value) {
-	-ms-text-overflow: $value;
-	-o-text-overflow: $value;
-	text-overflow: $value;
+  -ms-text-overflow: $value;
+  -o-text-overflow: $value;
+  text-overflow: $value;
 }
 
 @mixin user-select($value) {
-	-moz-user-select: $value;
-	-ms-user-select: $value;
-	-webkit-user-select: $value;
-	user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  -webkit-user-select: $value;
+  user-select: $value;
 }
 
 @mixin translateY($value) {
-	-moz-transform: translateY($value);
-	-ms-transform: translateY($value);
-	-o-transform: translateY($value);
-	-webkit-transform: translateY($value);
-	transform: translateY($value);
+  -moz-transform: translateY($value);
+  -ms-transform: translateY($value);
+  -o-transform: translateY($value);
+  -webkit-transform: translateY($value);
+  transform: translateY($value);
 }
 
 @mixin translateX($value) {
-	-moz-transform: translateX($value);
-	-ms-transform: translateX($value);
-	-o-transform: translateX($value);
-	-webkit-transform: translateX($value);
-	transform: translateX($value);
+  -moz-transform: translateX($value);
+  -ms-transform: translateX($value);
+  -o-transform: translateX($value);
+  -webkit-transform: translateX($value);
+  transform: translateX($value);
 }
 
 @mixin translate($x, $y) {
-	-moz-transform: translate($x, $y);
-	-ms-transform: translate($x, $y);
-	-o-transform: translate($x, $y);
-	-webkit-transform: translate($x, $y);
-	transform: translate($x, $y);
+  -moz-transform: translate($x, $y);
+  -ms-transform: translate($x, $y);
+  -o-transform: translate($x, $y);
+  -webkit-transform: translate($x, $y);
+  transform: translate($x, $y);
 }
 
 @mixin rotate($angle) {
-	-moz-transform: rotate($angle);
-	-ms-transform: rotate($angle);
-	-o-transform: rotate($angle);
-	-webkit-transform: rotate($angle);
-	transform: rotate($angle);
+  -moz-transform: rotate($angle);
+  -ms-transform: rotate($angle);
+  -o-transform: rotate($angle);
+  -webkit-transform: rotate($angle);
+  transform: rotate($angle);
 }
 
 /* #endregion styles*/
@@ -71,21 +71,21 @@
 /* #region media queries*/
 
 @mixin respond-to($media) {
-	@if $media == xxsmall {
-		@media only screen and (max-width: $xxsmall ) { @content; }
-	}
-	@else if $media == xsmall {
-		@media only screen and (max-width: $xsmall ) { @content; }
-	}
-	@else if $media == small {
-		@media only screen and (max-width: $small ) { @content; }
-	}
-	@else if $media == medium {
-		@media only screen and (max-width: $medium ) { @content; }
-	}
-	@else if $media == large {
-		@media only screen and (max-width: $large) { @content; }
-	}
+  @if $media == xxsmall {
+    @media only screen and (max-width: $xxsmall ) { @content; }
+  }
+  @else if $media == xsmall {
+    @media only screen and (max-width: $xsmall ) { @content; }
+  }
+  @else if $media == small {
+    @media only screen and (max-width: $small ) { @content; }
+  }
+  @else if $media == medium {
+    @media only screen and (max-width: $medium ) { @content; }
+  }
+  @else if $media == large {
+    @media only screen and (max-width: $large) { @content; }
+  }
 }
 
 /* #endregion media queries*/
@@ -93,17 +93,17 @@
 /* #region utils */
 
 @function str-replace($string, $search, $replace: "") {
-	$index: str-index($string, $search);
+  $index: str-index($string, $search);
 
-	@if $index {
-		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-	}
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
 
-	@return $string;
+  @return $string;
 }
 
 @function part-of($number){
-	@return 100% / $number;
+  @return 100% / $number;
 }
 
 /* #endregion utils */
@@ -111,30 +111,30 @@
 /* #region font face */
 
 @mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
-	$src: null;
+  $src: null;
 
-	$extmods: (
-		eot: "?",
-		svg: "#" + str-replace($name, " ", "_")
-	);
+  $extmods: (
+    eot: "?",
+    svg: "#" + str-replace($name, " ", "_")
+  );
 
-	$formats: (
-		otf: "opentype",
-		ttf: "truetype"
-	);
+  $formats: (
+    otf: "opentype",
+    ttf: "truetype"
+  );
 
-	@each $ext in $exts {
-		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
-		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
-		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
-	}
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+  }
 
-	@font-face {
-		font-family: quote($name);
-		font-style: $style;
-		font-weight: $weight;
-		src: $src;
-	}
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
 }
 
 /* #endregion font face*/
@@ -142,10 +142,10 @@
 /* #region select */
 
 @mixin selectbox-wrapper($width){
-	width: $width;
-	div{
-		display: block;
-	}
+  width: $width;
+  div{
+    display: block;
+  }
 }
 
 /* #endregion select*/
@@ -153,31 +153,31 @@
 /* #region positioning */
 
 @mixin vertical-align($position: relative) {
-	position: $position;
-	top: 50%;
-	@include translateY(-50%);
+  position: $position;
+  top: 50%;
+  @include translateY(-50%);
 }
 
 @mixin center-absolute-position(){
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	@include translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include translate(-50%, -50%);
 }
 
 @mixin vertical-centre ($height) {
-	height:$height;
-	line-height:$height !important;
-	display:inline-block;
-	vertical-align:middle;
+  height:$height;
+  line-height:$height !important;
+  display:inline-block;
+  vertical-align:middle;
 }
 
 @mixin right-top-corner ($top: 2px, $right: 2px, $width: auto, $height: auto){
-	width: $height;
-	height: $width;
-	position: absolute;
-	right: $right;
-	top: $top;
+  width: $height;
+  height: $width;
+  position: absolute;
+  right: $right;
+  top: $top;
 }
 
 /* #endregion positioning*/
@@ -185,14 +185,14 @@
 /* #region figures*/
 
 @mixin arrow($color: black, $leftWeight: 0.2em, $rightWeigh: 0.2em, $strokeType: solid, $angle: 0){
-	content: "";
-	display: inline-block;
-	/* By using an em scale, the arrows will size with the font */
-	width: 0.7em;
-	height: 0.7em;
-	border-right: $rightWeigh $strokeType $color;
-	border-top: $leftWeight $strokeType $color;
-	@include rotate($angle);
+  content: "";
+  display: inline-block;
+  /* By using an em scale, the arrows will size with the font */
+  width: 0.7em;
+  height: 0.7em;
+  border-right: $rightWeigh $strokeType $color;
+  border-top: $leftWeight $strokeType $color;
+  @include rotate($angle);
 }
 
 /* #endregion figures*/
