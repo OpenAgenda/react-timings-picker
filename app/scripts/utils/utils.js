@@ -8,13 +8,19 @@ var Utils = function () {
 };
 
 Utils.prototype.addMinutes = function (date, minutes) {
-  return new Date(date.getTime() + minutes * this.seconds /*milliseconds in minute*/);
+  var result = this.clone(date);
+  result.setMinutes(result.getMinutes() + minutes);
+  return result;
 };
 Utils.prototype.addHours = function (date, hours) {
-  return new Date(date.getTime() + hours * this.minutes /*milliseconds in minute*/);
+  var result = this.clone(date);
+  result.setHours(result.getHours() + hours);
+  return result;
 };
 Utils.prototype.addDays = function (date, days) {
-  return new Date(date.getTime() + days * this.hours /*milliseconds in minute*/);
+  var result = this.clone(date);
+  result.setDate(result.getDate() + days);
+  return result;
 };
 
 Utils.prototype.addMonths = function (date, months) {
@@ -32,23 +38,23 @@ Utils.prototype.daysInMonth = function (month, year) {
 Utils.prototype.startOf = function (date, value) {
   var d = this.clone(date);
   switch (value) {
-  case "year":
-    d.setMonth(0);
-    d.setDate(1);
-    return this.setTime(d);
-  case "month":
-    d.setDate(1);
-    return this.setTime(d);
-  case "day":
-    return this.setTime(d);
-  case "hour":
-    return this.setTime(d, d.getHours());
-  case "minute":
-    return this.setTime(d, d.getHours(), d.getMinutes());
-  case "second":
-    return this.setTime(d, d.getHours(), d.getMinutes(), d.getSeconds());
-  default:
-    return d;
+    case "year":
+      d.setMonth(0);
+      d.setDate(1);
+      return this.setTime(d);
+    case "month":
+      d.setDate(1);
+      return this.setTime(d);
+    case "day":
+      return this.setTime(d);
+    case "hour":
+      return this.setTime(d, d.getHours());
+    case "minute":
+      return this.setTime(d, d.getHours(), d.getMinutes());
+    case "second":
+      return this.setTime(d, d.getHours(), d.getMinutes(), d.getSeconds());
+    default:
+      return d;
   }
 };
 
@@ -74,12 +80,20 @@ Utils.prototype.parseTime = function(time){
   var separatorIndex = time.indexOf(':');
   var hours = parseInt(time.substr(0, separatorIndex));
   var minutes = parseInt(time.substr(separatorIndex + 1, time.length));
-  var date = new Date();
-  return this.setTime(date, hours, minutes, 0, 0);
+
+  var today = new Date();
+
+  var result = this.isTimeshiftDay(today)
+    ? this.setTime( this.addDays(today, 1), hours, minutes ) 
+    : this.setTime( today, hours, minutes );
+
+  return result;
 };
 
 Utils.prototype.formatTime = function (date) {
+
   var minutes = date.getMinutes();
+
   return date.getHours() + ":" + (minutes < 10 ? "0" + minutes : minutes);
 };
 
@@ -93,7 +107,7 @@ Utils.prototype.roundMinutes = function(date, roundTo, initialDate) {
     if (initialDate === undefined) {
       throw new Error('Undefined initial date for rounding date');
     }
-    return this.addMinutes(initialDate, this.round(this.minutesDifference(initialDate, date), roundTo));
+    return this.addMinutes(initialDate, this.round(this.minutesDifference(initialDate, date, true), roundTo));
   } else {
     var result = date, roundedMinutes = this.round(date.getMinutes(), roundTo);
     if (roundedMinutes === 60) {
@@ -129,10 +143,43 @@ Utils.prototype.ceil = function (source, roundTo) {
   return source + roundTo - source % roundTo;
 };
 
-Utils.prototype.minutesDifference = function (lowerDate, greaterDate) {
-  var diffMs = (greaterDate - lowerDate);
-  return Math.round(diffMs / 60000);
+Utils.prototype.minutesDifference = function (lowerDate, greaterDate, round, ignoreTimeShift) {
+  round = round === true;
+  ignoreTimeShift = ignoreTimeShift === true;
+
+  if ( ignoreTimeShift ) {
+
+    while (this.isTimeshiftDay(lowerDate) || this.isTimeshiftDay(greaterDate)) {
+
+      greaterDate = this.addDays(greaterDate, 1);
+      lowerDate = this.addDays(lowerDate, 1);
+
+    }
+
+  }
+
+  var diff = (greaterDate - lowerDate) / 60000; // 60000 - milliseconds in minutes
+  return round ? Math.round(diff) : diff;
 };
+
+Utils.prototype.hoursDifferrence = function (lowerDate, greaterDate, round, ignoreTimeShift) {
+  round = round === true;
+  ignoreTimeShift = ignoreTimeShift === true;
+
+  var diff = this.minutesDifference(lowerDate, greaterDate, round, ignoreTimeShift) / 60; // 60 - minutes in hour
+  return round ? Math.round(diff) : diff;
+}
+
+//this needs to check if today is a time shift day,
+//cause sometimes we have 23 or 25 hours day
+Utils.prototype.isTimeshiftDay = function (date) {
+
+  var currentDay = this.startOf(date, 'day'),
+    nextDay = this.startOf(this.addDays(date, 1), 'day');
+
+  return this.hoursDifferrence(currentDay, nextDay, true) !== 24; // 24 - hours in a day
+
+}
 
 Utils.prototype.hasClass = function( element, cls ) {
 
