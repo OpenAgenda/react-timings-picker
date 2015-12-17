@@ -99,14 +99,11 @@ input.rc-success{
 
       .rc-week {
 
-        min-width: 260px;
-
         @include vertical-centre($toolbar-height);
 
         .rc-date{
-          width: 220px;
           display: inline-block;
-          text-align: center;
+          margin-left: 10px;
         }
 
         .rc-icon-wrapper{

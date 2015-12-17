@@ -91,6 +91,12 @@ Header = React.createClass({
 
   getTogglerText: function (startDate, endDate) {
 
+    if ( utils.isSameMonth(startDate, endDate) ) {
+
+      return startDate.getDate() + ' - ' + endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()];
+
+    }
+
     if (utils.isSameYear(startDate, endDate)) {
 
       return startDate.getDate() + ' ' + this.props.months.short[startDate.getMonth()] + ' - ' + endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()];
@@ -149,8 +155,8 @@ Header = React.createClass({
         <div className="rc-toolbar border-box">
           <div className="rc-week">
             <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
-            <span className="rc-date">{this.getTogglerText(startDate, endDate)}</span>
             <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
+            <span className="rc-date">{this.getTogglerText(startDate, endDate)}</span>
             </div>
           <div className="rc-options">
             <div className="rc-month">
