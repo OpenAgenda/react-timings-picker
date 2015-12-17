@@ -18,7 +18,9 @@
     "from": "from",
     "to": "to",
     "recurrenceAddedSuccessfully": "Recurring timings have been added",
-    "timingsPreventRecurring":  "The following timings prevent the creation of the recurrence"
+    "timingsPreventRecurring": "The following timings prevent the creation of the recurrence",
+    "startTime": "Start time:",
+    "endTime":  "End time:"
   },
   "fr-FR": {
     "months": {
@@ -39,6 +41,8 @@
     "from": "du",
     "to": "au",
     "recurrenceAddedSuccessfully": "Les horaires ont été ajoutés",
-    "timingsPreventRecurring":  "Les horaires suivants empêchent l'ajout des horaires récurrents"
+    "timingsPreventRecurring": "Les horaires suivants empêchent l'ajout des horaires récurrents",
+    "startTime": "Heure de début",
+    "endTime":  "heure de fin"
   }
 }

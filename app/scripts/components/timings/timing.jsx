@@ -48,7 +48,7 @@ var Timing = React.createClass({
     }
 
     return (
-      <div className="rc-event" onMouseDown={this.props.onEventMouseDown}>
+      <div className="rc-event" onMouseDown={this.props.onTimingMouseDown}>
         <div className={timeClassNames}>
           <span className="start">{utils.formatTime(this.props.timing.start)}</span> - <span className="end">{utils.formatTime(this.props.timing.end)}</span>
         </div>

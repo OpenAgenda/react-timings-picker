@@ -59,7 +59,9 @@ $primaryColor: #6c6c6c;
 $secondaryColor: #ddd;
 $reverseColor: $white;
 $success: $green;
+$success-bg: lighten($green, 25%);
 $error: $red;
+$error-bg: lighten($red, 25%);
 
 $calendarBorderColor: #dcdcdc;
 $calendarBackColor: #fff;

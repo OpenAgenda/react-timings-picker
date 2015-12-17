@@ -1,6 +1,12 @@
 @import '_mixins';
 @import '_variables.scss';
 
+.primary-button{
+  padding: 7px 12px;
+  background-color: $lightBlue;
+  color: #fff;
+}
+
 .border-box {
   @include box-sizing(border-box)
 }
@@ -12,11 +18,21 @@
 
 .rc-error{
     color: $error;
-  }
+}
 
-  .rc-success{
+input.rc-error{
+  background-color: $error-bg;
+  color: $black;
+}
+
+.rc-success{
     color: $success;
-  }
+}
+
+input.rc-success{
+  background-color: $success-bg;
+  color: $black;
+}
 
 .rc-icon {
   &.rc-icon-close:after {
@@ -195,6 +211,11 @@
     display: block;
     max-height: 400px;
     overflow-y: scroll;
+    position: relative;
+
+    &.noscroll{
+      overflow: hidden;
+    }
 
     .rc-day-cell {
       height: $dayCellHeight;
@@ -314,7 +335,6 @@
       float: left;
       font-size: $mediumFont;
       border-bottom: 1px solid $calendarBorderColor;
-      border-top: 1px solid $schedulerHeaderBackColor;
 
       & > div {
         text-align: center;
@@ -334,7 +354,6 @@
         @extend .border-box;
         border-left: 1px solid $schedulerDayBorderColor;
         border-bottom: 1px solid $calendarBorderColor;
-        border-top: 1px solid $schedulerHeaderBackColor;
         width: part-of($dayInWeek);
         display: inline-block;
         @include word-break("break-word");
@@ -364,9 +383,7 @@
     }
 
     .rc-ok-button {
-      padding: 7px 12px;
-      background-color: $lightBlue;
-      color: #fff;
+      @extend .primary-button;
     }
 
     .rc-message-close{
@@ -514,5 +531,22 @@
 
   &:not(:valid) ~ .close-icon {
     display: none;
+  }
+}
+.rc-time-adjustment{
+  text-align: left;
+  display: inline-block;
+
+  input{
+    margin: 5px 0 0 0;
+  }
+
+  section{
+    margin: 5px 0;
+  }
+
+  .rc-adjust-button{
+    @extend .primary-button;
+    display: inline-block;
   }
 }
