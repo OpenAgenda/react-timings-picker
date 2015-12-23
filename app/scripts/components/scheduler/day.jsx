@@ -6,7 +6,6 @@ var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 var ReactDOM = require("react-dom");
-var ReactDOMServer = require("react-dom/server");
 
 var Timing = require('../timings/timing');
 
@@ -135,11 +134,12 @@ var Day = React.createClass({
     event.style.height = 0 + 'px';
     event.style.top = y + 'px';
 
-    event.innerHTML = ReactDOMServer.renderToStaticMarkup(
-        <div className="rc-time rc-below">
-          <span className="start">{utils.formatTime(startMinutes)}</span> - <span className="end">{utils.formatTime(startMinutes)}</span>
-        </div>
-      )
+    event.innerHTML =
+      '<div class="rc-time rc-below">' +
+        '<span class="start">' + utils.formatTime( startMinutes ) + '</span>' +
+        ' - ' +
+        '<span class="end">' + utils.formatTime( startMinutes ) + '</span>' +
+      '</div>'
 
     dayNode.appendChild(event);
     userActionValues.target = event;

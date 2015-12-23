@@ -50,7 +50,6 @@
   "dependencies": {
     "date-format-lite": "^0.7.4",
     "lodash": "^3.10.1",
-    "lodash.assign": "^3.2.0",
     "react-onclickoutside": "^4.5.0",
     "react-select": "^0.9.1",
     "tether": "^1.1.1"
