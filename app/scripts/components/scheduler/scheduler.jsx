@@ -4,14 +4,12 @@ var utils = require('../../utils/utils'),
   domUtils = require('../../utils/domUtils');
 var propTypes = require("../../utils/propTypes");
 
-var elementCLass = require('element-class');
-
 var React = require('react');
 var ReactDOM = require("react-dom");
 
 var Day = require('./day');
 
-var Modal = require('../modal/components/Modal');
+var Modal = require('../modal/Modal');
 
 require("date-format-lite");
 
@@ -593,10 +591,10 @@ var Scheduler = React.createClass({
     }
 
     if ( !isError ) {
-      elementCLass(input).remove(errorClass);
+      domUtils.removeClass(input, errorClass);
     }
     else {
-      elementCLass(input).add(errorClass);
+      domUtils.addClass(input, errorClass);
     }
   },
 
@@ -609,8 +607,8 @@ var Scheduler = React.createClass({
 
   adjustTiming: function () {
 
-    if ( elementCLass( this.refs.startTimeInput ).has( 'rc-error' )
-      || elementCLass( this.refs.endTimeInput ).has( 'rc-error' ) ) {
+    if ( utils.hasClass( this.refs.startTimeInput, 'rc-error' )
+      || utils.hasClass( this.refs.endTimeInput, 'rc-error' ) ) {
       return;
     }
 
@@ -634,37 +632,19 @@ var Scheduler = React.createClass({
 
     var customStyle = {
       overlay: {
-        position: 'absolute',
-        top: this.state.canvasScroll,
-        left: 0,
-        right: 0,
-        bottom: (0 - this.state.canvasScroll),
-        backgroundColor: 'rgba(220, 220, 220, 0.75)'
+        top: this.state.canvasScroll + 'px',
+        bottom: (0 - this.state.canvasScroll) + 'px',
       },
-      content: {
-        position: 'absolute',
-        top: '60px',
-        bottom: '60px',
-        width: '200px',
-        margin: '0 auto',
-        border: '1px solid #ccc',
-        background: '#fff',
-        overflow: 'auto',
-        WebkitOverflowScrolling: 'touch',
-        borderRadius: '4px',
-        outline: 'none',
-        padding: '20px',
-        textAlign: 'center'
-      }
+      content: {}
     }
 
     var result = !this.state.showAdjust
       ? null
       : (
-        <Modal ref="ModalWindow" isOpen={this.state.showAdjust}
-          onRequestClose={this.closeModal}
+        <Modal ref="ModalWindow" show={this.state.showAdjust}
                selector={'.rc-scheduler'}
-               style={customStyle}>
+               styles={customStyle}
+               onClose={this.closeModal}>
           <div className="rc-time-adjustment">
             <section>
               {this.props.startTimeLabel}
