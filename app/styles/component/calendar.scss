@@ -212,7 +212,7 @@ input.rc-success{
 
     &.noscroll{
       overflow: hidden;
-      padding-right: 10px;
+      padding-right: $scrollWidth; 
     }
 
     .rc-day-cell {
@@ -517,6 +517,8 @@ input.rc-success{
   padding: 6px 10px 5px;
   margin: 0 5px;
 
+  @extend .border-box;
+
   &:focus{
     outline: none;
     border-color: $gray;
@@ -534,9 +536,11 @@ input.rc-success{
 .rc-time-adjustment{
   text-align: left;
   display: inline-block;
+  width: 100%;
 
   input{
     margin: 5px 0 0 0;
+    width: 100%;
   }
 
   section{

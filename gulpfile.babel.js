@@ -56,11 +56,11 @@ function lint(files)
 {
 	return () =>
 	{
-		return gulp.src(files)
-			.pipe(reload({ stream: true, once: true }))
-			.pipe($.eslint({ config: 'eslint.config.json' }))
-			.pipe($.eslint.format())
-			.pipe($.if(!browserSync.active, $.eslint.failAfterError()));
+		//return gulp.src(files)
+		//	.pipe(reload({ stream: true, once: true }))
+		//	.pipe($.eslint({ config: 'eslint.config.json' }))
+		//	.pipe($.eslint.format())
+		//	.pipe($.if(!browserSync.active, $.eslint.failAfterError()));
 	};
 }
 
@@ -134,11 +134,11 @@ gulp.task("react:lib", () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist', "lib"]));
 
-gulp.task('serve', ['styles', 'fonts', 'react'], () =>
+gulp.task('serve', ['styles', 'fonts', 'react', 'react:dist'], () =>
 {
 	browserSync({
 		notify: false,
-		port: 9000,
+		port: 9001,
 		server: {
 			baseDir: ['.tmp', 'app'],
 			routes: {
@@ -158,7 +158,7 @@ gulp.task('serve', ['styles', 'fonts', 'react'], () =>
 
 	gulp.watch('app/styles/**/*.scss', ['styles']);
 	gulp.watch('app/fonts/**/*', ['fonts']);
-	gulp.watch(['app/scripts/**/*.jsx', 'app/scripts/**/*.js'], ['react:lib','react']);
+	gulp.watch(['app/scripts/**/*.jsx', 'app/scripts/**/*.js'], ['react:lib', 'react:dist','react']);
 	gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 

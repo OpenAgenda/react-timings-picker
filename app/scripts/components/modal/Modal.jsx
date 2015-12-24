@@ -85,7 +85,10 @@ var Modal = React.createClass( {
     var overlayStyles = this.props.styles.overlay;
     for ( var style in this.props.styles.overlay ) {
       var prop = style.toString()
-      if ( modalComponent.style.hasOwnProperty(prop) ) {
+      //hasOwnProperty doesn't work for FireFox and IE because of additional nesting.
+      //all the styles are empty string by default. 
+      //due to this check for undefined can be used.
+      if ( modalComponent.style[prop] !== undefined ) {
         modalComponent.style[prop] = overlayStyles[prop];
       }
     }
