@@ -658,7 +658,7 @@ var Scheduler = React.createClass({
               <input className="rc-dp-input" type="text" name="endTime" defaultValue={this.state.selectedTiming.end.format(this.props.timeInputFormat)}
                      ref="endTimeInput" onChange={this.onTimeInputChange} />
             </section>
-            <a className="rc-adjust-button" onClick={this.adjustTiming}>Adjust</a>
+            <a className="rc-adjust-button" onClick={this.adjustTiming}>{this.props.strings.adjust}</a>
           </div>
         </Modal>
       );
