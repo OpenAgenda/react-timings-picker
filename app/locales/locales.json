@@ -1,5 +1,6 @@
 ﻿{
   "en-US": {
+    "adjust" : "Adjust",
     "months": {
       "full": [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
       "short": [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]
@@ -14,7 +15,7 @@
     "howTo" : "Add and modify timings",
     "clearTimings" : "clear all timings",
     "defineReccuringEvent": "Define a recurring event",
-    "duplicateTimingsAbove": "Duplicate the timings above",
+    "duplicateTimingsAbove": "Duplicate the timings above every week up to",
     "from": "from",
     "to": "to",
     "recurrenceAddedSuccessfully": "Recurring timings have been added",
@@ -23,6 +24,7 @@
     "endTime":  "End time:"
   },
   "fr-FR": {
+    "adjust" : "Ajuster",
     "months": {
       "full": ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],
       "short": ["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Aoû","Sep","Oct","Nov","Déc"]
@@ -37,7 +39,7 @@
     "howTo" : "Ajoutez et modifiez des horaires",
     "clearTimings" : "supprimer tous les horaires",
     "defineReccuringEvent": "Définir un événement récurrent",
-    "duplicateTimingsAbove": "Dupliquer les horaires ci-dessus",
+    "duplicateTimingsAbove": "Dupliquer les horaires ci-dessus toutes les semaines jusqu'au",
     "from": "du",
     "to": "au",
     "recurrenceAddedSuccessfully": "Les horaires ont été ajoutés",

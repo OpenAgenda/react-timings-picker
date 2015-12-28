@@ -473,6 +473,7 @@ var TimingsPicker = React.createClass({
             months={lang.months}
             weekdays={lang.weekdays} />
           <Scheduler ref="scheduler"
+            strings={lang}
             startDate={weekStart}
             startTime={this.state.startTime}
             endTime={this.state.endTime}

@@ -124,11 +124,11 @@ var Modal = React.createClass( {
 
     this._modalComponent.style.display = this.state.show ? '' : 'none';
 
-    ReactDOM.render( this.renderConent(), this._modalComponent );
+    ReactDOM.render( this.renderContent(), this._modalComponent );
 
   },
 
-  renderConent: function () {
+  renderContent: function () {
 
     var classNames = internalContentClassName + ' ' + this.props.contentClassNames;
 
