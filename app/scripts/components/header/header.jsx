@@ -1,4 +1,6 @@
-﻿var utils = require('../../utils/utils'),
+﻿'use strict';
+
+var utils = require( '../../utils/utils' ),
 
 propTypes = require( '../../utils/propTypes' ),
 
@@ -56,13 +58,11 @@ Header = React.createClass({
 
     var years = [], i,
 
-    currentYear = this.props.startDate.getFullYear(),
+      currentYear = this.props.startDate.getFullYear(),
 
-    minDdYearsDiff = 5,
+      minDdYearsDiff = 5;
 
-    firstOption, lastOption;
-
-    for ( i = currentYear; i <= currentYear + 5; i++ ) {
+    for ( i = currentYear; i <= currentYear + minDdYearsDiff; i++ ) {
 
       years.push({
         value: i, 
@@ -72,6 +72,19 @@ Header = React.createClass({
     }
 
     return years;
+
+  },
+
+  getMonthOptions: function () {
+
+    return this.props.months.full.map( function ( month, i ) {
+
+      return {
+        value: i,
+        label: month
+      }
+
+    } );
 
   },
 
@@ -89,22 +102,24 @@ Header = React.createClass({
 
   },
 
-  getTogglerText: function (startDate, endDate) {
+  getTogglerText: function ( start, end ) {
 
-    if ( utils.isSameMonth(startDate, endDate) ) {
+    var monthsNames = this.props.months.short;
 
-      return startDate.getDate() + ' - ' + endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()];
+    if ( utils.isSameMonth(start, end) ) {
 
-    }
-
-    if (utils.isSameYear(startDate, endDate)) {
-
-      return startDate.getDate() + ' ' + this.props.months.short[startDate.getMonth()] + ' - ' + endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()];
+      return start.getDate() + ' - ' + end.getDate() + ' ' + monthsNames[end.getMonth()];
 
     }
 
-    return startDate.getDate() + ' ' + this.props.months.short[startDate.getMonth()] + ' ' + startDate.getFullYear() + ' - ' +
-      endDate.getDate() + ' ' + this.props.months.short[endDate.getMonth()] + ' ' + endDate.getFullYear();
+    if (utils.isSameYear(start, end)) {
+
+      return start.getDate() + ' ' + monthsNames[start.getMonth()] + ' - ' + end.getDate() + ' ' + monthsNames[end.getMonth()];
+
+    }
+
+    return start.getDate() + ' ' + monthsNames[start.getMonth()] + ' ' + start.getFullYear() + ' - ' +
+      end.getDate() + ' ' + monthsNames[end.getMonth()] + ' ' + end.getFullYear();
 
   },
 
@@ -112,7 +127,7 @@ Header = React.createClass({
 
     var day = utils.setTime( this.props.startDate ),
 
-    weekdayItems = [];
+      weekdayItems = [];
 
     for ( var i = 0; i < 7; i++ ) {
 
@@ -135,21 +150,6 @@ Header = React.createClass({
     var startDate = this.props.startDate,
       endDate = utils.addDays( this.props.startDate, 6 ) /*6 - numbers of weekdays minus current */
 
-    var startDay = startDate.getDate(),
-
-      endDay = endDate.getDate(),
-
-      months = [];
-
-    for ( var i = 0; i < this.props.months.full.length; i++ ) {
-
-      months.push({
-        value: i,
-        label: this.props.months.full[i]
-      });
-
-    }
-
     return (
       <div className="rc-header">
         <div className="rc-toolbar border-box">
@@ -161,7 +161,7 @@ Header = React.createClass({
           <div className="rc-options">
             <div className="rc-month">
               <Select
-              options={months}
+              options={this.getMonthOptions()}
                 value={this.props.startDate.getMonth()}
                 onChange={this.props.goAnotherMonth}
                 searchable={false}

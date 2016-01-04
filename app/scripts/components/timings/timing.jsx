@@ -12,15 +12,14 @@ var Timing = React.createClass({
     timeProperties: propTypes.timingsTimeProperties.isRequired,
     readOnly: React.PropTypes.bool.isRequired,
     remove: React.PropTypes.func,
-    onEventMouseDown: React.PropTypes.func,
     onResizerMouseDown: React.PropTypes.func
   },
   calculateStyles: function(){
     var thisNode = ReactDOM.findDOMNode(this);
-    var height = thisNode.parentNode.clientHeight;
+    var height = thisNode.parentNode.clientHeight / this.props.timeProperties.allMinutes;
 
-    var top = (height * this.props.timeProperties.startMinutesDifference) / this.props.timeProperties.allMinutes;
-    var bottom = (height * this.props.timeProperties.endMinutesDifference) / this.props.timeProperties.allMinutes;
+    var top = height * this.props.timeProperties.startMinutesDifference ;
+    var bottom = height * this.props.timeProperties.endMinutesDifference;
 
     var style = 'top:' + top + 'px; height:' + (bottom - top - 2) + 'px;';
     thisNode.style.cssText = style;
@@ -35,9 +34,9 @@ var Timing = React.createClass({
 
     var timeClassNames = this.props.readOnly ? 'rc-time rc-readonly' : 'rc-time',
 
-    resizerClassNames = 'rc-event-resizer', closeClassNames = 'rc-event-icon rc-icon rc-icon-close',
+      resizerClassNames = 'rc-event-resizer', closeClassNames = 'rc-event-icon rc-icon rc-icon-close',
 
-    minutesSpan = ( this.props.timing.end.getTime() - this.props.timing.start.getTime() ) / ( 60 * 1000 );
+      minutesSpan = this.props.timeProperties.endMinutesDifference - this.props.timeProperties.startMinutesDifference;
 
     if ( minutesSpan <= 30 ) {
 
