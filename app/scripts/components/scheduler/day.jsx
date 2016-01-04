@@ -90,7 +90,7 @@ var Day = React.createClass({
     var timingNode = domUtils.getParentHavingClass( e.target, timingClassName );
 
     var nearestOffsets = this.getMaxDragY( timingNode.offsetTop ),
-      nearestTiming = this.getNearestNextTiming( timing );
+      nearestTiming = this.getNearestTiming( timing, false );
 
     var maxTime = !nearestTiming
       ? utils.addMinutes( this.props.dayStartTime, this.props.allMinutes )
@@ -125,9 +125,9 @@ var Day = React.createClass({
       this.props.allMinutes * ( y ) / dayNode.clientHeight);
 
 
-    var nearestTiming = this.getNearestNextTiming({ start: startMinutes });
+    var nearestTiming = this.getNearestTiming({ start: startMinutes }, false);
     userActionValues.maxTime = !nearestTiming ? utils.addMinutes(this.props.dayStartTime, this.props.allMinutes) : nearestTiming.start;
-    nearestTiming = this.getNearestPrevTiming({ start: startMinutes });
+    nearestTiming = this.getNearestTiming({ start: startMinutes }, true);
     userActionValues.minTime = !nearestTiming ? this.props.dayStartTime : nearestTiming.end;
 
     var minValues = this.getMinDragY( y );
@@ -155,24 +155,16 @@ var Day = React.createClass({
 
     this.props.timingsInteractions.onDayMouseDown(userActionValues, e);
   },
-  getNearestNextTiming: function ( timing ) {
+  getNearestTiming: function ( timing, isPrev ) {
+
+    var mult = isPrev ? 1 : -1
 
     return this.props.timings.filter( function ( t ) {
-      return t.start > timing.start;
-    } ).sort( function ( t1, t2 ) {
-      return t1.start > t2.start ? 1 :
-          t1.start < t2.start ? -1 : 0;
-    } )[0];
-
-  },
-  getNearestPrevTiming: function ( timing ) {
-    
-    return this.props.timings.filter(function (t) {
-      return t.start < timing.start;
-    }).sort(function (t1, t2) {
-      return t1.start > t2.start ? -1 :
-          t1.start < t2.start ? 1 : 0;
-    })[0];
+                return isPrev ? ( t.start < timing.start ) : ( t.start > timing.start );
+              } ).sort( function ( t1, t2 ) {
+                return ( t1.start > t2.start ? -1 :
+                    t1.start < t2.start ? 1 : 0 ) * mult;
+              } )[0];;
 
   },
   getMaxDragY: function (currentTop) {
