@@ -110,50 +110,34 @@ var Day = React.createClass({
 
     var top = domUtils.getVertiacalScrollOffset() + this.props.canvasScroll;
 
-    var dayNode = e.target.parentNode,
-      userActionValues = {};
+    var dayNode = domUtils.getParentHavingClass( e.target, dayNodeClassName ),
+      dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
 
-    userActionValues.parent = dayNode;
-
-    userActionValues.dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
-
-    userActionValues.initialY = utils.round(top + e.clientY, userActionValues.dragStep);
-
-    var y = userActionValues.initialTop = utils.round( userActionValues.initialY - domUtils.elementOffset( dayNode ).top, userActionValues.dragStep );
+    var y = utils.round( top + e.clientY - domUtils.elementOffset( dayNode ).top, dragStep );
     
     var startMinutes = utils.addMinutes(this.props.dayStartTime,
       this.props.allMinutes * ( y ) / dayNode.clientHeight);
 
+    var nearestNextTiming = this.getNearestTiming( { start: startMinutes }, false ),
+      nearestPrevTiming = this.getNearestTiming( { start: startMinutes }, true );
 
-    var nearestTiming = this.getNearestTiming({ start: startMinutes }, false);
-    userActionValues.maxTime = !nearestTiming ? utils.addMinutes(this.props.dayStartTime, this.props.allMinutes) : nearestTiming.start;
-    nearestTiming = this.getNearestTiming({ start: startMinutes }, true);
-    userActionValues.minTime = !nearestTiming ? this.props.dayStartTime : nearestTiming.end;
+    var minCoordValues = this.getMinDragY( y ),
+      maxCoordValues = this.getMaxDragY( y );
 
-    var minValues = this.getMinDragY( y );
-    userActionValues.minDragY = minValues.offsetTop;
-    userActionValues.minTop = minValues.top;
-    userActionValues.maxDragY = this.getMaxDragY(y).offsetTop;
+    var extremePoints = {
+      minTime: !nearestPrevTiming ? this.props.dayStartTime : nearestPrevTiming.end,
+      maxTime: !nearestNextTiming ? utils.addMinutes( this.props.dayStartTime, this.props.allMinutes ) : nearestNextTiming.start,
+      minDragY: minCoordValues.offsetTop,
+      maxDragY: maxCoordValues.offsetTop,
+      minTop: minCoordValues.top
+    }
 
-    var event = document.createElement('DIV');
-    event.className = timingClassName;
-    event.style.height = 0 + 'px';
-    event.style.top = y + 'px';
+    var timing = {
+      start: startMinutes,
+      end: startMinutes
+    };
 
-    event.innerHTML =
-      '<div class="rc-time rc-below">' +
-        '<span class="start">' + utils.formatTime( startMinutes ) + '</span>' +
-        ' - ' +
-        '<span class="end">' + utils.formatTime( startMinutes ) + '</span>' +
-      '</div>'
-
-    dayNode.appendChild( event );
-
-    userActionValues.target = event;
-    userActionValues.initialHeight = 0;
-    userActionValues.startMinutes = startMinutes;
-
-    this.props.timingsInteractions.onDayMouseDown(userActionValues, e);
+    this.props.timingsInteractions.onDayMouseDown( e, extremePoints, timing );
   },
   getNearestTiming: function ( timing, isPrev ) {
 

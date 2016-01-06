@@ -11,6 +11,9 @@ var Day = require('./day');
 
 var Modal = require('../modal/Modal');
 
+var dayNodeClassName = 'rc-day-time',
+  timingClassName = 'rc-event';
+
 require("date-format-lite");
 
 var Scheduler = React.createClass({
@@ -427,18 +430,51 @@ var Scheduler = React.createClass({
     }
 
   },
+  onDayMouseDown: function ( e, extremePoints, timing ) {
 
-  onDayMouseDown: function ( userActionValues, e ) {
+    var top = domUtils.getVertiacalScrollOffset() + this.state.canvasScroll;
 
-    userActionValues.isCreating = true;
-    userActionValues.isDrag = userActionValues.isResize = false;
+    var dayNode = domUtils.getParentHavingClass( e.target, dayNodeClassName );
+
+    var dragStep = dayNode.clientHeight * this.props.timingStep / this.props.allMinutes;
+
+    var initialY = utils.round( top + e.clientY, dragStep );
+
+    var initialTop = utils.round( initialY - domUtils.elementOffset( dayNode ).top, dragStep );
+
+    var event = document.createElement( 'DIV' );
+    event.className = timingClassName;
+    event.style.height = 0 + 'px';
+    event.style.top = initialTop + 'px';
+
+    event.innerHTML =
+      '<div class="rc-time rc-below">' +
+        '<span class="start">' + utils.formatTime( timing.start ) + '</span>' +
+        ' - ' +
+        '<span class="end">' + utils.formatTime( timing.end ) + '</span>' +
+      '</div>'
+
+    dayNode.appendChild( event );
 
     this.setState( {
-      userActionValues: userActionValues,
-      actionTiming: { 
-        start: userActionValues.startMinutes, 
-        end: userActionValues.startMinutes
+      userActionValues: {
+        parent: dayNode,
+        dragStep: dragStep,
+        initialY: initialY,
+        initialTop: initialTop,
+        target: event,
+        initialHeight: 0,
+        isCreating: true,
+        isDrag: false,
+        isResize: false,
+
+        minTime: extremePoints.minTime,
+        maxTime: extremePoints.maxTime,
+        minDragY: extremePoints.minDragY,
+        maxDragY: extremePoints.maxDragY,
+        minTop: extremePoints.minTop,
       },
+      actionTiming: timing,
     } );
 
     document.addEventListener( 'mousemove', this.dayMouseMove );
