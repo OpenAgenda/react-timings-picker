@@ -79,27 +79,27 @@ var TimingsPicker = React.createClass({
 
     if ( !this.canCreateTiming( targetTiming ) ) return;
 
-    var timings = this.state.timings, 
+    var timings = this.state.timings,
 
     lastId = this.state.lastTimingId;
 
     targetTiming[this.state.timingsIdProperty] = lastId++;
 
     timings.push( targetTiming );
-    
+
     this.setState({
       timings: timings,
       lastTimingId: lastId
     });
 
     this.props.onTimingsChange.call( this, this.state.timings, targetTiming, "Add timing" );
-    
+
 
   },
 
   addTimings: function( targetTimings, overlapCheking ) {
 
-    var timings = this.state.timings, 
+    var timings = this.state.timings,
 
       lastId = this.state.lastTimingId,
 
@@ -198,6 +198,19 @@ var TimingsPicker = React.createClass({
     return new Date(sortedTimings[sortedTimings.length - 1].start);
   },
 
+  getDateArrayFromActiveDays: function (days) {
+    var startDate = new Date(days.startDate),
+        endDate = new Date(days.endDate),
+        result = [],
+        date;
+
+    for (date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+      result.push(new Date(date));
+    }
+
+    return result;
+  },
+
   getInitialState: function () {
 
     var timingStep = this.props.timingStep,
@@ -207,8 +220,10 @@ var TimingsPicker = React.createClass({
     endTime = utils.parseTime( this.props.endTime ),
 
     startDate = new Date(),
-      
+
     timings = [],
+
+    activeDays = [],
 
     timingsIdProperty = "_rc_id",
 
@@ -234,6 +249,20 @@ var TimingsPicker = React.createClass({
 
       });
 
+    }
+
+    if (this.props.activeDays.length > 0) {
+      var result = [],
+          len = this.props.activeDays.length,
+          i = 0,
+          days;
+
+      for(i; i<len; i++) {
+        days = this.getDateArrayFromActiveDays( this.props.activeDays[i] );
+        result = result.concat(days);
+      }
+
+      activeDays = result;
     }
 
     while ( startDate.getDay() != this.props.weekStartDay ) {
@@ -266,10 +295,11 @@ var TimingsPicker = React.createClass({
       weekEnd: weekEnd,
       allMinutes: utils.minutesDifference(startTime, endTime, true),
       timings: timings,
+      activeDays: activeDays,
       timingsIdProperty: timingsIdProperty,
       lastTimingId: _rc_id,
       readOnly: readOnly,
-      languages: languages, 
+      languages: languages,
       currentLanguage: currentLanguage,
       isRecurrenceAdded: null,
       overlaps: []
@@ -288,13 +318,13 @@ var TimingsPicker = React.createClass({
 
     this.setState({
       weekStart: weekStart,
-      weekEnd: utils.addDays( weekStart, 7 ) 
+      weekEnd: utils.addDays( weekStart, 7 )
     });
 
   },
 
   goAnotherWeek: function ( next ) {
-    
+
     this.updateWeekStartAndEnd( utils.addDays( this.state.weekStart, next ? 7 : -7 ) );
 
   },
@@ -305,7 +335,7 @@ var TimingsPicker = React.createClass({
     var daysInMonth = utils.daysInMonth(newWeekStart.getYear(), month);
     newWeekStart.setDate(newWeekStart.getDate() > daysInMonth ? daysInMonth : newWeekStart.getDate());
     newWeekStart.setMonth(month);
-    
+
     while (newWeekStart.getDay() != this.props.weekStartDay) {
       newWeekStart = utils.addDays(newWeekStart, -1);
     }
@@ -317,7 +347,7 @@ var TimingsPicker = React.createClass({
   goAnotherYear: function( year ) {
 
     var newWeekStart = this.state.weekStart;
-    
+
     newWeekStart.setFullYear( year );
 
     while ( newWeekStart.getDay() !== this.props.weekStartDay ) {
@@ -391,7 +421,7 @@ var TimingsPicker = React.createClass({
 
       }
     }
-    
+
     if (isOverlap) {
 
       this.setState({ isRecurrenceAdded: false, overlaps: overlaps });
@@ -415,6 +445,8 @@ var TimingsPicker = React.createClass({
     var timings = this.state.timings.filter(function (t) {
       return t.start >= weekStart && t.end <= weekEnd;
     });
+
+    var activeDays = this.state.activeDays;
 
     var timingsModifications = this.state.readOnly === true ? undefined : {
       addTiming: this.addTiming,
@@ -454,6 +486,7 @@ var TimingsPicker = React.createClass({
           startDate={weekStart}
           endDate={weekEnd}
           strings={lang}
+		  activeDays={activeDays}
           dateFormat={this.props.dateFormat} />;
       }
     }
@@ -485,6 +518,7 @@ var TimingsPicker = React.createClass({
             weekdays={lang.weekdays}
             timingsModifications={timingsModifications}
             readOnly={this.state.readOnly}
+            activeDays={activeDays}
             onTimingClick={this.props.onTimingClick}
             timingsIdProperty={this.state.timingsIdProperty}
             startTimeLabel={lang.startTime}

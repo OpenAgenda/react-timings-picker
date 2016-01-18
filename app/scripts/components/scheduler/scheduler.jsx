@@ -112,8 +112,8 @@ var Scheduler = React.createClass({
     var timings = this.props.timings;
     for (var i = 0; i < timings.length; i++) {
       var t = timings[i];
-      if (t[timingsIdProperty] == actionTimingId) continue; 
-      
+      if (t[timingsIdProperty] == actionTimingId) continue;
+
       if (!(t.start >= end) && !(t.end <= start)) return true;
     }
     return false;
@@ -155,13 +155,14 @@ var Scheduler = React.createClass({
   },
 
   eventDragMouseMove: function ( e ) {
-
     var userActionValues = this.state.userActionValues,
 
       actionTiming = this.state.actionTiming;
 
     var parent = e.target.parentNode,
       isParentDayNode = utils.hasClass( parent, 'rc-day-time' );
+
+	var isDayInActiveNode = utils.hasClass( parent, 'rc-inactiveDay' );
 
     var y = utils.round( e.clientY - userActionValues.initialY + this.state.canvasScroll, userActionValues.dragStep ),
 
@@ -173,16 +174,16 @@ var Scheduler = React.createClass({
       start = utils.setTime( this.props.startTime, actionTiming.start.getHours(), actionTiming.start.getMinutes() ),
       end = utils.setTime( this.props.endTime, actionTiming.end.getHours(), actionTiming.end.getMinutes() );
 
-    if ( !isParentDayNode ) return;
+    if ( !isParentDayNode || isDayInActiveNode) {
+		return;
+	}
 
     if ( newValue > userActionValues.maxDragY ) {
-
       top = parent.clientHeight - userActionValues.target.clientHeight - 2;
       start = utils.addMinutes( this.props.endTime, userActionValues.timingDuration * ( -1 ) );
       end = this.props.endTime;
 
     } else if ( newValue < userActionValues.minDragY ) {
-
       top = 0;
       start = this.props.startTime;
       end = utils.addMinutes( this.props.startTime, userActionValues.timingDuration );
@@ -217,8 +218,8 @@ var Scheduler = React.createClass({
     if ( !timingNode ) return;
 
     // Clone timing element and hide it. Then work only with cloned element
-    // This needs to avoid issues with React - 
-    //    when moving timing to another day, React tells that DOM was changed 
+    // This needs to avoid issues with React -
+    //    when moving timing to another day, React tells that DOM was changed
     var clonedTimingNode = timingNode.cloneNode( true );
 
     timingNode.style.display = 'none';
@@ -306,7 +307,7 @@ var Scheduler = React.createClass({
     else {
       height = fromDayStartToTimingsBottom - userActionValues.initialTop - 2;
 
-      var currentDay = utils.setTime( new Date( userActionValues.parent.getAttribute( 'data-date' ) ), 
+      var currentDay = utils.setTime( new Date( userActionValues.parent.getAttribute( 'data-date' ) ),
         this.props.startTime.getHours(), this.props.startTime.getMinutes() );
 
       end = utils.addMinutes( currentDay, minutesDifferenceFromStart );
@@ -334,11 +335,11 @@ var Scheduler = React.createClass({
       initialY = this.state.canvasScroll + e.clientY,
 
       dragStep = parent.clientHeight * this.props.timingStep / this.props.allMinutes,
-    
+
       minDragY = initialY - (target.clientHeight - e.target.clientHeight),
-    
+
       maxDragY = nearestOffsets.offsetTop - dragStep,
-    
+
       initialHeight = target.clientHeight,
 
       initialTop = parseFloat( target.style.top.replace( 'px' ) );
@@ -408,7 +409,7 @@ var Scheduler = React.createClass({
 
         height = userActionValues.maxDragY - domUtils.elementOffset( userActionValues.target ).top - 2;
         end = userActionValues.maxTime;
-      
+
       } else {
 
         height = Math.abs( y ) - 2;
@@ -419,7 +420,7 @@ var Scheduler = React.createClass({
       top = userActionValues.initialTop;
 
       start = actionTiming.start;
-      
+
     }
 
     if ( !this.isOverlap( start, end ) ) {
@@ -705,7 +706,7 @@ var Scheduler = React.createClass({
 
   render: function () {
     var times = [], startTime = this.props.startTime, endTime = this.props.endTime;
-    
+
     var step = this.props.timeStep;
     for (startTime; startTime < endTime; startTime = utils.addMinutes(startTime, step)) {
       var formattedTime = utils.formatTime(startTime);
@@ -735,20 +736,21 @@ var Scheduler = React.createClass({
         return t.start >= dayStartTime && t.end <= dayEndTime;
       });
 
-      days.push( <Day 
-        key={i} 
-        dayStartTime={dayStartTime} 
-        dayEndTime={dayEndTime} 
-        timeCells={times.length} 
-        timeStep={step} 
-        timings={currentDayTimings} 
+      days.push( <Day
+        key={i}
+        dayStartTime={dayStartTime}
+        dayEndTime={dayEndTime}
+        timeCells={times.length}
+        timeStep={step}
+        timings={currentDayTimings}
         timingStep={this.props.timingStep}
         allMinutes={this.props.allMinutes}
-        defaultTimigDuration={this.props.defaultTimigDuration} 
+        defaultTimigDuration={this.props.defaultTimigDuration}
         timingsModifications={timingsModifications}
         timingsIdProperty={this.props.timingsIdProperty}
         timingsInteractions={timingsInteractions}
         canvasScroll={this.state.canvasScroll}
+        activeDays={this.props.activeDays}
         readOnly={this.props.readOnly} /> );
 
       dayStartTime = utils.addDays(dayStartTime, 1); /*set next day */

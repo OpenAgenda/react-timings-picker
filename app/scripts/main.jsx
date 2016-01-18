@@ -28,21 +28,47 @@ var Calendar = require('./components/timings-picker');
       start: '2015-03-31T11:22:40Z',
       end: '2015-03-31T15:27:40Z'
     }
-  ]
+  ];
+
+  var activeDays = [
+    {
+      startDate: '2015-03-27',
+      endDate: '2015-03-31'
+    },
+    {
+      startDate: '2015-04-05',
+      endDate: '2015-04-11'
+    },
+    {
+	  startDate: '2015-04-17',
+	  endDate: '2015-04-18'
+    },
+    {
+	  startDate: '2015-05-05',
+	  endDate: '2015-05-22'
+    },
+
+    {
+	  startDate: '2015-06-15',
+	  endDate: '2015-06-17'
+    }
+
+  ];
 
   var newLanguages = [];
   var lang = "en-US";
 
   document.getElementById('calendar').setAttribute('style', 'max-width: 600px; max-height: 600px;');
 
-  ReactDOM.render( <Calendar 
-    startTime="7:00" 
-    endTime="7:00" 
-    timings={shiftDateTimings} 
-    weekStartDay={6} 
-    onTimingsChange={onTimingsChange} 
-    onTimingClick={onTimingClick} 
-    readOnly={false} 
+  ReactDOM.render( <Calendar
+    startTime="7:00"
+    endTime="7:00"
+    activeDays={activeDays}
+    timings={shiftDateTimings}
+    weekStartDay={6}
+    onTimingsChange={onTimingsChange}
+    onTimingClick={onTimingClick}
+    readOnly={false}
     lang={lang}
     additionalLanguages={newLanguages}
     timingStep={30} />, document.getElementById( 'calendar' ) );

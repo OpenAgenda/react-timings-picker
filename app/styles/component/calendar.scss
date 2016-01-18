@@ -212,9 +212,32 @@ input.rc-success{
 
     &.noscroll{
       overflow: hidden;
-      padding-right: $scrollWidth; 
+      padding-right: $scrollWidth;
     }
+    .rc-day-time {
+	  &:hover {
+		cursor: pointer;
+	  }
+      &.rc-inactiveDay {
+        .rc-day-cell {
 
+          &:nth-child(2n-1) {
+            background-color: #494949;
+            opacity: 0.4;
+
+          }
+
+          &:nth-child(2n) {
+            background-color: #494949;
+            opacity: 0.2;
+          }
+
+		  &:hover {
+			cursor: default;
+		  }
+        }
+      }
+    }
     .rc-day-cell {
       height: $dayCellHeight;
 
@@ -406,22 +429,22 @@ input.rc-success{
   width:250px;
   border:solid 1px $calendarBorderColor;
   margin-bottom:10px;
-  
+
   $spacing:10px;
   $icon-width:40px;
   $header-height:40px;
-  
+
   >div.rc-dp-header {
     float:left;
     width:100%;
     background:$schedulerHeaderBackColor;
     height:$header-height;
     color:$reverseColor;
-    
-    > * { 
+
+    > * {
       @include vertical-centre($header-height);
     }
-    
+
     >.rc-icon-wrapper {
       float:left;
       width:$icon-width;
@@ -434,17 +457,17 @@ input.rc-success{
         border-color:$reverseColor;
       }
     }
-    
+
     >.left {
       text-align:left;
     }
-    
+
     >.right {
       text-align:right;
       margin-left:$icon-width*-1;
     }
-    
-    >span { 
+
+    >span {
       float:left;
       width:100%;
       font-weight:bold;
@@ -461,11 +484,11 @@ input.rc-success{
     float:left;
     width:100%;
     border-top:solid 1px $calendarBorderColor;
-    
+
     &:first-child {
       border-top:none;
     }
-    
+
     >span.rc-dp-day {
       float:left;
       width: part-of($dayInWeek);
@@ -477,19 +500,19 @@ input.rc-success{
       background:$white;
       cursor:pointer;
       color:$black;
-      
+
       &:first-child {
         border-left:none;
       }
-      
+
       &.today {
         background:$datepickerTodayBackColor;
       }
-      
+
       &.different-month {
         color:$secondaryColor;
       }
-      
+
       &.selected {
         background:$datepickerSelectedBackColor;
         color:$reverseColor;
@@ -498,8 +521,16 @@ input.rc-success{
       &:hover{
         background-color: $datepickerHoverBackColor;
       }
+
+	  &.rc-dp-inactiveDay {
+		background-color: #494949;
+		opacity: 0.3;
+		&:hover {
+		  cursor: default;
+		}
+	  }
     }
-    
+
     &.rc-dp-names>span {
       color:$primaryColor;
       font-weight:bold;

@@ -121,6 +121,7 @@ var DatePicker = React.createClass({
               onSelect={this.handleSelect}
               hideCalendar={this.hideCalendar}
               excludeDates={this.props.excludeDates}
+			  activeDays={this.props.activeDays}
               weekStart={this.props.weekStart} />
         </Popover>
         )

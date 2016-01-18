@@ -20,6 +20,22 @@ var Week = React.createClass({
       </div>
       )
   },
+
+  getAdditionalClassName: function (day) {
+	var inactiveClassName = 'rc-dp-inactiveDay',
+		len = this.props.activeDays.length,
+		i = 0;
+
+    this.isActiveDay = false;
+	for(i; i<len; i++) {
+	  if(utils.isSameDay( this.props.activeDays[i], day )) {
+		  this.isActiveDay = true;
+		  return '';
+	  }
+	}
+	return ' ' + inactiveClassName;
+  },
+
   renderWeeks: function () {
     var days = [],
       date = this.props.date,
@@ -36,7 +52,7 @@ var Week = React.createClass({
       };
       var isSameDate = date.toDateString() === selected.toDateString();
       var className = "rc-dp-day" + (day.isToday ? " today" : "") + (day.isCurrentMonth ? "" : " different-month") + (isSameDate ? " selected" : "")
-      days.push(<span key={day.date.toString()} className={className} onClick={this.props.select.bind(null, day)}>{day.number}</span>);
+      days.push(<span key={day.date.toString()} className={className + this.getAdditionalClassName(day.date)} onClick={this.props.select.bind(null, day, this.isActiveDay)}>{day.number}</span>);
       date = utils.addDays(date, 1);
     }
     return days;
