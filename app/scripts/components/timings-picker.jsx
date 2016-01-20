@@ -98,7 +98,6 @@ var TimingsPicker = React.createClass({
   },
 
   addTimings: function( targetTimings, overlapCheking ) {
-
     var timings = this.state.timings,
 
       lastId = this.state.lastTimingId,
@@ -302,6 +301,7 @@ var TimingsPicker = React.createClass({
       languages: languages,
       currentLanguage: currentLanguage,
       isRecurrenceAdded: null,
+	  isInactiveDayOverlap: false,
       overlaps: []
     };
 
@@ -360,71 +360,121 @@ var TimingsPicker = React.createClass({
 
   },
 
+  getInactiveDaysOverlaps: function(days) {
+	  var result = [],
+		  activeDays = this.state.activeDays,
+		  daysLen = days.length,
+		  getUniqueDays,
+		  activeDaysLen = activeDays.length,
+		  i,
+		  j;
+
+	  getUniqueDays = function(days) {
+		  var i = 0,
+			  j = 0,
+			  len = days.length,
+			  dublicateIndexArray = [];
+
+		  for(i; i<len; i++) {
+			  if(days[i] === days[i+1]) {
+				  days[i] = null;
+				  dublicateIndexArray.push(i);
+			  }
+		  }
+		  if(dublicateIndexArray) {
+			  for(j = dublicateIndexArray.length - 1; j>=0; j--) {
+				  days.splice(dublicateIndexArray[j], 1);
+			  }
+		  }
+
+		  return days;
+	  };
+	  if(activeDaysLen && daysLen) {
+		  days = getUniqueDays(days);
+
+		  for(i = days.length - 1; i>=0; i--) {
+			  for(j = activeDaysLen - 1; j>=0; j--) {
+				  if(days[i] === activeDays[j].toDateString()) {
+					  days.splice(i, 1);
+				  }
+			  }
+		  }
+		  result = days;
+	  }
+	  return result;
+  },
   createRecurrence: function (startDate, endDate) {
+	  var days = [],
+		isInactiveDayOverlap = false,
+		isOverlap = false,
+		overlaps =[];
 
-    var weekStart = this.state.weekStart,
-      weekEnd = this.state.weekEnd;
-    var recurrenceStart = utils.addDays(utils.setTime(startDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()), 7),
-      recurrenceEnd = utils.setTime(endDate, this.state.endTime.getHours(), this.state.endTime.getMinutes());
+	  var weekStart = this.state.weekStart,
+		weekEnd = this.state.weekEnd;
+	  var recurrenceStart = utils.addDays(utils.setTime(startDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()), 7),
+		recurrenceEnd = utils.setTime(endDate, this.state.endTime.getHours(), this.state.endTime.getMinutes());
 
-    if ( recurrenceEnd < utils.setTime(endDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()) ) {
+	  if ( recurrenceEnd < utils.setTime(endDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()) ) {
 
-      recurrenceEnd = utils.addDays(recurrenceEnd, 1);
+		recurrenceEnd = utils.addDays(recurrenceEnd, 1);
 
-    }
+	  }
 
-    var currentWeekTimings = utils.createTwoDimensionalArray( 7 ); /*7 days*/
-    this.refs.scheduler.props.timings.forEach(function (t) {
+	  var currentWeekTimings = utils.createTwoDimensionalArray( 7 ); /*7 days*/
+	  this.refs.scheduler.props.timings.forEach(function (t) {
 
-      currentWeekTimings[t.start.getDay()].push(t);
+		currentWeekTimings[t.start.getDay()].push(t);
 
-    });
+	  });
 
-    var timingsToReccurence = [];
-    for (var start = recurrenceStart; start < recurrenceEnd; start = utils.addDays(start, 1)) {
+	  var timingsToReccurence = [];
+	  for (var start = recurrenceStart; start < recurrenceEnd; start = utils.addDays(start, 1)) {
 
-      var currentDayTimings = currentWeekTimings[start.getDay()];
-      for (var l = 0; l < currentDayTimings.length; l++) {
+		var currentDayTimings = currentWeekTimings[start.getDay()];
+		for (var l = 0; l < currentDayTimings.length; l++) {
+			var daysDiff = Math.ceil(utils.minutesDifference(currentDayTimings[l].start, start, true) / 1440); /*1440 - minutes in day*/
+			timingsToReccurence.push({ start: utils.addDays(currentDayTimings[l].start, daysDiff), end: utils.addDays(currentDayTimings[l].end, daysDiff) });
+			days.push(start.toDateString());
+		}
 
-        var daysDiff = Math.ceil(utils.minutesDifference(currentDayTimings[l].start, start, true) / 1440); /*1440 - minutes in day*/
-        timingsToReccurence.push({ start: utils.addDays(currentDayTimings[l].start, daysDiff), end: utils.addDays(currentDayTimings[l].end, daysDiff) });
+	  }
 
-      }
+	  overlaps = this.getInactiveDaysOverlaps(days);
+	  if(overlaps.length){
+		  isInactiveDayOverlap = true;
+		  isOverlap = true;
+	  } else {
+		  var selectedPeriodTimings = utils.createTwoDimensionalArray(7);
+		  /*7 days*/
+		  this.state.timings.filter(function (t) {
 
-    }
+			  return !(t.start >= weekStart && t.end <= weekEnd) && (t.start >= recurrenceStart && t.end <= recurrenceEnd);
 
-    var selectedPeriodTimings = utils.createTwoDimensionalArray(7); /*7 days*/
-    this.state.timings.filter(function (t) {
+		  }).forEach(function (t) {
 
-      return !(t.start >= weekStart && t.end <= weekEnd) && (t.start >= recurrenceStart && t.end <= recurrenceEnd);
+			  selectedPeriodTimings[t.start.getDay()].push(t);
 
-    }).forEach(function (t) {
+		  });
 
-      selectedPeriodTimings[t.start.getDay()].push(t);
+		  var format = this.props.timeFormat + " " + this.props.dateFormat;
+		  for (var j = 0; j < timingsToReccurence.length; j++) {
 
-    });
+			  var t = timingsToReccurence[j], timingsToCheck = selectedPeriodTimings[t.start.getDay()];
+			  for (var k = 0; k < timingsToCheck.length; k++) {
+				  if (this.isOverlap(t, timingsToCheck[k])) {
 
-    var overlaps = [], isOverlap = false;
-    var format = this.props.timeFormat + " " + this.props.dateFormat;
-    for ( var j = 0; j < timingsToReccurence.length; j++ ) {
+					  overlaps.push("" + this.state.currentLanguage.from + " " + timingsToCheck[k].start.format(format) +
+						  " " + this.state.currentLanguage.to + " " + timingsToCheck[k].end.format(format));
+					  isOverlap = true;
 
-      var t = timingsToReccurence[j], timingsToCheck = selectedPeriodTimings[t.start.getDay()];
-      for ( var k = 0; k < timingsToCheck.length; k++ ) {
-
-        if ( this.isOverlap(t, timingsToCheck[k]) ) {
-
-          overlaps.push("" + this.state.currentLanguage.from + " " + timingsToCheck[k].start.format(format) +
-                  " " + this.state.currentLanguage.to + " " + timingsToCheck[k].end.format(format));
-          isOverlap = true;
-
-        }
-
-      }
-    }
+				  }
+			  }
+		  }
+	  }
 
     if (isOverlap) {
 
-      this.setState({ isRecurrenceAdded: false, overlaps: overlaps });
+      this.setState({ isRecurrenceAdded: false, overlaps: overlaps, isInactiveDayOverlap: isInactiveDayOverlap });
 
     }
     else {
@@ -471,7 +521,7 @@ var TimingsPicker = React.createClass({
       else if (this.state.isRecurrenceAdded === false) {
         bottompart =
         <div className="rc-error">
-          {lang.timingsPreventRecurring}:
+          {this.state.isInactiveDayOverlap ? lang.inactiveDaysPreventRecurring : lang.timingsPreventRecurring}:
           <ul>
             {this.state.overlaps.map(function(value, i){
               return <li key={i}>{value}</li>

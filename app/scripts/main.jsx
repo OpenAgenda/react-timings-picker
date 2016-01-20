@@ -29,8 +29,9 @@ var Calendar = require('./components/timings-picker');
       end: '2015-03-31T15:27:40Z'
     }
   ];
+  var activeDays = [];
 
-  var activeDays = [
+  activeDays = [
     {
       startDate: '2015-03-27',
       endDate: '2015-03-31'
@@ -38,6 +39,10 @@ var Calendar = require('./components/timings-picker');
     {
       startDate: '2015-04-05',
       endDate: '2015-04-11'
+    },
+    {
+      startDate: '2015-04-14',
+      endDate: '2015-04-15'
     },
     {
 	  startDate: '2015-04-17',
@@ -52,7 +57,6 @@ var Calendar = require('./components/timings-picker');
 	  startDate: '2015-06-15',
 	  endDate: '2015-06-17'
     }
-
   ];
 
   var newLanguages = [];

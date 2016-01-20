@@ -20,6 +20,7 @@
     "to": "to",
     "recurrenceAddedSuccessfully": "Recurring timings have been added",
     "timingsPreventRecurring": "The following timings prevent the creation of the recurrence",
+	"inactiveDaysPreventRecurring": "The following inactive days prevent the creation of the recurrence",
     "startTime": "Start time:",
     "endTime":  "End time:"
   },
@@ -44,6 +45,7 @@
     "to": "au",
     "recurrenceAddedSuccessfully": "Les horaires ont été ajoutés",
     "timingsPreventRecurring": "Les horaires suivants empêchent l'ajout des horaires récurrents",
+	"inactiveDaysPreventRecurring": "Les jours inactifs suivants empêchent la création de la récidive",
     "startTime": "Heure de début",
     "endTime":  "heure de fin"
   }

@@ -34,8 +34,7 @@ var Day = React.createClass({
   },
 
   clickTime: function ( event ) {
-
-    if ( this.props.readOnly || !this.isDayActive) return;
+    if ( this.props.readOnly || this.isDayActive === false) return;
 
     var dayNode = ReactDOM.findDOMNode( this ).querySelector( '.' + dayNodeClassName );
 
@@ -250,16 +249,12 @@ var Day = React.createClass({
   },
 
   getAdditionalClassName: function () {
-    var inactiveClassName = 'rc-inactiveDay',
-        len = this.props.activeDays.length,
-        i = 0;
+    var inactiveClassName = 'rc-inactiveDay';
 
-	this.isDayActive = false;
-    for(i; i<len; i++) {
-      if(utils.isSameDay( this.props.activeDays[i], this.props.dayStartTime )) {
-        this.isDayActive = true;
-        return '';
-      }
+    this.isDayActive = false;
+    if(utils.isDayActive( this.props.activeDays, this.props.dayStartTime )) {
+	  this.isDayActive = true;
+	  return '';
     }
     return ' ' + inactiveClassName;
   },
@@ -273,7 +268,7 @@ var Day = React.createClass({
 
     return (
       <div className={'rc-day'+extraClassName} onMouseDown={this.onDayMouseDown} onClick={this.props.readOnly ? undefined : this.clickTime}>
-        <div className={dayNodeClassName + this.getAdditionalClassName() } data-date={this.props.dayStartTime.toDateString()}>
+        <div className={this.props.activeDays.length ? dayNodeClassName + this.getAdditionalClassName() : dayNodeClassName} data-date={this.props.dayStartTime.toDateString()}>
           {this.renderTimeCells()}
           {this.renderTimingsComponents()}
         </div>
