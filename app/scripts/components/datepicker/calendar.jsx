@@ -69,6 +69,8 @@ var Calendar = React.createClass({
 
     var date = utils.startOf(this.state.month, "month");
 
+    var activeDays = this.props.activeDays ? this.props.activeDays : [];
+
     while (date.getDay() != this.props.weekStart) {
       date = utils.addDays(date, -1);
     }
@@ -76,7 +78,7 @@ var Calendar = React.createClass({
     var monthIndex = date.getMonth();
     while (!done) {
       weeks.push(<Week key={date.toString()} onTimeUpdate={utils.clone(date)} month={this.state.month}
-               select={this.select} selected={this.state.selected} date={utils.clone(date)} activeDays={this.props.activeDays}></Week>);
+               select={this.select} selected={this.state.selected} date={utils.clone(date)} activeDays={activeDays}></Week>);
       date = utils.addDays(date, 7);
       done = count++ > 2 && monthIndex !== date.getMonth();
       monthIndex = date.getMonth();

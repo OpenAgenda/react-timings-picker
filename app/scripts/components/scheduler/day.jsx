@@ -268,7 +268,7 @@ var Day = React.createClass({
 
     return (
       <div className={'rc-day'+extraClassName} onMouseDown={this.onDayMouseDown} onClick={this.props.readOnly ? undefined : this.clickTime}>
-        <div className={this.props.activeDays.length ? dayNodeClassName + this.getAdditionalClassName() : dayNodeClassName} data-date={this.props.dayStartTime.toDateString()}>
+        <div className={this.props.activeDays && this.props.activeDays.length ? dayNodeClassName + this.getAdditionalClassName() : dayNodeClassName} data-date={this.props.dayStartTime.toDateString()}>
           {this.renderTimeCells()}
           {this.renderTimingsComponents()}
         </div>

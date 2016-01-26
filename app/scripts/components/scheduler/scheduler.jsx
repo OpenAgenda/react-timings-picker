@@ -730,6 +730,8 @@ var Scheduler = React.createClass({
       onDayMouseDown: this.onDayMouseDown,
     }
 
+    var activeDays = this.props.activeDays ? this.props.activeDays : [];
+
     for (var i = 0; i < 7/*7 days in a week*/; i++) {
 
       var currentDayTimings = timings.filter(function (t) {
@@ -750,7 +752,7 @@ var Scheduler = React.createClass({
         timingsIdProperty={this.props.timingsIdProperty}
         timingsInteractions={timingsInteractions}
         canvasScroll={this.state.canvasScroll}
-        activeDays={this.props.activeDays}
+        activeDays={activeDays}
         readOnly={this.props.readOnly} /> );
 
       dayStartTime = utils.addDays(dayStartTime, 1); /*set next day */
