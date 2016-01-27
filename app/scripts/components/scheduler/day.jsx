@@ -258,7 +258,7 @@ var Day = React.createClass({
 
   getAdditionalClassName: function () {
   
-    return this.isDayActive() ? '' : ' rc-inactiveDay';
+    return this.isDayActive() ? '' : ' rc-inactive-day';
 
   },
 
