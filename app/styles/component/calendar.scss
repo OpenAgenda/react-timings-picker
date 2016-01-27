@@ -522,7 +522,7 @@ input.rc-success{
         background-color: $datepickerHoverBackColor;
       }
 
-	  &.rc-dp-inactiveDay {
+	  &.rc-dp-inactive-day {
 		background-color: #494949;
 		opacity: 0.3;
 		&:hover {
