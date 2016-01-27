@@ -218,7 +218,7 @@ var TimingsPicker = React.createClass({
 
     endTime = utils.parseTime( this.props.endTime ),
 
-    startDate = new Date( this.hasActiveDays() ? this.props.activeDays[ 0 ].startDate : null ),
+    startDate = this.hasActiveDays() ? new Date( this.props.activeDays[ 0 ].startDate ) : new Date(),
 
     timings = [],
 
