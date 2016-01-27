@@ -42,10 +42,15 @@ var Calendar = React.createClass({
     month = utils.addMonths(month, value);
     this.setState({ month: month });
   },
-  select: function (day, isActiveDay) {
-	if(isActiveDay) {
-	  this.props.onSelect(day.date);
-	}
+
+  select: function( date, isActiveDay ) {
+
+  	if( isActiveDay ) {
+
+  	  this.props.onSelect( date );
+
+  	}
+
   },
 
   render: function () {
@@ -76,9 +81,17 @@ var Calendar = React.createClass({
     }
 
     var monthIndex = date.getMonth();
+
     while (!done) {
-      weeks.push(<Week key={date.toString()} onTimeUpdate={utils.clone(date)} month={this.state.month}
-               select={this.select} selected={this.state.selected} date={utils.clone(date)} activeDays={activeDays}></Week>);
+
+      weeks.push(<Week
+        key={date.toString()}
+        onTimeUpdate={utils.clone(date)}
+        month={this.state.month}
+               select={this.select}
+               selected={this.state.selected}
+               date={utils.clone(date)}
+               activeDays={activeDays}></Week> );
       date = utils.addDays(date, 7);
       done = count++ > 2 && monthIndex !== date.getMonth();
       monthIndex = date.getMonth();

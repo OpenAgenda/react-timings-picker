@@ -34,7 +34,8 @@ var Day = React.createClass({
   },
 
   clickTime: function ( event ) {
-    if ( this.props.readOnly || this.isDayActive === false) return;
+
+    if ( this.props.readOnly || this.isDayActive() === false) return;
 
     var dayNode = ReactDOM.findDOMNode( this ).querySelector( '.' + dayNodeClassName );
 
@@ -99,11 +100,18 @@ var Day = React.createClass({
 
   },
 
+  /**
+   * handle the creation of a new timing
+   * ( cancels if is within a defined timing )
+   */
   onDayMouseDown: function ( e ) {
 
     e.stopPropagation();
-    if (this.props.readOnly || !this.isDayActive) {
+
+    if ( this.props.readOnly || !this.isDayActive() ) {
+
       return;
+
     }
 
     if ( !utils.hasClass( e.target.parentNode, dayNodeClassName ) ) return;
@@ -249,15 +257,17 @@ var Day = React.createClass({
   },
 
   getAdditionalClassName: function () {
-    var inactiveClassName = 'rc-inactiveDay';
+  
+    return this.isDayActive() ? '' : ' rc-inactiveDay';
 
-    this.isDayActive = false;
-    if(utils.isDayActive( this.props.activeDays, this.props.dayStartTime )) {
-	  this.isDayActive = true;
-	  return '';
-    }
-    return ' ' + inactiveClassName;
   },
+
+  isDayActive: function() {
+
+    return utils.isDayActive( this.props.activeDays, this.props.dayStartTime );
+
+  },
+
   render: function () {
     var isToday = utils.isSameDay( this.props.dayStartTime, new Date() ),
       isTomorrow = utils.isSameDay( this.props.dayStartTime, utils.addDays( new Date(), 1 ) );
