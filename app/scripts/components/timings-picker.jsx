@@ -218,7 +218,7 @@ var TimingsPicker = React.createClass({
 
     endTime = utils.parseTime( this.props.endTime ),
 
-    startDate = new Date(),
+    startDate = new Date( this.hasActiveDays() ? this.props.activeDays[ 0 ].startDate : undefined ),
 
     timings = [],
 
@@ -230,7 +230,7 @@ var TimingsPicker = React.createClass({
 
     endTime = endTime <= startTime ? utils.addDays(endTime, 1 /*one day*/) : endTime;
 
-    if (this.props.timings.length > 0) {
+    if ( this.props.timings.length > 0 ) {
 
       startDate = this.getDateFromTimings( this.props.timings );
 
@@ -250,7 +250,7 @@ var TimingsPicker = React.createClass({
 
     }
 
-    if (this.props.activeDays && this.props.activeDays.length > 0) {
+    if ( this.hasActiveDays() ) {
       var result = [],
           len = this.props.activeDays.length,
           i = 0,
@@ -304,6 +304,12 @@ var TimingsPicker = React.createClass({
 	  isInactiveDayOverlap: false,
       overlaps: []
     };
+
+  },
+
+  hasActiveDays: function() {
+
+    return this.props.activeDays && this.props.activeDays.length > 0;
 
   },
 
