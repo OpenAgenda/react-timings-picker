@@ -17,48 +17,46 @@ var Calendar = require( './components/timings-picker' );
 
   var shiftDateTimings = [
     {
-    start: '2015-03-29T11:20:40Z',
-    end: '2015-03-29T15:20:40Z'
+      start: '2016-03-29T11:20:40Z',
+      end: '2016-03-29T15:20:40Z'
     },
     {
-      start: '2015-03-31T08:22:40Z',
-      end: '2015-03-31T10:27:40Z'
+      start: '2016-03-31T08:22:40Z',
+      end: '2016-03-31T10:27:40Z'
     },
     {
-      start: '2015-03-31T11:22:40Z',
-      end: '2015-03-31T15:27:40Z'
+      start: '2016-03-31T11:22:40Z',
+      end: '2016-03-31T15:27:40Z'
     }
   ];
-
-  shiftDateTimings = [];
 
   var activeDays = [];
 
   activeDays = [
     {
-      startDate: '2015-03-27',
-      endDate: '2015-03-31'
+	  start: '2016-03-27',
+	  end: '2016-03-31'
     },
     {
-      startDate: '2015-04-05',
-      endDate: '2015-04-11'
+	  start: '2016-04-05',
+	  end: '2016-04-11'
     },
     {
-      startDate: '2015-04-14',
-      endDate: '2015-04-15'
+	  start: '2016-04-14',
+	  end: '2016-04-15'
     },
     {
-	  startDate: '2015-04-17',
-	  endDate: '2015-04-18'
+	  start: '2016-04-17',
+	  end: '2016-04-18'
     },
     {
-	  startDate: '2015-05-05',
-	  endDate: '2015-05-22'
+	  start: '2016-05-05',
+	  end: '2016-05-22'
     },
 
     {
-	  startDate: '2015-06-15',
-	  endDate: '2015-06-17'
+	  start: '2016-06-15',
+	  end: '2016-06-17'
     }
   ];
 

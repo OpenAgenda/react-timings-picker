@@ -181,7 +181,7 @@ var TimingsPicker = React.createClass({
     this.props.onTimingsChange.call(this, timings, targetTiming, "Change timing");
   },
 
-  getDateFromTimings: function (timings) {
+  getStartDate: function (timings) {
     var sortedTimings = timings.sort(function (t1, t2) {
       return t1.start > t2.start ? 1 :
           t1.start < t2.start ? -1 : 0;
@@ -198,8 +198,8 @@ var TimingsPicker = React.createClass({
   },
 
   getDateArrayFromActiveDays: function (days) {
-    var startDate = new Date(days.startDate),
-        endDate = new Date(days.endDate),
+    var startDate = new Date(days.start),
+        endDate = new Date(days.end),
         result = [],
         date;
 
@@ -218,7 +218,7 @@ var TimingsPicker = React.createClass({
 
     endTime = utils.parseTime( this.props.endTime ),
 
-    startDate = this.hasActiveDays() ? new Date( this.props.activeDays[ 0 ].startDate ) : new Date(),
+    startDate = this.hasActiveDays() ? this.getStartDate( this.props.activeDays ) : new Date(),
 
     timings = [],
 
@@ -232,7 +232,7 @@ var TimingsPicker = React.createClass({
 
     if ( this.props.timings.length > 0 ) {
 
-      startDate = this.getDateFromTimings( this.props.timings );
+      startDate = this.getStartDate( this.props.timings );
 
       timings = this.props.timings.map( function ( t ) {
 
@@ -287,10 +287,13 @@ var TimingsPicker = React.createClass({
     var currentLanguage = languages[this.props.lang] ? languages[this.props.lang] :
                 languages["en-US"] ? languages["en-US"] : i18n["en-US"];
 
+    var weekStartDay = this.props.weekStartDay;
+
     return {
       endTime: endTime,
       startTime: startTime,
       weekStart: weekStart,
+	  weekStartDay: weekStartDay,
       weekEnd: weekEnd,
       allMinutes: utils.minutesDifference(startTime, endTime, true),
       timings: timings,
@@ -493,10 +496,9 @@ var TimingsPicker = React.createClass({
   },
 
   render: function () {
-
     var weekStart = this.state.weekStart,
-
-    weekEnd = this.state.weekEnd;
+		weekStartDay = this.state.weekStartDay,
+    	weekEnd = this.state.weekEnd;
 
     var timings = this.state.timings.filter(function (t) {
       return t.start >= weekStart && t.end <= weekEnd;
@@ -511,7 +513,6 @@ var TimingsPicker = React.createClass({
     };
 
     var lang = this.state.currentLanguage;
-
     var bottompart;
 
     if (!this.state.readOnly) {
@@ -541,6 +542,7 @@ var TimingsPicker = React.createClass({
           createRecurrence={this.createRecurrence}
           startDate={weekStart}
           endDate={weekEnd}
+		  weekStartDay={weekStartDay}
           strings={lang}
 		  activeDays={activeDays}
           dateFormat={this.props.dateFormat} />;
