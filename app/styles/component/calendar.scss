@@ -223,19 +223,26 @@ input.rc-success{
 
           &:nth-child(2n-1) {
             background-color: #494949;
-            opacity: 0.4;
+            opacity: 0.25;
 
           }
 
           &:nth-child(2n) {
             background-color: #494949;
-            opacity: 0.2;
+            opacity: 0.15;
           }
 
 		  &:hover {
 			cursor: default;
 		  }
         }
+		.rc-event {
+		  background-color: #b7b7b7;
+		  cursor: default;
+		  .rc-time {
+			color: #888;
+		  }
+		}
       }
     }
     .rc-day-cell {

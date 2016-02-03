@@ -73,7 +73,7 @@ var Day = React.createClass({
 
     e.stopPropagation();
 
-    if ( this.props.readOnly ) return;
+    if ( this.props.readOnly || !this.isDayActive() ) return;
 
     this.props.timingsInteractions.onTimingMouseDown( timing, e );
 
@@ -83,7 +83,7 @@ var Day = React.createClass({
 
     e.stopPropagation();
 
-    if ( this.props.readOnly ) return;
+    if ( this.props.readOnly || !this.isDayActive() ) return;
 
     if ( !utils.hasClass( e.target, 'rc-event-resizer' ) ) return;
 
@@ -257,7 +257,7 @@ var Day = React.createClass({
   },
 
   getAdditionalClassName: function () {
-  
+
     return this.isDayActive() ? '' : ' rc-inactive-day';
 
   },
