@@ -555,6 +555,11 @@ input.rc-success{
   padding: 6px 10px 5px;
   margin: 0 5px;
 
+  &.disabled {
+	background-color: #ccc;
+	cursor: default;
+  }
+
   @extend .border-box;
 
   &:focus{

@@ -11,7 +11,7 @@ var Reccurencer = React.createClass({
     startDate: propTypes.date.isRequired,
     endDate: propTypes.date.isRequired,
     strings: propTypes.alli18n.isRequired,
-
+    isDatePickerActive: React.PropTypes.bool,
   },
   createRecurrences: function () {
 
@@ -51,7 +51,7 @@ var Reccurencer = React.createClass({
       result = (
         <div>
           {strings.duplicateTimingsAbove} {strings.to}
-          <DatePicker selected={this.state.endDate} onChange={this.onReccurenceEndChange} weekdays={strings.weekdays.short} months={strings.months} dateFormat={this.props.dateFormat} activeDays={activeDays} weekStart={this.props.weekStartDay}/>
+          <DatePicker selected={this.state.endDate} onChange={this.onReccurenceEndChange} weekdays={strings.weekdays.short} months={strings.months} dateFormat={this.props.dateFormat} activeDays={activeDays} weekStart={this.props.weekStartDay} isDatePickerActive={this.props.isDatePickerActive} />
           <a className="rc-ok-button" onClick={this.createRecurrences}>OK</a>
         </div>
       );

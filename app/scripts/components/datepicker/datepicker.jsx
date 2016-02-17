@@ -22,14 +22,14 @@ var DatePicker = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     selected: propTypes.date,
     excludeDates: React.PropTypes.array,
-    isClearable: React.PropTypes.bool
+    isClearable: React.PropTypes.bool,
+    isDatePickerActive: React.PropTypes.bool,
   },
   getDefaultProps: function () {
     return {
       weekdays: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
       locale: "en-US",
       dateFormatCalendar: "MMMM, YYYY",
-      disabled: false,
       weekStart: 1,
       excludeDates: [],
       isClearable: false
@@ -39,12 +39,14 @@ var DatePicker = React.createClass({
     return {
       focus: false,
       virtualFocus: false,
-      selected: this.props.selected
+      selected: this.props.selected,
+	  disabled: false,
     }
   },
   componentWillReceiveProps: function (nextProps) {
     this.setState({
-      selected: nextProps.selected
+      selected: nextProps.selected,
+      disabled: !nextProps.isDatePickerActive,
     });
   },
   shouldComponentUpdate: function (nextProps, nextState) {
@@ -148,12 +150,13 @@ var DatePicker = React.createClass({
             handleClick={this.onInputClick}
             hideCalendar={this.hideCalendar}
             placeholderText={this.props.placeholderText}
-            disabled={this.props.disabled}
+            disabled={this.state.disabled}
             className={this.props.className}
             readOnly={this.props.readOnly}
-            required={this.props.required} />
+            required={this.props.required}
+		    isDatePickerActive={this.props.isDatePickerActive} />
         {clearButton}
-        {this.props.disabled ? null : this.renderCalendar()}
+        {this.state.disabled ? null : this.renderCalendar()}
       </div>
       );
   },
