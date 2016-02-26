@@ -15,8 +15,11 @@ var Calendar = require( './components/timings-picker' );
     console.log(arguments);
   }
 
-  var shiftDateTimings = [
-    {
+  var shiftDateTimings = [ {
+    start: '2016-05-21T19:00:00Z',
+    end: '2016-03-21T00:00:00Z'
+  }
+    /*{
       start: '2016-03-29T11:20:40Z',
       end: '2016-03-29T15:20:40Z'
     },
@@ -27,13 +30,17 @@ var Calendar = require( './components/timings-picker' );
     {
       start: '2016-03-31T11:22:40Z',
       end: '2016-03-31T15:27:40Z'
-    }
+    }*/
   ];
 
   var activeDays = [];
 
   activeDays = [
     {
+      startDate: '2016-05-21',
+      endDate: '2016-05-21'
+    },
+    /*{
 	  startDate: '2016-03-27',
 	  endDate: '2016-03-31'
     },
@@ -57,7 +64,7 @@ var Calendar = require( './components/timings-picker' );
     {
 	  startDate: '2016-06-15',
 	  endDate: '2016-06-17'
-    }
+    }*/
   ];
 
   var newLanguages = [];
