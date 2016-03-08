@@ -16,8 +16,14 @@ var Calendar = require( './components/timings-picker' );
   }
 
   var shiftDateTimings = [ {
-    start: '2016-05-21T19:00:00Z',
-    end: '2016-03-21T00:00:00Z'
+    start: '2016-06-04T10:00:00Z',
+    end: '2016-06-04T13:00:00Z'
+  }, {
+    start: '2016-06-05T10:00:00Z',
+    end: '2016-06-05T13:00:00Z'
+  }, {
+    start: '2016-06-04T14:00:00Z',
+    end: '2016-06-04T18:00:00Z'
   }
     /*{
       start: '2016-03-29T11:20:40Z',
@@ -37,8 +43,8 @@ var Calendar = require( './components/timings-picker' );
 
   activeDays = [
     {
-      startDate: '2016-05-21',
-      endDate: '2016-05-21'
+      startDate: '2016-06-03',
+      endDate: '2016-06-05'
     },
     /*{
 	  startDate: '2016-03-27',
@@ -77,7 +83,7 @@ var Calendar = require( './components/timings-picker' );
     endTime="7:00"
     activeDays={activeDays}
     timings={shiftDateTimings}
-    weekStartDay={6}
+    weekStartDay={1}
     onTimingsChange={onTimingsChange}
     onTimingClick={onTimingClick}
     readOnly={false}
