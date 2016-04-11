@@ -592,7 +592,7 @@ var Scheduler = React.createClass({
 
     var lessThanStart = timing.start.getHours() === this.props.startTime.getHours()
       ? timing.start.getMinutes() < this.props.startTime.getMinutes()
-      : timing.start.getHours() < this.props.startTime.getHours();
+	  : timing.start.date() < this.props.startTime.date();
 
     var moreThanEnd;
 
