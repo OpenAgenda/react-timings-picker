@@ -27,7 +27,7 @@ var TimingsPicker = React.createClass({
     lang: propTypes.locale,
     dateFormat: React.PropTypes.string,
     timeFormat: React.PropTypes.string,
-	defaultDisplayWeekDay: propTypes.date
+    defaultDisplayWeekDay: propTypes.date
   },
 
   getDefaultProps: function () {
@@ -44,7 +44,7 @@ var TimingsPicker = React.createClass({
       lang: navigator.language,
       dateFormat: "DD-MM-YYYY",
       timeFormat: "h:mm",
-	  defaultDisplayWeekDay: null
+      defaultDisplayWeekDay: null
     }
   },
 
@@ -236,17 +236,17 @@ var TimingsPicker = React.createClass({
   },
 
   componentWillMount: function () {
-	var weekStart = this.state.weekStart,
-		weekEnd = this.state.weekEnd,
-	    activeDays = this.state.activeDays,
-	    defaultWeekStartDay = this.props.defaultDisplayWeekDay,
-		timings = this.state.timings.filter(function (t) {
-		  return t.start >= weekStart && t.end <= weekEnd;
-		});
+    var weekStart = this.state.weekStart,
+        weekEnd = this.state.weekEnd,
+        activeDays = this.state.activeDays,
+        defaultWeekStartDay = this.props.defaultDisplayWeekDay,
+        timings = this.state.timings.filter(function (t) {
+          return t.start >= weekStart && t.end <= weekEnd;
+        });
 
-	if (!timings.length && !activeDays.length && defaultWeekStartDay) {
-	   this.setState({weekStart: defaultWeekStartDay})
-	}
+    if (!timings.length && !activeDays.length && defaultWeekStartDay) {
+       this.setState({weekStart: defaultWeekStartDay})
+    }
   },
 
   getInitialState: function () {
