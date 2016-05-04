@@ -22,7 +22,7 @@ var Calendar = require( './components/timings-picker' );
   }
 
   var shiftDateTimings = [
-	 {
+	 /*{
     start: '2016-06-04T10:00:00Z',
     end: '2016-06-04T13:00:00Z'
   }, {
@@ -32,7 +32,7 @@ var Calendar = require( './components/timings-picker' );
     start: '2016-06-04T14:00:00Z',
     end: '2016-06-04T18:00:00Z'
   }
-    /*{
+    {
       start: '2016-03-29T11:20:40Z',
       end: '2016-03-29T15:20:40Z'
     },
@@ -82,7 +82,7 @@ var Calendar = require( './components/timings-picker' );
 
   var newLanguages = [];
   var lang = "en-US";
-  var defaultDisplayWeekDay = stringToDateObject('2016-05-05T10:00:00Z');
+  var defaultDisplayWeekDay = stringToDateObject('2012-05-05T10:00:00Z');
   //var defaultDisplayWeekDay = null;
 
   document.getElementById('calendar').setAttribute('style', 'max-width: 600px; max-height: 600px;');
@@ -93,7 +93,7 @@ var Calendar = require( './components/timings-picker' );
     activeDays={activeDays}
     timings={shiftDateTimings}
     weekStartDay={1}
-	defaultDisplayWeekDay={defaultDisplayWeekDay}
+	 defaultDisplayWeekDay={defaultDisplayWeekDay}
     onTimingsChange={onTimingsChange}
     onTimingClick={onTimingClick}
     readOnly={false}
