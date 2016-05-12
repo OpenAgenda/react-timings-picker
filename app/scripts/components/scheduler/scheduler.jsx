@@ -590,11 +590,17 @@ var Scheduler = React.createClass({
     timing.end = timing.end < timing.start ? utils.addDays( timing.end, 1 ) : timing.end;
     timing[this.props.timingsIdProperty] = this.state.selectedTiming[this.props.timingsIdProperty]
 
-    var lessThanStart = timing.start.getHours() === this.props.startTime.getHours()
-      ? timing.start.getMinutes() < this.props.startTime.getMinutes()
-	  : timing.start.date() < this.props.startTime.date();
+	var start = new Date(timing.start);
+	start.setHours(this.props.startTime.getHours(), this.props.startTime.getMinutes());
+	  if (timing.start.getHours() >= 0 && timing.start.getHours() < 7) {
+		start.setDate(start.getDate() - 1)
+	  }
 
-    var moreThanEnd;
+	var lessThanStart = timing.start.getHours() === start.getHours()
+		? timing.start.getMinutes() < start.getMinutes()
+		: timing.start.getTime() < start.getTime();
+
+	var moreThanEnd;
 
     if ( this.props.endTime.getHours() <= this.props.startTime.getHours() ) {
       if ( timing.end.getHours() >= 0 && timing.end.getHours() <= this.props.endTime.getHours() ) {
@@ -729,8 +735,7 @@ var Scheduler = React.createClass({
       onResizerMouseDown: this.onResizerMouseDown,
       onDayMouseDown: this.onDayMouseDown,
     }
-
-    var activeDays = this.props.activeDays ? this.props.activeDays : [];
+    var activeDays = this.props.activeDays && !this.props.defaultDisplayWeekDay ? this.props.activeDays : [];
 
     for (var i = 0; i < 7/*7 days in a week*/; i++) {
 
