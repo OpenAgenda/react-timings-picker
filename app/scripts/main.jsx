@@ -18,7 +18,9 @@ var Calendar = require( './components/timings-picker' );
   // input: '2016-05-06T10:00:00Z'
   // output: date object
   function stringToDateObject(stringDate) {
-	  return new Date(Date.parse(stringDate));
+	  var date = new Date(Date.parse(stringDate));
+	  date.setHours(7,0,0,0);
+	  return date;
   }
 
   var shiftDateTimings = [
@@ -82,7 +84,7 @@ var Calendar = require( './components/timings-picker' );
 
   var newLanguages = [];
   var lang = "en-US";
-  var defaultDisplayWeekDay = stringToDateObject('2012-05-05T10:00:00Z');
+  var defaultDisplayWeekDay = stringToDateObject('2012-05-07T07:00:00Z');
   //var defaultDisplayWeekDay = null;
 
   document.getElementById('calendar').setAttribute('style', 'max-width: 600px; max-height: 600px;');
