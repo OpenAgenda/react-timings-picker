@@ -54,6 +54,7 @@ var Calendar = React.createClass({
   },
 
   render: function () {
+
     return (
       <div className="rc-dp-calendar">
         <div className="rc-dp-header">

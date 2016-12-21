@@ -269,6 +269,7 @@ var Day = React.createClass({
   },
 
   render: function () {
+
     var isToday = utils.isSameDay( this.props.dayStartTime, new Date() ),
       isTomorrow = utils.isSameDay( this.props.dayStartTime, utils.addDays( new Date(), 1 ) );
 

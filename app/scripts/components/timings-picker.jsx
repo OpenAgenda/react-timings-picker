@@ -243,9 +243,15 @@ var TimingsPicker = React.createClass({
           return t.start >= weekStart && t.end <= weekEnd;
         });
 
-	if (!timings.length && defaultWeekStartDay) {
-       this.setState({weekStart: defaultWeekStartDay})
+    if (!timings.length && defaultWeekStartDay) {
+       
+      this.setState({
+        weekStart: defaultWeekStartDay,
+        weekEnd: new Date( defaultWeekStartDay.getTime() + ( 7 * 24 * 60 * 60 * 1000 ) )
+      } );
+
     }
+
   },
 
   getInitialState: function () {
@@ -585,7 +591,7 @@ var TimingsPicker = React.createClass({
     weekStartDay = this.state.weekStartDay,
     weekEnd = this.state.weekEnd;
 
-    var timings = this.state.timings.filter(function (t) {
+    var timings = this.state.timings.filter(function (t) {      
       return t.start >= weekStart && t.end <= weekEnd;
     });
 

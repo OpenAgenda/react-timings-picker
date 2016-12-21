@@ -740,7 +740,9 @@ var Scheduler = React.createClass({
     for (var i = 0; i < 7/*7 days in a week*/; i++) {
 
       var currentDayTimings = timings.filter(function (t) {
+
         return t.start >= dayStartTime && t.end <= dayEndTime;
+
       });
 
       days.push( <Day
