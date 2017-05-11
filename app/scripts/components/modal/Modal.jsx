@@ -1,7 +1,9 @@
 ﻿'use strict';
 
 var React = require( 'react' ),
-  ReactDOM = require( 'react-dom' );
+  ReactDOM = require( 'react-dom' ),
+  createReactClass = require( 'create-react-class' ),
+  PropTypes = require( 'prop-types' );
 
 var utils = require( '../../utils/utils' ),
   domUtils = require( '../../utils/domUtils' );
@@ -9,18 +11,18 @@ var utils = require( '../../utils/utils' ),
 var internalOverlayClassName = 'rc-modal-overlay',
   internalContentClassName = 'rc-modal-content';
 
-var Modal = React.createClass( {
+var Modal = createReactClass( {
   displayName: 'Modal',
 
   propTypes: {
-    show: React.PropTypes.bool,
-    selector: React.PropTypes.string,
-    overlayClassNames: React.PropTypes.string,
-    contentClassNames: React.PropTypes.string,
-    onClose: React.PropTypes.func,
-    styles: React.PropTypes.shape( {
-      content: React.PropTypes.object,
-      overlay: React.PropTypes.object
+    show: PropTypes.bool,
+    selector: PropTypes.string,
+    overlayClassNames: PropTypes.string,
+    contentClassNames: PropTypes.string,
+    onClose: PropTypes.func,
+    styles: PropTypes.shape( {
+      content: PropTypes.object,
+      overlay: PropTypes.object
     } )
   },
 

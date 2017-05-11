@@ -6,26 +6,28 @@ var propTypes = require("../../utils/propTypes");
 
 var React = require('react');
 var ReactDOM = require("react-dom");
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 
 var Timing = require('../timings/timing');
 
 var dayNodeClassName = 'rc-day-time',
   timingClassName = 'rc-event';
 
-var Day = React.createClass({
+var Day = createReactClass({
   propTypes: {
     dayStartTime: propTypes.date.isRequired,
     dayEndTime: propTypes.date.isRequired,
-    timeCells: React.PropTypes.number.isRequired,
-    timingStep: React.PropTypes.number.isRequired,
-    timings: React.PropTypes.array.isRequired,
-    allMinutes: React.PropTypes.number.isRequired,
-    defaultTimigDuration: React.PropTypes.number,
+    timeCells: PropTypes.number.isRequired,
+    timingStep: PropTypes.number.isRequired,
+    timings: PropTypes.array.isRequired,
+    allMinutes: PropTypes.number.isRequired,
+    defaultTimigDuration: PropTypes.number,
     timingsModifications: propTypes.timingsModifications,
     timingsInteractions: propTypes.timingsInteractions,
-    timingsIdProperty: React.PropTypes.string,
-    readOnly: React.PropTypes.bool.isRequired,
-    canvasScroll: React.PropTypes.number
+    timingsIdProperty: PropTypes.string,
+    readOnly: PropTypes.bool.isRequired,
+    canvasScroll: PropTypes.number
   },
   getDefaultProps: function () {
     return {

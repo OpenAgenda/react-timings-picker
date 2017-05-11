@@ -2,14 +2,18 @@
 
 var React = require( 'react' ),
 
+createReactClass = require( 'create-react-class' ),
+
+PropTypes = require( 'prop-types' ),
+
 propTypes = require( '../../utils/propTypes' );
 
 require( 'date-format-lite' );
 
-module.exports = React.createClass( {
+module.exports = createReactClass( {
 
   propTypes: {
-    timings: React.PropTypes.array.isRequired,
+    timings: PropTypes.array.isRequired,
     strings: propTypes.alli18n.isRequired
   },
 

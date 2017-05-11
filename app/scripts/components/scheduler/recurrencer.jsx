@@ -1,17 +1,19 @@
 ﻿'use strict';
 
 var React = require('react');
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 var DatePicker = require('../datepicker/datepicker');
 var propTypes = require("../../utils/propTypes");
 
-var Reccurencer = React.createClass({
+var Reccurencer = createReactClass({
   propTypes: {
 
-    createRecurrence: React.PropTypes.func.isRequired,
+    createRecurrence: PropTypes.func.isRequired,
     startDate: propTypes.date.isRequired,
     endDate: propTypes.date.isRequired,
     strings: propTypes.alli18n.isRequired,
-    isDatePickerActive: React.PropTypes.bool,
+    isDatePickerActive: PropTypes.bool,
   },
   createRecurrences: function () {
 

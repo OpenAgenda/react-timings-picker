@@ -1,6 +1,8 @@
 ﻿"use strict";
 
 var React = require("react");
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 var Popover = require("./popover");
 var Calendar = require("./calendar");
 var DateInput = require("./date-input");
@@ -8,22 +10,22 @@ var propTypes = require("../../utils/propTypes");
 var isEqual = require("lodash/lang/isEqual");
 require("date-format-lite");
 
-var DatePicker = React.createClass({
+var DatePicker = createReactClass({
   displayName: "DatePicker",
   propTypes: {
-    weekdays: React.PropTypes.arrayOf(React.PropTypes.string),
+    weekdays: PropTypes.arrayOf(PropTypes.string),
     months: propTypes.monthNames.isRequired,
-    locale: React.PropTypes.string,
-    dateFormatCalendar: React.PropTypes.string,
-    popoverAttachment: React.PropTypes.string,
-    popoverTargetAttachment: React.PropTypes.string,
-    popoverTargetOffset: React.PropTypes.string,
-    weekStart: React.PropTypes.number,
-    onChange: React.PropTypes.func.isRequired,
+    locale: PropTypes.string,
+    dateFormatCalendar: PropTypes.string,
+    popoverAttachment: PropTypes.string,
+    popoverTargetAttachment: PropTypes.string,
+    popoverTargetOffset: PropTypes.string,
+    weekStart: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
     selected: propTypes.date,
-    excludeDates: React.PropTypes.array,
-    isClearable: React.PropTypes.bool,
-    isDatePickerActive: React.PropTypes.bool,
+    excludeDates: PropTypes.array,
+    isClearable: PropTypes.bool,
+    isDatePickerActive: PropTypes.bool,
   },
   getDefaultProps: function () {
     return {

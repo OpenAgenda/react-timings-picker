@@ -6,15 +6,19 @@ propTypes = require( '../../utils/propTypes' ),
 
 React = require( 'react' ),
 
+createReactClass = require( 'create-react-class' ),
+
+PropTypes = require( 'prop-types' ),
+
 Select = require( 'react-select' ),
 
-Header = React.createClass({
+Header = createReactClass({
 
   propTypes: {
     startDate: propTypes.date.isRequired,
-    goAnotherWeek: React.PropTypes.func.isRequired,
-    goAnotherMonth: React.PropTypes.func.isRequired,
-    goAnotherYear: React.PropTypes.func.isRequired,
+    goAnotherWeek: PropTypes.func.isRequired,
+    goAnotherMonth: PropTypes.func.isRequired,
+    goAnotherYear: PropTypes.func.isRequired,
     months: propTypes.monthNames.isRequired
   },
 

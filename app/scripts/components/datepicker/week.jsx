@@ -1,11 +1,12 @@
 ﻿"use strict";
 
 var React = require("react");
+var createReactClass = require( 'create-react-class' );
 var utils = require("../../utils/utils");
 var propTypes = require("../../utils/propTypes");
 require("date-format-lite");
 
-var Week = React.createClass({
+var Week = createReactClass({
   displayName: "Week",
   propTypes: {
     date: propTypes.date.isRequired,

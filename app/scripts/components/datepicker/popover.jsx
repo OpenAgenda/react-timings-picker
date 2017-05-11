@@ -1,15 +1,17 @@
 ﻿"use strict";
 
 var React = require("react");
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 var ReactDOM = require("react-dom");
 
-var Popover = React.createClass({
+var Popover = createReactClass({
   displayName: "Popover",
 
   propTypes: {
-    attachment: React.PropTypes.string,
-    targetAttachment: React.PropTypes.string,
-    targetOffset: React.PropTypes.string
+    attachment: PropTypes.string,
+    targetAttachment: PropTypes.string,
+    targetOffset: PropTypes.string
   },
 
   getDefaultProps: function () {

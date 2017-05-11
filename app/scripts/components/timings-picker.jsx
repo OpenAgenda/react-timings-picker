@@ -1,6 +1,8 @@
 ﻿'use strict';
 
 var React = require('react');
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 require("date-format-lite");
 
 var utils = require('../utils/utils');
@@ -13,20 +15,20 @@ var Recurrencer = require('./scheduler/recurrencer');
 
 var Stats = require( './stats/stats' );
 
-var TimingsPicker = React.createClass({
+var TimingsPicker = createReactClass({
 
   propTypes: {
     startTime: propTypes.time,
     endTime: propTypes.time,
-    weekDayStart: React.PropTypes.number,
-    readOnly: React.PropTypes.bool,
-    onTimingClick: React.PropTypes.func,
-    onTimingsChange: React.PropTypes.func,
-    timings: React.PropTypes.array,
+    weekDayStart: PropTypes.number,
+    readOnly: PropTypes.bool,
+    onTimingClick: PropTypes.func,
+    onTimingsChange: PropTypes.func,
+    timings: PropTypes.array,
     additionalLanguages: propTypes.additionalLanguages,
     lang: propTypes.locale,
-    dateFormat: React.PropTypes.string,
-    timeFormat: React.PropTypes.string,
+    dateFormat: PropTypes.string,
+    timeFormat: PropTypes.string,
     defaultDisplayWeekDay: propTypes.date
   },
 

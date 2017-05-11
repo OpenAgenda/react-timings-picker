@@ -1,28 +1,30 @@
 ﻿"use strict";
 
 var React = require("react");
+var createReactClass = require( 'create-react-class' );
+var PropTypes = require( 'prop-types' );
 var utils = require("../../utils/utils");
 var propTypes = require("../../utils/propTypes");
 var Week = require("./week");
 var onClickOutside = require("react-onclickoutside");
 require("date-format-lite");
 
-var Calendar = React.createClass({
+var Calendar = createReactClass({
   mixins: [onClickOutside],
   handleClickOutside: function () {
     this.props.hideCalendar();
   },
   propTypes: {
-    weekdays: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    weekdays: PropTypes.arrayOf(PropTypes.string).isRequired,
     months: propTypes.monthNames,
-    locale: React.PropTypes.string,
-    dateFormat: React.PropTypes.string.isRequired,
+    locale: PropTypes.string,
+    dateFormat: PropTypes.string.isRequired,
     selected: propTypes.date.isRequired,
-    onSelect: React.PropTypes.func.isRequired,
-    hideCalendar: React.PropTypes.func.isRequired,
-    excludeDates: React.PropTypes.array,
-	activeDays: React.PropTypes.array,
-    weekStart: React.PropTypes.number.isRequired
+    onSelect: PropTypes.func.isRequired,
+    hideCalendar: PropTypes.func.isRequired,
+    excludeDates: PropTypes.array,
+	  activeDays: PropTypes.array,
+    weekStart: PropTypes.number.isRequired
   },
   getDefaultProps: function () {
     return {
