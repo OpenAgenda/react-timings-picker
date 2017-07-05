@@ -506,6 +506,7 @@ var TimingsPicker = createReactClass({
     return result;
   },
   createRecurrence: function (startDate, endDate) {
+
     var days = [],
     isInactiveDayOverlap = false,
     isOverlap = false,
@@ -513,24 +514,27 @@ var TimingsPicker = createReactClass({
 
     var weekStart = this.state.weekStart,
     weekEnd = this.state.weekEnd;
+
     var recurrenceStart = utils.addDays(utils.setTime(startDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()), 7),
+
     recurrenceEnd = utils.setTime(endDate, this.state.endTime.getHours(), this.state.endTime.getMinutes());
 
     if ( recurrenceEnd < utils.setTime(endDate, this.state.startTime.getHours(), this.state.startTime.getMinutes()) ) {
 
-    recurrenceEnd = utils.addDays(recurrenceEnd, 1);
+      recurrenceEnd = utils.addDays(recurrenceEnd, 1);
 
     }
 
     var currentWeekTimings = utils.createTwoDimensionalArray( 7 ); /*7 days*/
+
     this.refs.scheduler.props.timings.forEach(function (t) {
 
-    currentWeekTimings[t.start.getDay()].push(t);
+      currentWeekTimings[t.start.getDay()].push(t);
 
     });
 
     var timingsToReccurence = [];
-    for (var start = recurrenceStart; start < recurrenceEnd; start = utils.addDays(start, 1)) {
+    for (var start = recurrenceStart; start <= recurrenceEnd; start = utils.addDays(start, 1)) {
 
     var currentDayTimings = currentWeekTimings[start.getDay()];
     for (var l = 0; l < currentDayTimings.length; l++) {
