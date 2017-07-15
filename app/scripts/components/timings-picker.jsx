@@ -169,6 +169,7 @@ var TimingsPicker = createReactClass({
   },
 
   changeTiming: function (targetTiming) {
+
     var timings = this.state.timings;
 
     for (var i = 0; i < timings.length; i++) {
