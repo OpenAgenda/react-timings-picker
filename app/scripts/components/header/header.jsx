@@ -69,7 +69,7 @@ Header = createReactClass({
     for ( i = currentYear; i <= currentYear + minDdYearsDiff; i++ ) {
 
       years.push({
-        value: i, 
+        value: i,
         label: i.toString()
       });
 
@@ -108,7 +108,7 @@ Header = createReactClass({
 
   getTogglerText: function ( start, end ) {
 
-    var monthsNames = this.props.months.short;
+    var monthsNames = this.props.months.full;
 
     if ( utils.isSameMonth(start, end) ) {
 
@@ -137,7 +137,10 @@ Header = createReactClass({
 
       weekdayItems.push(
         <div key={i} className="rc-day-name">
-          <div>{this.props.weekdays.short[ day.getDay() ]} {day.getDate()}</div>
+          <div>
+            {this.props.weekdays.full[ day.getDay() ]}<br />
+            {day.getDate()}
+            </div>
         </div>
       );
 
@@ -161,7 +164,7 @@ Header = createReactClass({
             <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-left-arrow" onClick={this.props.goAnotherWeek.bind(null,false)}></span></div>
             <div className="rc-icon-wrapper"><span className="rc-icon rc-icon-right-arrow" onClick={this.props.goAnotherWeek.bind(null,true)}></span></div>
             <span className="rc-date">{this.getTogglerText(startDate, endDate)}</span>
-            </div>
+          </div>
           <div className="rc-options">
             <div className="rc-month">
               <Select
