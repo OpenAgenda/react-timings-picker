@@ -10,9 +10,9 @@ createReactClass = require( 'create-react-class' ),
 
 PropTypes = require( 'prop-types' ),
 
-Select = require( 'react-select' ),
+Select = require( 'react-select' );
 
-Header = createReactClass({
+const Header = createReactClass({
 
   propTypes: {
     startDate: propTypes.date.isRequired,
@@ -176,7 +176,7 @@ Header = createReactClass({
             </div>
             <div className="rc-years">
               <Select
-              options={this.getYearOptions()}
+                options={this.getYearOptions()}
                 value={this.props.startDate.getFullYear()}
                 clearable={false}
                 noResultsText={''}
