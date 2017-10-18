@@ -29,7 +29,9 @@ var TimingsPicker = createReactClass({
     lang: propTypes.locale,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
-    defaultDisplayWeekDay: propTypes.date
+    defaultDisplayWeekDay: propTypes.date,
+    displayRecurrencer: PropTypes.bool,
+    info: PropTypes.string
   },
 
   getDefaultProps: function () {
@@ -46,7 +48,9 @@ var TimingsPicker = createReactClass({
       lang: navigator.language,
       dateFormat: "DD-MM-YYYY",
       timeFormat: "h:mm",
-      defaultDisplayWeekDay: null
+      defaultDisplayWeekDay: null,
+      displayRecurrencer: true,
+      info: null // when set, displays above picker
     }
   },
 
@@ -594,6 +598,9 @@ var TimingsPicker = createReactClass({
   },
 
   render: function () {
+
+    var bottompart = null;
+
     var weekStart = this.state.weekStart,
     weekStartDay = this.state.weekStartDay,
     weekEnd = this.state.weekEnd;
@@ -611,9 +618,9 @@ var TimingsPicker = createReactClass({
     };
 
     var lang = this.state.currentLanguage;
-    var bottompart;
+    
 
-    if (!this.state.readOnly) {
+    if ( !this.state.readOnly && this.props.displayRecurrencer ) {
 
       var messageCloseFunction = (function () { this.setState({ isRecurrenceAdded: undefined }) }).bind(this);
       var messageCloseIcon = <div className="rc-message-close rc-icon rc-icon-close" onClick={messageCloseFunction}></div>
@@ -654,7 +661,8 @@ var TimingsPicker = createReactClass({
           <Stats
             timings={this.state.timings}
             onClear={this.clearTimings}
-            strings={lang} />
+            strings={lang}
+            info={this.props.info} />
           <Header
             startDate={weekStart}
             goAnotherWeek={this.goAnotherWeek}
