@@ -5,6 +5,15 @@
   "engines": {
     "node": ">=0.12.0"
   },
+  "scripts": {
+    "build": "gulp build:dist",
+    "version": "npm run build && git add -A lib dist",
+    "postversion": "git push origin && git push origin --tags",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "release:next": "npm version prerelease && npm publish --tag next"
+  },
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.24.1",
