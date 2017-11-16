@@ -1,13 +1,13 @@
 {
   "name": "react-timings-picker",
   "main": "lib/scripts/components/timings-picker.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "engines": {
     "node": ">=0.12.0"
   },
   "scripts": {
     "build": "gulp build:dist",
-    "version": "npm run build && git add -A lib dist",
+    "version": "npm run build && git add -A lib",
     "postversion": "git push origin && git push origin --tags",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
