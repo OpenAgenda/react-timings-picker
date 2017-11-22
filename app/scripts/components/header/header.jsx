@@ -137,10 +137,16 @@ const Header = createReactClass({
 
       weekdayItems.push(
         <div key={i} className="rc-day-name">
-          <div>
-            {this.props.weekdays.full[ day.getDay() ]}<br />
+          <div className="rc-day-long">
+            {this.props.weekdays.full[ day.getDay() ]}
+            <br />
             {day.getDate()}
-            </div>
+          </div>
+          <div className="rc-day-short">
+            {this.props.weekdays.short[ day.getDay() ]}
+            <br />
+            {day.getDate()}
+          </div>
         </div>
       );
 
@@ -155,6 +161,7 @@ const Header = createReactClass({
   render: function () {
 
     var startDate = this.props.startDate,
+
       endDate = utils.addDays( this.props.startDate, 6 ) /*6 - numbers of weekdays minus current */
 
     return (
