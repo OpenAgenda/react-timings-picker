@@ -178,7 +178,7 @@ input.rc-success{
 
         width: part-of($dayInWeek);
 
-        div {
+        & > div {
 
           padding: 15px 0;
           display: block;
@@ -195,6 +195,20 @@ input.rc-success{
 
           }
 
+        }
+
+        .rc-day-short {
+
+          display: none;
+
+        }
+
+        @include respond-to( xsmall ) {
+
+          .rc-day-long { display: none; }
+
+          .rc-day-short { display: block; }
+  
         }
 
       }
