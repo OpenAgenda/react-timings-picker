@@ -62,11 +62,9 @@ const Header = createReactClass({
 
     var years = [], i,
 
-      currentYear = this.props.startDate.getFullYear(),
+      currentYear = this.props.startDate.getFullYear();
 
-      minDdYearsDiff = 5;
-
-    for ( i = currentYear; i <= currentYear + minDdYearsDiff; i++ ) {
+    for ( i = currentYear - 2; i <= currentYear + 2; i++ ) {
 
       years.push({
         value: i,
@@ -175,13 +173,19 @@ const Header = createReactClass({
                 clearable={false} />
             </div>
             <div className="rc-years">
-              <Select
+              <Select.Creatable
                 options={this.getYearOptions()}
                 value={this.props.startDate.getFullYear()}
                 clearable={false}
                 noResultsText={''}
                 onChange={this.onChange}
-                onInputChange={this.onChange} />
+                onInputChange={function ( inputValue ) {
+                  return inputValue.replace(/[^0-9]/g, "");
+                }}
+                promptTextCreator={function ( label ) {
+                  return label;
+                }}
+              />
             </div>
           </div>
         </div>
