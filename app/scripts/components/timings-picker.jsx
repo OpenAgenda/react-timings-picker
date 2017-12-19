@@ -323,6 +323,7 @@ var TimingsPicker = createReactClass({
         return t1 > t2 ? 1 : t1 < t2 ? -1 : 0;
 
       } );
+
     }
 
     while ( startDate.getDay() != this.props.weekStartDay ) {
