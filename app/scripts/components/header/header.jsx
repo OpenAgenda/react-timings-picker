@@ -12,7 +12,7 @@ PropTypes = require( 'prop-types' ),
 
 Select = require( 'react-select' ).default;
 
-const Header = createReactClass({
+var Header = createReactClass({
 
   propTypes: {
     startDate: propTypes.date.isRequired,
